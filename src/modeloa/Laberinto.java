@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Random;
 
-public class Laberinto extends Observable{
+public abstract class Laberinto extends Observable{
     private final int filas = 11; // Número de filas del laberinto
     private final int columnas = 17; // Número de columnas
     private final int cellSize = 40; // Tamaño de cada celda
@@ -28,15 +28,6 @@ public class Laberinto extends Observable{
         "/img/soft1.png", "/img/soft2.png", "/img/soft3.png", "/img/soft4.png", "/img/soft41.png",
         "/img/soft42.png", "/img/soft43.png", "/img/soft44.png", "/img/soft45.png", "/img/soft46.png"
     };
-    
-    private static Laberinto nL = new Laberinto(tipoLaberinto);
-    
-    public static Laberinto getLaberinto() {
-    	if(nL == null) {
-    		Laberinto nL = new Laberinto(tipoLaberinto);
-    	}
-    	return nL;
-    }
 
     public Laberinto(String tipoLaberinto) {
         this.laberinto = new int[filas][columnas];

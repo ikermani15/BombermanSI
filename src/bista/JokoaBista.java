@@ -44,7 +44,7 @@ public class JokoaBista extends JFrame implements Observer {
 		add(fondoLaberinto);
 
 		// Crear el laberinto con el tipo seleccionado ('Classic', 'Soft', 'Empty')
-		laberinto = new Laberinto(laberintoTipo);
+		// laberinto = new Laberinto(laberintoTipo);
 
 		// Dibujar el laberinto en la interfaz
 		laberinto.dibujarLaberinto(fondoLaberinto);
