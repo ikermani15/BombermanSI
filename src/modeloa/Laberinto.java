@@ -2,16 +2,17 @@ package modeloa;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Observable;
 import java.util.Random;
 
-public class Laberinto {
+public class Laberinto extends Observable{
     private final int filas = 11; // Número de filas del laberinto
     private final int columnas = 17; // Número de columnas
     private final int cellSize = 40; // Tamaño de cada celda
     private int[][] laberinto; // La matriz que representa el laberinto
     private Random random;
     private int etsaiaKop = 0; // Contador de enemigos colocados
-    private String tipoLaberinto; // Tipo de laberinto (Classic, Soft, Empty)
+    private static String tipoLaberinto; // Tipo de laberinto (Classic, Soft, Empty)
 
     // Tipos de celdas
     private static final int CAMINO = 0;
@@ -27,11 +28,20 @@ public class Laberinto {
         "/img/soft1.png", "/img/soft2.png", "/img/soft3.png", "/img/soft4.png", "/img/soft41.png",
         "/img/soft42.png", "/img/soft43.png", "/img/soft44.png", "/img/soft45.png", "/img/soft46.png"
     };
+    
+    private static Laberinto nL = new Laberinto(tipoLaberinto);
+    
+    public static Laberinto getLaberinto() {
+    	if(nL == null) {
+    		Laberinto nL = new Laberinto(tipoLaberinto);
+    	}
+    	return nL;
+    }
 
     public Laberinto(String tipoLaberinto) {
         this.laberinto = new int[filas][columnas];
         this.random = new Random();
-        this.tipoLaberinto = tipoLaberinto;
+        Laberinto.tipoLaberinto = tipoLaberinto;
         generarLaberinto();
     }
 
@@ -59,16 +69,13 @@ public class Laberinto {
                 if (tipoLaberinto.equals("Classic")) {
                 	if ((i % 2 != 0) && (j % 2 != 0)) {
                 		laberinto[i][j] = HARD; // Bloque duro
-                     
                      } else if (probabilidad > 0.40) {
                     	 laberinto[i][j] = SOFT; // Bloque blando
-
                     	 if (probabilidad > 0.90 && etsaiaKop < 6) {
                     		 laberinto[i][j] = ENEMY; // Crear enemigo
                     		 etsaiaKop++;
                     	 }
                     }
-
                  // Soft: Bloques blandos en un 40% de las celdas, enemigos en un 90% si hay menos de 8
                  } else if (tipoLaberinto.equals("Soft")) {
                      if (probabilidad > 0.40) {
@@ -78,7 +85,6 @@ public class Laberinto {
                              etsaiaKop++;
                          }
                      }
-                        
                  // Empty: Probabilidad de bloques blandos y enemigos con probabilidad más alta
                  } else if (tipoLaberinto.equals("Empty")) {
                      if (probabilidad > 0.95 && etsaiaKop < 10) {
@@ -89,8 +95,20 @@ public class Laberinto {
             }
         }
         
+        setChanged();
+        notifyObservers();
+        
     }
+    /*
+    public void eliminarBloke(int x, int y) {
+        if (laberinto[x][y] instanceof BlokeBiguna) {
+            laberinto[x][y] = (Integer) null; // Se destruye el bloque blando
+            setChanged();
+            notifyObservers();
+        }
+    }*/
 
+    // HAU BISTAN DOA
  // Dibuja el laberinto en la ventana
     public void dibujarLaberinto(JLabel fondoLaberinto) {
         for (int i = 0; i < filas; i++) {

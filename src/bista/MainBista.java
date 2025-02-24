@@ -10,7 +10,7 @@ public class MainBista extends JFrame {
 
 	private JComboBox<String> laberintoComboBox;
 	private JComboBox<String> bombermanComboBox;
-	private JButton iniciarJuegoBtn;
+	private JButton jokoaHasiBtn;
 	private JLabel fondoLabel;
 
 	public MainBista() {
@@ -19,13 +19,13 @@ public class MainBista extends JFrame {
 		setSize(400, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		setLayout(null);
+		getContentPane().setLayout(null);
 
 		// Menuaren fondoa
 		ImageIcon fondo = new ImageIcon(getClass().getResource("/img/back.png"));
 		fondoLabel = new JLabel(new ImageIcon(fondo.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH)));
 		fondoLabel.setBounds(0, 0, 400, 300);
-		add(fondoLabel);
+		getContentPane().add(fondoLabel);
 
 		// Tituluaren irudia
 		ImageIcon titulo = new ImageIcon(getClass().getResource("/img/title.png"));
@@ -53,12 +53,12 @@ public class MainBista extends JFrame {
 		fondoLabel.add(bombermanComboBox);
 
 		// Hasieratzeko botoia
-		iniciarJuegoBtn = new JButton("Iniciar Juego");
-		iniciarJuegoBtn.setBounds(125, 180, 150, 30);
-		fondoLabel.add(iniciarJuegoBtn);
+		jokoaHasiBtn = new JButton("Jokoa Hasi");
+		jokoaHasiBtn.setBounds(125, 180, 150, 30);
+		fondoLabel.add(jokoaHasiBtn);
 
 		// Klik egitearen akzioa
-		iniciarJuegoBtn.addActionListener(new ActionListener() {
+		jokoaHasiBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String laberintoSeleccionado = (String) laberintoComboBox.getSelectedItem();
@@ -66,6 +66,15 @@ public class MainBista extends JFrame {
 
 				new JokoaBista(laberintoSeleccionado, bombermanSeleccionado).setVisible(true);
 				dispose();
+			}
+		});
+
+		// "Esc" klikatzean programa itxi
+		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "itxi");
+		getRootPane().getActionMap().put("itxi", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0); // Programa itxi
 			}
 		});
 

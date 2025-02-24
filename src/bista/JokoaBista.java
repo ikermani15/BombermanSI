@@ -6,9 +6,11 @@ import modeloa.Etsaia;
 import modeloa.Laberinto;
 
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
-public class JokoaBista extends JFrame {
+public class JokoaBista extends JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
 
 	// Bomberman lortu
@@ -72,5 +74,11 @@ public class JokoaBista extends JFrame {
 		enemyTimer.start();
 
 		setVisible(true);
+	}
+
+	// Hemen bistan egongo diren aldaketak inplementatu
+	@Override
+	public void update(Observable o, Object arg) {
+
 	}
 }
