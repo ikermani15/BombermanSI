@@ -57,6 +57,7 @@ public class MainBista extends JFrame {
 		jokoaHasiBtn.setBounds(125, 180, 150, 30);
 		fondoLabel.add(jokoaHasiBtn);
 
+		// Kontrolatzailea
 		// Klik egitearen akzioa
 		jokoaHasiBtn.addActionListener(new ActionListener() {
 			@Override
@@ -64,8 +65,17 @@ public class MainBista extends JFrame {
 				String laberintoSeleccionado = (String) laberintoComboBox.getSelectedItem();
 				String bombermanSeleccionado = (String) bombermanComboBox.getSelectedItem();
 
-				new JokoaBista(laberintoSeleccionado, bombermanSeleccionado).setVisible(true);
-				dispose();
+				// Crear la ventana del juego
+				JFrame jokoaFrame = new JFrame("Bomberman Jokoa");
+				JokoaBista jokoaBista = new JokoaBista(laberintoSeleccionado, bombermanSeleccionado);
+
+				jokoaFrame.add(jokoaBista);
+				jokoaFrame.pack();
+				jokoaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				jokoaFrame.setLocationRelativeTo(null);
+				jokoaFrame.setVisible(true);
+
+				dispose(); // Cerrar el menú
 			}
 		});
 

@@ -1,37 +1,37 @@
 package modeloa;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class Bomberman {
-    private int x, y; // Posizioa matrizean
-    private Image imagen;
-    private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
+public abstract class Bomberman {
+    private int x, y; // Posición en la matriz
+    private final int cellSize = 40; // Tamaño de cada celda
+    private int cantidadBombas; // Cantidad de bombas
+    private int radioExplosion; // Radio de explosión de la bomba
+    protected Image imagen; // Imagen del Bomberman
 
-    public Bomberman(String tipo) {
-    	// (0,0) posizioan hasieratu
-        this.x = 0;
+    public Bomberman(int cantidadBombas, int radioExplosion, String tipo) {
+        this.x = 0; // Inicializa en la posición (0, 0)
         this.y = 0;
-
-        // Bomberman motaren arabera irudia kargatu
-        if (tipo.equals("White")) {
-            this.imagen = new ImageIcon(getClass().getResource("/img/whitefront1.png")).getImage();
-        } else {
-            this.imagen = new ImageIcon(getClass().getResource("/img/blackfront1.png")).getImage();
-        }
+        this.cantidadBombas = cantidadBombas;
+        this.radioExplosion = radioExplosion;
     }
 
-    // Mugimendu metodoak
+    // Métodos de movimiento
     public void moverArriba() { if (y > 0) y--; }
-    public void moverAbajo() { if (y < 10) y++; } // 11 filas, índice 10 es el último
+    public void moverAbajo() { if (y < 10) y++; } // 11 filas
     public void moverIzquierda() { if (x > 0) x--; }
-    public void moverDerecha() { if (x < 16) x++; } // 17 columnas, índice 16 es el último
+    public void moverDerecha() { if (x < 16) x++; } // 17 columnas
 
-    // Posizioa lortzeko metodoak (pixeletan)
+    // Obtener la posición en píxeles
     public int getXPixel() { return x * cellSize; }
     public int getYPixel() { return y * cellSize; }
 
-    public Image getImagen() {
-        return imagen;
+    // Métodos para acceder a las bombas y radio de explosión
+    public int getCantidadBombas() {
+        return cantidadBombas;
+    }
+
+    public int getRadioExplosion() {
+        return radioExplosion;
     }
 }

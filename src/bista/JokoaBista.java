@@ -1,84 +1,120 @@
 package bista;
 
 import javax.swing.*;
-import modeloa.Bomberman;
-import modeloa.Etsaia;
-import modeloa.Laberinto;
+import modeloa.*;
 
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
-public class JokoaBista extends JFrame implements Observer {
+public class JokoaBista extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
-
-	// Bomberman lortu
-	private Bomberman bomberman;
-
-	// Laberintorako
-	private JLabel fondoLaberinto;
-	private JLabel bombermanLabel;
-
-	// Etsaia lortu
-	private Etsaia etsaia;
-	private JLabel etsaiaLabel;
-
-	// Laberintoa lortu
 	private Laberinto laberinto;
+	private Bomberman bomberman;
+	private final int cellSize = 40;
+
+	// Irudiak
+	private Image fondo;
+	private Image[] softImages;
+	private Image[] hardImages;
+	private Image bombermanImageWhite;
+	private Image bombermanImageBlack;
 
 	public JokoaBista(String laberintoTipo, String bombermanTipo) {
-		setTitle("Bomberman - Juego");
-		setSize(680, 480);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setLayout(null);
+		switch (laberintoTipo) {
+		case "Classic":
+			this.laberinto = new ClassicLaberinto();
+			fondo = new ImageIcon(getClass().getResource("/img/stageBack1.png")).getImage();
+			break;
+		case "Soft":
+			this.laberinto = new SoftLaberinto();
+			fondo = new ImageIcon(getClass().getResource("/img/stageBack3.png")).getImage();
+			break;
+		case "Empty":
+			this.laberinto = new EmptyLaberinto();
+			fondo = new ImageIcon(getClass().getResource("/img/stageBack2.png")).getImage();
+			break;
+		default:
+			throw new IllegalArgumentException("Tipo de laberinto no válido");
+		}
 
-		// Laberintoari fondo aleatorio bat ezarri
-		String[] fondos = { "/img/stageBack1.png", "/img/stageBack2.png", "/img/stageBack3.png" };
-		String fondoPath = fondos[new Random().nextInt(fondos.length)];
+		// Generar el laberinto con sus bloques correctamente
+		this.laberinto.generarLaberinto();
+		this.laberinto.addObserver(this);
 
-		ImageIcon fondo = new ImageIcon(getClass().getResource(fondoPath));
-		fondoLaberinto = new JLabel(new ImageIcon(fondo.getImage().getScaledInstance(680, 480, Image.SCALE_SMOOTH)));
-		fondoLaberinto.setBounds(0, 0, 680, 480);
-		add(fondoLaberinto);
+		// Cargar imágenes de bloques
+		cargarImagenes();
 
-		// Crear el laberinto con el tipo seleccionado ('Classic', 'Soft', 'Empty')
-		// laberinto = new Laberinto(laberintoTipo);
+		// Crear Bomberman según el tipo seleccionado
+		if (bombermanTipo.equals("White")) {
+			bomberman = new WhiteBomber();
+		} else {
+			bomberman = new BlackBomber();
+		}
 
-		// Dibujar el laberinto en la interfaz
-		laberinto.dibujarLaberinto(fondoLaberinto);
-
-		// Bomberman sortu eta irudia gehitu
-		// White edo Black den konprobatu
-		bomberman = new Bomberman(bombermanTipo);
-		ImageIcon bomberIcon = new ImageIcon(getClass()
-				.getResource(bombermanTipo.equals("White") ? "/img/whitefront1.png" : "/img/blackfront1.png"));
-
-		bombermanLabel = new JLabel(new ImageIcon(bomberIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-		bombermanLabel.setBounds(bomberman.getXPixel(), bomberman.getYPixel(), 40, 40);
-		fondoLaberinto.add(bombermanLabel);
-
-		// Etsaia sortu
-		etsaia = new Etsaia();
-		// Etsaia modeloan kargatutako irudia ezarri
-		ImageIcon etsaiaIcon = new ImageIcon(getClass().getResource(etsaia.getImagen()));
-		etsaiaLabel = new JLabel(new ImageIcon(etsaiaIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-		etsaiaLabel.setBounds(etsaia.getXPixel(), etsaia.getYPixel(), 40, 40);
-		fondoLaberinto.add(etsaiaLabel);
-
-		Timer enemyTimer = new Timer(1000, e -> {
-			etsaia.moverAleatorio();
-			etsaiaLabel.setLocation(etsaia.getXPixel(), etsaia.getYPixel());
-		});
-		enemyTimer.start();
-
-		setVisible(true);
+		setPreferredSize(new Dimension(laberinto.getColumnas() * cellSize, laberinto.getFilas() * cellSize));
 	}
 
-	// Hemen bistan egongo diren aldaketak inplementatu
+	private void cargarImagenes() {
+		// Cargar imágenes de bloques suaves (Soft)
+		softImages = new Image[] { new ImageIcon(getClass().getResource("/img/soft1.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/soft2.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/soft3.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/soft4.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/soft41.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/soft42.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/soft43.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/soft44.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/soft45.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/soft46.png")).getImage() };
+
+		// Cargar imágenes de bloques duros (Hard)
+		hardImages = new Image[] { new ImageIcon(getClass().getResource("/img/hard1.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/hard2.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/hard3.png")).getImage(),
+				new ImageIcon(getClass().getResource("/img/hard4.png")).getImage() };
+
+		// Cargar imágenes de Bomberman
+		bombermanImageWhite = new ImageIcon(getClass().getResource("/img/whitefront1.png")).getImage();
+		bombermanImageBlack = new ImageIcon(getClass().getResource("/img/blackfront1.png")).getImage();
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		// Dibujar el fondo
+		g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+
+		Random rand = new Random();
+
+		for (int i = 0; i < laberinto.getFilas(); i++) {
+			for (int j = 0; j < laberinto.getColumnas(); j++) {
+				int tipoCelda = laberinto.getTipoDeCelda(j, i);
+
+				if (tipoCelda == Laberinto.HARD) {
+					// Elegir aleatoriamente una imagen de Hard
+					Image hardBlock = hardImages[rand.nextInt(hardImages.length)];
+					g.drawImage(hardBlock, j * cellSize, i * cellSize, cellSize, cellSize, this);
+				} else if (tipoCelda == Laberinto.SOFT) {
+					// Elegir aleatoriamente una imagen de Soft
+					Image softBlock = softImages[rand.nextInt(softImages.length)];
+					g.drawImage(softBlock, j * cellSize, i * cellSize, cellSize, cellSize, this);
+				}
+			}
+		}
+
+		// Dibujar a Bomberman con su imagen
+		if (bomberman instanceof WhiteBomber) {
+			g.drawImage(bombermanImageWhite, bomberman.getXPixel(), bomberman.getYPixel(), cellSize, cellSize, this);
+		} else if (bomberman instanceof BlackBomber) {
+			g.drawImage(bombermanImageBlack, bomberman.getXPixel(), bomberman.getYPixel(), cellSize, cellSize, this);
+		}
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
-
+		repaint();
 	}
 }
