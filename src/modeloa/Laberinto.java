@@ -4,8 +4,8 @@ import java.util.Observable;
 import java.util.Random;
 
 public abstract class Laberinto extends Observable {
-    protected final int filas = 11; 
-    protected final int columnas = 17; 
+    protected final int ilara = 11; 
+    protected final int zutabe = 17; 
     protected int[][] laberinto; 
     protected Random random;
     protected int etsaiaKop = 0; 
@@ -19,37 +19,38 @@ public abstract class Laberinto extends Observable {
     public Laberinto() {
         this.laberinto = new int[getFilas()][getColumnas()];
         this.random = new Random();
-        inicializarLaberinto();
+        laberintoaHasieratu();
     }
 
-    private void inicializarLaberinto() {
-        // Llenamos la matriz con caminos vacíos
-        for (int i = 0; i < filas; i++) {
+    // Laberintoa hasieratzeko metodoa
+    private void laberintoaHasieratu() {
+    	// Matrizea bide hutsekin bete
+        for (int i = 0; i < getFilas(); i++) {
             for (int j = 0; j < getColumnas(); j++) {
                 laberinto[i][j] = BIDEA;
             }
         }
     }
 
-    // Método abstracto que implementarán las subclases
+    // Metodo abstraktua, subklaseak inplementatu
     public abstract void generarLaberinto();
 
-    // Método para obtener el tipo de celda
-    public int getTipoDeCelda(int x, int y) {
+    // Gelaxka mota lortzeko metodoa
+    public int getGelaxkaMota(int x, int y) {
         return laberinto[y][x];
     }
 
-    // Notificar a los observadores cuando se genere un laberinto
+    // Observer-ari notifikatu laberintoa generatzean
     protected void actualizarObservadores() {
         setChanged();
         notifyObservers();
     }
 
 	public int getColumnas() {
-		return columnas;
+		return zutabe;
 	}
 	
 	public int getFilas() {
-		return filas;
+		return ilara;
 	}
 }

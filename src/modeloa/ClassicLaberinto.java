@@ -8,8 +8,8 @@ public class ClassicLaberinto extends Laberinto {
         Random rand = new Random();
         int etsaiKop = 0; // Contador de enemigos
 
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
+        for (int i = 0; i < getFilas(); i++) {
+            for (int j = 0; j < getColumnas(); j++) {
                 // Jokalaria hasten den eta alboko blokeak hutsik
                 if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1)) {
                     laberinto[i][j] = BIDEA;

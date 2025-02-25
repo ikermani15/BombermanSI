@@ -1,32 +1,59 @@
 package modeloa;
 
 import java.awt.*;
+import java.util.Observable;
 
-public abstract class Bomberman {
-    private int x, y; // Posición en la matriz
-    private final int cellSize = 40; // Tamaño de cada celda
-    private int cantidadBombas; // Cantidad de bombas
-    private int radioExplosion; // Radio de explosión de la bomba
-    protected Image imagen; // Imagen del Bomberman
+public abstract class Bomberman extends Observable{
+    private int x, y; // Matrizeko posizioa
+    private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
+    private int cantidadBombas; // Bomba kop
+    private int radioExplosion; // Bomba eztanda radioa
+    protected Image imagen; // Bomberman irudia
+    protected Laberinto laberinto; // Laberinto erreferentzia talka lortzeko
 
     public Bomberman(int cantidadBombas, int radioExplosion, String tipo) {
-        this.x = 0; // Inicializa en la posición (0, 0)
+        this.x = 0; // (0, 0)-n hasieratu
         this.y = 0;
         this.cantidadBombas = cantidadBombas;
         this.radioExplosion = radioExplosion;
     }
+    
+    public void setLaberinto(Laberinto laberinto) {
+        this.laberinto = laberinto;
+    }
 
-    // Métodos de movimiento
-    public void moverArriba() { if (y > 0) y--; }
-    public void moverAbajo() { if (y < 10) y++; } // 11 filas
-    public void moverIzquierda() { if (x > 0) x--; }
-    public void moverDerecha() { if (x < 16) x++; } // 17 columnas
+    // Mugimendu metodoak, talka konprobatuz
+    public void mugituGora() { mugituPosible(x, y - 1); }
+    public void mugituBehera() { mugituPosible(x, y + 1); }
+    public void mugituEzkerra() { mugituPosible(x - 1, y); }
+    public void mugituEskuma() { mugituPosible(x + 1, y); }
+    
+    // Mugitu al den konprobatu
+    private void mugituPosible(int newX, int newY) {
+        if (laberinto != null) {
+            int filas = laberinto.getFilas();
+            int columnas = laberinto.getColumnas();
 
-    // Obtener la posición en píxeles
+            // Limiteen barruan dagoen konprobatu (matrize barruan)
+            if (newX >= 0 && newX < columnas && newY >= 0 && newY < filas) {
+                int gelaxkaMota = laberinto.getGelaxkaMota(newX, newY);
+
+                // Gelaxka bidea bada bakarrik mugitu
+                if (gelaxkaMota == Laberinto.BIDEA) {
+                    this.x = newX;
+                    this.y = newY;
+
+                    setChanged();
+                    notifyObservers();
+                }
+            }
+        }
+    }
+
+    // Posizioa pixeletan lortu
     public int getXPixel() { return x * cellSize; }
     public int getYPixel() { return y * cellSize; }
 
-    // Métodos para acceder a las bombas y radio de explosión
     public int getCantidadBombas() {
         return cantidadBombas;
     }

@@ -18,6 +18,7 @@ public class MainBista extends JFrame {
 		setTitle("Bomberman - Menu");
 		setSize(400, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 
@@ -62,20 +63,13 @@ public class MainBista extends JFrame {
 		jokoaHasiBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String laberintoSeleccionado = (String) laberintoComboBox.getSelectedItem();
-				String bombermanSeleccionado = (String) bombermanComboBox.getSelectedItem();
+				String laberintoMota = (String) laberintoComboBox.getSelectedItem();
+				String bombermanMota = (String) bombermanComboBox.getSelectedItem();
 
-				// Crear la ventana del juego
-				JFrame jokoaFrame = new JFrame("Bomberman Jokoa");
-				JokoaBista jokoaBista = new JokoaBista(laberintoSeleccionado, bombermanSeleccionado);
+				// Jokoa ireki laberinto eta bomberman mota pasata
+				new JokoaBista(laberintoMota, bombermanMota);
 
-				jokoaFrame.add(jokoaBista);
-				jokoaFrame.pack();
-				jokoaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				jokoaFrame.setLocationRelativeTo(null);
-				jokoaFrame.setVisible(true);
-
-				dispose(); // Cerrar el menú
+				dispose(); // Menua itxi
 			}
 		});
 
