@@ -1,7 +1,9 @@
 package modeloa;
 
-public abstract class Bloke {
-	protected int x, y;
+import java.util.Observable;
+
+public abstract class Bloke extends Observable {
+    protected int x, y;
 
     public Bloke(int x, int y) {
         this.x = x;
@@ -10,4 +12,10 @@ public abstract class Bloke {
 
     public int getX() { return x; }
     public int getY() { return y; }
+
+    // Método para actualizar la celda y notificar la vista
+    public void aldatu() {
+        setChanged();
+        notifyObservers();
+    }
 }

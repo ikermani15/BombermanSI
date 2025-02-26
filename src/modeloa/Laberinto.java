@@ -6,51 +6,40 @@ import java.util.Random;
 public abstract class Laberinto extends Observable {
     protected final int ilara = 11; 
     protected final int zutabe = 17; 
-    protected int[][] laberinto; 
+    protected Bloke[][] laberinto; // MATRIZ DE BLOQUES
     protected Random random;
-    protected int etsaiaKop = 0; 
-
-    // Tipos de celdas
-    public static final int BIDEA = 0;
-    public static final int HARD = 1;
-    public static final int SOFT = 2;
-    public static final int ENEMY = 3;
 
     public Laberinto() {
-        this.laberinto = new int[getFilas()][getColumnas()];
+        this.laberinto = new Bloke[getFilas()][getColumnas()];
         this.random = new Random();
         laberintoaHasieratu();
     }
 
-    // Laberintoa hasieratzeko metodoa
+    // Inicializar matriz con caminos vacíos
     private void laberintoaHasieratu() {
-    	// Matrizea bide hutsekin bete
         for (int i = 0; i < getFilas(); i++) {
             for (int j = 0; j < getColumnas(); j++) {
-                laberinto[i][j] = BIDEA;
+                laberinto[i][j] = null;  // Camino vacío
             }
         }
     }
 
-    // Metodo abstraktua, subklaseak inplementatu
+    // Método abstracto que las subclases implementarán
     public abstract void generarLaberinto();
 
-    // Gelaxka mota lortzeko metodoa
-    public int getGelaxkaMota(int x, int y) {
+    // Obtener un bloque
+    public Bloke getBloke(int x, int y) {
         return laberinto[y][x];
     }
 
-    // Observer-ari notifikatu laberintoa generatzean
-    protected void actualizarObservadores() {
-        setChanged();
-        notifyObservers();
+    // Asignar un bloque y notificar a la vista
+    public void setBloke(int x, int y, Bloke bloke) {
+        laberinto[y][x] = bloke;
+        if (bloke != null) {
+            bloke.aldatu(); // Notifica observadores de Bloke
+        }
     }
 
-	public int getColumnas() {
-		return zutabe;
-	}
-	
-	public int getFilas() {
-		return ilara;
-	}
+    public int getColumnas() { return zutabe; }
+    public int getFilas() { return ilara; }
 }

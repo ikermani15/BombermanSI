@@ -36,10 +36,10 @@ public abstract class Bomberman extends Observable{
 
             // Limiteen barruan dagoen konprobatu (matrize barruan)
             if (newX >= 0 && newX < columnas && newY >= 0 && newY < filas) {
-                int gelaxkaMota = laberinto.getGelaxkaMota(newX, newY);
+                Bloke bloke = laberinto.getBloke(newX, newY);
 
-                // Gelaxka bidea bada bakarrik mugitu
-                if (gelaxkaMota == Laberinto.BIDEA) {
+                // Si la celda está vacía, permitir el movimiento
+                if (bloke == null) {
                     this.x = newX;
                     this.y = newY;
 
