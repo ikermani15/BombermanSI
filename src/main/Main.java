@@ -1,9 +1,9 @@
 package main;
 
-import bista.MainBista;
+import kontrolatzaile.JokoaKontrolatzaile;
 
 public class Main {
 	public static void main(String[] args) {
-        new MainBista();
+        new JokoaKontrolatzaile();
     }
 }

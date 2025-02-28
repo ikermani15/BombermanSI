@@ -1,6 +1,8 @@
 package bista;
 
 import javax.swing.*;
+
+import kontrolatzaile.JokoaKontrolatzaile;
 import modeloa.*;
 
 import java.awt.*;
@@ -15,7 +17,8 @@ public class JokoaBista extends JFrame implements Observer, KeyListener {
 	private Bomberman bomberman;
 	private final int cellSize = 40;
 
-	// Fondo y Bomberman
+	private JokoaKontrolatzaile kontrolatzaile;
+
 	private Image fondo;
 	private Image bombermanImageWhite;
 	private Image bombermanImageBlack;
@@ -23,33 +26,43 @@ public class JokoaBista extends JFrame implements Observer, KeyListener {
 	private GamePanel gamePanel;
 	private GelaxkaBista[][] gelaxkaBistak;
 
-	public JokoaBista(String laberintoMota, String bombermanMota) {
+	public JokoaBista(Laberinto laberinto, Bomberman bomberman, JokoaKontrolatzaile kontrolatzaile) {
+		this.laberinto = laberinto;
+		this.bomberman = bomberman;
+		this.kontrolatzaile = kontrolatzaile;
+
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 
-		// Inicializar laberinto y bomberman
-		laberintoHasieratu(laberintoMota);
-		bombermanHasieratu(bombermanMota);
 		irudiakKargatu();
 
-		// Crear el panel de juego
+		// Laberinto motaren arabera fondoa ezarri
+		if (laberinto instanceof ClassicLaberinto) {
+			fondo = new ImageIcon(getClass().getResource("/img/stageBack1.png")).getImage();
+		} else if (laberinto instanceof SoftLaberinto) {
+			fondo = new ImageIcon(getClass().getResource("/img/stageBack3.png")).getImage();
+		} else {
+			fondo = new ImageIcon(getClass().getResource("/img/stageBack2.png")).getImage();
+		}
+
+		// Jokoaren panela sortu
 		gamePanel = new GamePanel();
 		gamePanel.setLayout(new GridLayout(laberinto.getFilas(), laberinto.getColumnas()));
 		gamePanel.setPreferredSize(new Dimension(laberinto.getColumnas() * cellSize, laberinto.getFilas() * cellSize));
 		gelaxkaBistak = new GelaxkaBista[laberinto.getFilas()][laberinto.getColumnas()];
 
-		// Crear la vista de cada celda del laberinto
+		// Gelaxka bakoitzerako bista sortu (JPanel GelaxkaBista erabiliz)
 		for (int i = 0; i < laberinto.getFilas(); i++) {
 			for (int j = 0; j < laberinto.getColumnas(); j++) {
 				Bloke bloke = laberinto.getBloke(j, i);
 				GelaxkaBista gelaxkaBista;
 				if (bloke != null) {
-					// Para un bloque, creamos un GelaxkaBista con el bloque
+					// Bloke bakoitzerako, GelaxkaBista bat sortu bloke batekin
 					gelaxkaBista = new GelaxkaBista(bloke);
 				} else {
-					// En caso de que no haya bloque (vacío), lo tratamos como un camino
-					gelaxkaBista = new GelaxkaBista(null); // Crea una celda vacía
+					// Blokerik ez badago (hutsa), bidea bezala tratatu
+					gelaxkaBista = new GelaxkaBista(null); // Gelaxka hutsa sortu
 				}
 				gelaxkaBistak[i][j] = gelaxkaBista;
 				gamePanel.add(gelaxkaBista);
@@ -68,37 +81,12 @@ public class JokoaBista extends JFrame implements Observer, KeyListener {
 		bomberman.addObserver(this);
 	}
 
-	private void laberintoHasieratu(String laberintoTipo) {
-		switch (laberintoTipo) {
-		case "Classic":
-			this.laberinto = new ClassicLaberinto();
-			fondo = new ImageIcon(getClass().getResource("/img/stageBack1.png")).getImage();
-			break;
-		case "Soft":
-			this.laberinto = new SoftLaberinto();
-			fondo = new ImageIcon(getClass().getResource("/img/stageBack3.png")).getImage();
-			break;
-		case "Empty":
-			this.laberinto = new EmptyLaberinto();
-			fondo = new ImageIcon(getClass().getResource("/img/stageBack2.png")).getImage();
-			break;
-		default:
-			throw new IllegalArgumentException("Tipo de laberinto no válido");
-		}
-
-		laberinto.generarLaberinto();
-	}
-
-	private void bombermanHasieratu(String bombermanMota) {
-		bomberman = bombermanMota.equals("White") ? new WhiteBomber() : new BlackBomber();
-		bomberman.setLaberinto(laberinto);
-	}
-
 	private void irudiakKargatu() {
 		bombermanImageWhite = new ImageIcon(getClass().getResource("/img/whitefront1.png")).getImage();
 		bombermanImageBlack = new ImageIcon(getClass().getResource("/img/blackfront1.png")).getImage();
 	}
 
+	// Observer-etan aldaketak egonez gero, aldatu bista
 	@Override
 	public void update(Observable o, Object arg) {
 		gamePanel.repaint();
@@ -106,12 +94,7 @@ public class JokoaBista extends JFrame implements Observer, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP -> bomberman.mugituGora();
-		case KeyEvent.VK_DOWN -> bomberman.mugituBehera();
-		case KeyEvent.VK_LEFT -> bomberman.mugituEzkerra();
-		case KeyEvent.VK_RIGHT -> bomberman.mugituEskuma();
-		}
+		kontrolatzaile.teklaSakatu(e.getKeyCode());
 	}
 
 	@Override
@@ -156,7 +139,8 @@ public class JokoaBista extends JFrame implements Observer, KeyListener {
 
 			// Dibujar Bomberman encima de todo
 			Image bombermanImage = (bomberman instanceof WhiteBomber) ? bombermanImageWhite : bombermanImageBlack;
-			g.drawImage(bombermanImage, bomberman.getXPixel(), bomberman.getYPixel(), cellSize, cellSize, this);
+			int[] bombermanPos = kontrolatzaile.getBombermanPosition();
+			g.drawImage(bombermanImage, bombermanPos[0], bombermanPos[1], cellSize, cellSize, this);
 		}
 	}
 }
