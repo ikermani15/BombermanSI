@@ -16,10 +16,10 @@ public class MainBista extends JFrame {
 	private JButton jokoaHasiBtn;
 	private JLabel fondoLabel;
 
-	private Jokoa main;
+	private Jokoa jokoa;
 
-	public MainBista(Jokoa main) {
-		this.main = main;
+	public MainBista(Jokoa jokoa) {
+		this.jokoa = jokoa;
 
 		// Leihoaren definitu
 		setTitle("Bomberman - Menu");
@@ -74,7 +74,7 @@ public class MainBista extends JFrame {
 				String bombermanMota = (String) bombermanComboBox.getSelectedItem();
 
 				// Jokoa hasieratu laberinto eta bomberman mota pasata
-				main.hasiJokoa(laberintoMota, bombermanMota);
+				jokoa.hasiJokoa(laberintoMota, bombermanMota);
 
 				dispose(); // Menua itxi
 			}
