@@ -1,4 +1,4 @@
-package kontrolatzaile;
+package modeloa;
 
 import modeloa.*;
 
@@ -6,13 +6,13 @@ import java.awt.event.KeyEvent;
 
 import bista.*;
 
-public class JokoaKontrolatzaile {
+public class Jokoa {
     private MainBista mainBista;
-    private JokoaBista jokoaBista;
+    private LaberintoBista jokoaBista;
     private Laberinto laberinto;
     private Bomberman bomberman;
 
-    public JokoaKontrolatzaile() {
+    public Jokoa() {
         mainBista = new MainBista(this);
         mainBista.setVisible(true);
     }
@@ -27,11 +27,7 @@ public class JokoaKontrolatzaile {
         bomberman.setLaberinto(laberinto);
         
         // Bistara instantziak pasatu
-        jokoaBista = new JokoaBista(laberinto, bomberman, this);
-        
-        // Observer-rak gehitu
-        laberinto.addObserver(jokoaBista);
-        bomberman.addObserver(jokoaBista);
+        jokoaBista = new LaberintoBista(laberinto, bomberman, this);
     }
 
     // Laberintoa sortu

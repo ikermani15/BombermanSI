@@ -23,6 +23,9 @@ public class SoftLaberinto extends Laberinto {
 	            }
 	        }
 	    }
+	    
+	    setChanged();
+        notifyObservers();
 	}
 
 }

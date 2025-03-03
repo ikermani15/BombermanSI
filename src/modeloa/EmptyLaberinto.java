@@ -10,6 +10,9 @@ public class EmptyLaberinto extends Laberinto {
 	            laberinto[i][j] = null; // Todo vacío
 	        }
 	    }
+	    
+	    setChanged();
+        notifyObservers();
 	}
 
 }

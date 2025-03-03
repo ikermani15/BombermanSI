@@ -26,6 +26,9 @@ public class ClassicLaberinto extends Laberinto {
 	            }
 	        }
 	    }
+	    
+	    setChanged();
+        notifyObservers();
 	}
 
 }

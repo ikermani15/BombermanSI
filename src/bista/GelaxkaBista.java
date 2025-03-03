@@ -21,7 +21,7 @@ public class GelaxkaBista extends JLabel implements Observer {
 	public GelaxkaBista(Bloke bloke) {
 		this.bloke = bloke;
 		if (bloke != null) {
-			bloke.addObserver(this);
+			bloke.addObserver(this); // Blokeari Observer-a gehitu
 		}
 		kargatuIrudiak();
 		eguneratuIrudia();
@@ -53,7 +53,7 @@ public class GelaxkaBista extends JLabel implements Observer {
 		} else if (bloke instanceof BlokeGogorra) {
 			setIcon(hardImages[new Random().nextInt(hardImages.length)]);
 		} else {
-			setIcon(null); // Si no hay bloque, se deja vacío
+			setIcon(null); // Blokerik ez badago, hutsik
 		}
 	}
 

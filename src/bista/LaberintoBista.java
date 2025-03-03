@@ -2,7 +2,6 @@ package bista;
 
 import javax.swing.*;
 
-import kontrolatzaile.JokoaKontrolatzaile;
 import modeloa.*;
 
 import java.awt.*;
@@ -11,13 +10,13 @@ import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class JokoaBista extends JFrame implements Observer, KeyListener {
+public class LaberintoBista extends JFrame implements Observer, KeyListener {
 	private static final long serialVersionUID = 1L;
 	private Laberinto laberinto;
 	private Bomberman bomberman;
 	private final int cellSize = 40;
 
-	private JokoaKontrolatzaile kontrolatzaile;
+	private Jokoa jokoa;
 
 	private Image fondo;
 	private Image bombermanImageWhite;
@@ -26,10 +25,10 @@ public class JokoaBista extends JFrame implements Observer, KeyListener {
 	private GamePanel gamePanel;
 	private GelaxkaBista[][] gelaxkaBistak;
 
-	public JokoaBista(Laberinto laberinto, Bomberman bomberman, JokoaKontrolatzaile kontrolatzaile) {
+	public LaberintoBista(Laberinto laberinto, Bomberman bomberman, Jokoa jokoa) {
 		this.laberinto = laberinto;
 		this.bomberman = bomberman;
-		this.kontrolatzaile = kontrolatzaile;
+		this.jokoa = jokoa;
 
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,6 +51,7 @@ public class JokoaBista extends JFrame implements Observer, KeyListener {
 		gamePanel.setPreferredSize(new Dimension(laberinto.getColumnas() * cellSize, laberinto.getFilas() * cellSize));
 		gelaxkaBistak = new GelaxkaBista[laberinto.getFilas()][laberinto.getColumnas()];
 
+		// UPDATE
 		// Gelaxka bakoitzerako bista sortu (JPanel GelaxkaBista erabiliz)
 		for (int i = 0; i < laberinto.getFilas(); i++) {
 			for (int j = 0; j < laberinto.getColumnas(); j++) {
@@ -89,12 +89,28 @@ public class JokoaBista extends JFrame implements Observer, KeyListener {
 	// Observer-etan aldaketak egonez gero, aldatu bista
 	@Override
 	public void update(Observable o, Object arg) {
-		gamePanel.repaint();
+		if (o instanceof Laberinto) {
+			// Construir bloques cuando el laberinto cambie
+			gelaxkaBistak = new GelaxkaBista[laberinto.getFilas()][laberinto.getColumnas()];
+			gamePanel.removeAll();
+
+			for (int i = 0; i < laberinto.getFilas(); i++) {
+				for (int j = 0; j < laberinto.getColumnas(); j++) {
+					Bloke bloke = laberinto.getBloke(j, i);
+					gelaxkaBistak[i][j] = new GelaxkaBista(bloke);
+					gamePanel.add(gelaxkaBistak[i][j]);
+				}
+			}
+			gamePanel.revalidate();
+			gamePanel.repaint();
+		} else if (o instanceof Bomberman) {
+			gamePanel.repaint(); // Redibujar cuando Bomberman se mueva
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		kontrolatzaile.teklaSakatu(e.getKeyCode());
+		jokoa.teklaSakatu(e.getKeyCode());
 	}
 
 	@Override
@@ -139,7 +155,7 @@ public class JokoaBista extends JFrame implements Observer, KeyListener {
 
 			// Dibujar Bomberman encima de todo
 			Image bombermanImage = (bomberman instanceof WhiteBomber) ? bombermanImageWhite : bombermanImageBlack;
-			int[] bombermanPos = kontrolatzaile.getBombermanPosition();
+			int[] bombermanPos = jokoa.getBombermanPosition();
 			g.drawImage(bombermanImage, bombermanPos[0], bombermanPos[1], cellSize, cellSize, this);
 		}
 	}

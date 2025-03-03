@@ -6,37 +6,36 @@ import java.util.Random;
 public abstract class Laberinto extends Observable {
     protected final int ilara = 11; 
     protected final int zutabe = 17; 
-    protected Bloke[][] laberinto; // MATRIZ DE BLOQUES
-    protected Random random;
+    protected Bloke[][] laberinto; // Blokeen matrizea
+    protected String labMota;
 
     public Laberinto() {
         this.laberinto = new Bloke[getFilas()][getColumnas()];
-        this.random = new Random();
         laberintoaHasieratu();
     }
 
-    // Inicializar matriz con caminos vacíos
+    // Matrizea hasieratu bide hutsekin
     private void laberintoaHasieratu() {
         for (int i = 0; i < getFilas(); i++) {
             for (int j = 0; j < getColumnas(); j++) {
-                laberinto[i][j] = null;  // Camino vacío
+                laberinto[i][j] = null;  // Bide hutsa
             }
         }
     }
 
-    // Método abstracto que las subclases implementarán
+    // Metodo abstraktua, subklaseak inplementatuko dute
     public abstract void generarLaberinto();
 
-    // Obtener un bloque
+    // Blokea lortu
     public Bloke getBloke(int x, int y) {
         return laberinto[y][x];
     }
 
-    // Asignar un bloque y notificar a la vista
+    // Blokea ezarri eta bista notifikatu
     public void setBloke(int x, int y, Bloke bloke) {
         laberinto[y][x] = bloke;
         if (bloke != null) {
-            bloke.aldatu(); // Notifica observadores de Bloke
+            bloke.aldatu(); // Bloke Observer-a notifikatu
         }
     }
 

@@ -1,9 +1,9 @@
 package main;
 
-import kontrolatzaile.JokoaKontrolatzaile;
+import modeloa.Jokoa;
 
 public class Main {
 	public static void main(String[] args) {
-        new JokoaKontrolatzaile();
+        new Jokoa();
     }
 }

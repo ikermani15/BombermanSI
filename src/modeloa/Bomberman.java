@@ -38,7 +38,7 @@ public abstract class Bomberman extends Observable{
             if (newX >= 0 && newX < columnas && newY >= 0 && newY < filas) {
                 Bloke bloke = laberinto.getBloke(newX, newY);
 
-                // Si la celda está vacía, permitir el movimiento
+                // Gelaxka hutsa bada, mugitu posible
                 if (bloke == null) {
                     this.x = newX;
                     this.y = newY;
