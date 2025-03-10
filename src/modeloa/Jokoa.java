@@ -8,7 +8,7 @@ import bista.*;
 
 public class Jokoa {
     private MainBista mainBista;
-    private LaberintoBista jokoaBista;
+    private LaberintoBista laberintoBista;
     private Laberinto laberinto;
     private Bomberman bomberman;
 
@@ -27,7 +27,7 @@ public class Jokoa {
         bomberman.setLaberinto(laberinto);
         
         // Bistara instantziak pasatu
-        jokoaBista = new LaberintoBista(laberinto, bomberman, this);
+        laberintoBista = new LaberintoBista(laberinto, bomberman, this);
     }
 
     // Laberintoa sortu

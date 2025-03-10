@@ -19,8 +19,7 @@ public class LaberintoBista extends JFrame implements Observer, KeyListener {
 	private Jokoa jokoa;
 
 	private Image fondo;
-	private Image bombermanImageWhite;
-	private Image bombermanImageBlack;
+	private Image bombermanImage;
 
 	private GamePanel gamePanel;
 	private GelaxkaBista[][] gelaxkaBistak;
@@ -34,16 +33,8 @@ public class LaberintoBista extends JFrame implements Observer, KeyListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 
-		irudiakKargatu();
-
-		// Laberinto motaren arabera fondoa ezarri
-		if (laberinto instanceof ClassicLaberinto) {
-			fondo = new ImageIcon(getClass().getResource("/img/stageBack1.png")).getImage();
-		} else if (laberinto instanceof SoftLaberinto) {
-			fondo = new ImageIcon(getClass().getResource("/img/stageBack3.png")).getImage();
-		} else {
-			fondo = new ImageIcon(getClass().getResource("/img/stageBack2.png")).getImage();
-		}
+		fondo = laberinto.getFondo().getImage();
+		bombermanImage = bomberman.getIrudia().getImage();
 
 		// Jokoaren panela sortu
 		gamePanel = new GamePanel();
@@ -81,30 +72,14 @@ public class LaberintoBista extends JFrame implements Observer, KeyListener {
 		bomberman.addObserver(this);
 	}
 
-	private void irudiakKargatu() {
-		bombermanImageWhite = new ImageIcon(getClass().getResource("/img/whitefront1.png")).getImage();
-		bombermanImageBlack = new ImageIcon(getClass().getResource("/img/blackfront1.png")).getImage();
-	}
-
 	// Observer-etan aldaketak egonez gero, aldatu bista
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof Laberinto) {
-			// Construir bloques cuando el laberinto cambie
-			gelaxkaBistak = new GelaxkaBista[laberinto.getFilas()][laberinto.getColumnas()];
-			gamePanel.removeAll();
-
-			for (int i = 0; i < laberinto.getFilas(); i++) {
-				for (int j = 0; j < laberinto.getColumnas(); j++) {
-					Bloke bloke = laberinto.getBloke(j, i);
-					gelaxkaBistak[i][j] = new GelaxkaBista(bloke);
-					gamePanel.add(gelaxkaBistak[i][j]);
-				}
-			}
-			gamePanel.revalidate();
 			gamePanel.repaint();
 		} else if (o instanceof Bomberman) {
-			gamePanel.repaint(); // Redibujar cuando Bomberman se mueva
+			bombermanImage = bomberman.getIrudia().getImage();
+			gamePanel.repaint();
 		}
 	}
 
@@ -154,7 +129,6 @@ public class LaberintoBista extends JFrame implements Observer, KeyListener {
 			}
 
 			// Dibujar Bomberman encima de todo
-			Image bombermanImage = (bomberman instanceof WhiteBomber) ? bombermanImageWhite : bombermanImageBlack;
 			int[] bombermanPos = jokoa.getBombermanPosition();
 			g.drawImage(bombermanImage, bombermanPos[0], bombermanPos[1], cellSize, cellSize, this);
 		}

@@ -2,7 +2,13 @@ package modeloa;
 
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+
 public class ClassicLaberinto extends Laberinto {
+	public ClassicLaberinto() {
+        fondo = new ImageIcon(getClass().getResource("/img/stageBack1.png"));
+    }
+	
 	@Override
 	public void generarLaberinto() {
 	    Random rand = new Random();

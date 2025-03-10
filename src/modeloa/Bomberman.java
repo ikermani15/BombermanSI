@@ -3,6 +3,8 @@ package modeloa;
 import java.awt.*;
 import java.util.Observable;
 
+import javax.swing.ImageIcon;
+
 public abstract class Bomberman extends Observable{
     private int x, y; // Matrizeko posizioa
     private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
@@ -10,6 +12,7 @@ public abstract class Bomberman extends Observable{
     private int radioExplosion; // Bomba eztanda radioa
     protected Image imagen; // Bomberman irudia
     protected Laberinto laberinto; // Laberinto erreferentzia talka lortzeko
+    protected ImageIcon bombermanIrudia;
 
     public Bomberman(int cantidadBombas, int radioExplosion, String tipo) {
         this.x = 0; // (0, 0)-n hasieratu
@@ -55,6 +58,10 @@ public abstract class Bomberman extends Observable{
         bomba.iniciarCuentaRegresiva(); // La bomba explotará después de unos segundos
     }
 
+    public ImageIcon getIrudia() {
+        return bombermanIrudia;
+    }
+    
     // Posizioa pixeletan lortu
     public int getXPixel() { return x * cellSize; }
     public int getYPixel() { return y * cellSize; }

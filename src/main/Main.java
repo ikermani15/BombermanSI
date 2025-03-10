@@ -5,6 +5,5 @@ import modeloa.Jokoa;
 public class Main {
 	public static void main(String[] args) {
         new Jokoa();
-        System.out.println("Pato");
     }
 }
