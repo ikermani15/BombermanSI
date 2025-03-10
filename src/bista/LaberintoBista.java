@@ -33,7 +33,10 @@ public class LaberintoBista extends JFrame implements Observer, KeyListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 
+		// Fondoa ezarri
 		fondo = laberinto.getFondo().getImage();
+
+		// Bomberman irudia ezarri
 		bombermanImage = bomberman.getIrudia().getImage();
 
 		// Jokoaren panela sortu
@@ -67,7 +70,7 @@ public class LaberintoBista extends JFrame implements Observer, KeyListener {
 		setLocationRelativeTo(null);
 		setVisible(true);
 
-		// Observadores
+		// Observe-ak
 		laberinto.addObserver(this);
 		bomberman.addObserver(this);
 	}
@@ -75,11 +78,26 @@ public class LaberintoBista extends JFrame implements Observer, KeyListener {
 	// Observer-etan aldaketak egonez gero, aldatu bista
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof Laberinto) {
-			gamePanel.repaint();
-		} else if (o instanceof Bomberman) {
-			bombermanImage = bomberman.getIrudia().getImage();
-			gamePanel.repaint();
+		// Eztanda badago
+		if (arg instanceof int[]) {
+			int[] pos = (int[]) arg;
+			int x = pos[0], y = pos[1];
+
+			// Actualizar solo la celda afectada por la explosión
+			gelaxkaBistak[y][x].update(null, null);
+			gamePanel.repaint(x * cellSize, y * cellSize, cellSize, cellSize);
+		} else if (arg instanceof String) {
+			String event = (String) arg;
+
+			switch (event) {
+			case "mugitu":
+				gamePanel.repaint(); // Se podría optimizar más
+				break;
+			case "laberinto":
+
+				gamePanel.repaint();
+				break;
+			}
 		}
 	}
 
@@ -106,27 +124,6 @@ public class LaberintoBista extends JFrame implements Observer, KeyListener {
 
 			// Dibujar el fondo
 			g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
-
-			// Dibujar los bloques del laberinto
-			for (int i = 0; i < laberinto.getFilas(); i++) {
-				for (int j = 0; j < laberinto.getColumnas(); j++) {
-					GelaxkaBista gelaxka = gelaxkaBistak[i][j];
-
-					// Asegurarnos de que cada celda tenga el tamaño de cellSize (40x40)
-					int xPos = j * cellSize;
-					int yPos = i * cellSize;
-
-					if (gelaxka != null) {
-						gelaxka.update(null, null); // Actualiza la celda antes de dibujar
-						if (gelaxka.getIcon() != null) {
-							g.drawImage(((ImageIcon) gelaxka.getIcon()).getImage(), xPos, yPos, cellSize, cellSize,
-									this);
-						}
-					} else {
-						g.fillRect(xPos, yPos, cellSize, cellSize);
-					}
-				}
-			}
 
 			// Dibujar Bomberman encima de todo
 			int[] bombermanPos = jokoa.getBombermanPosition();

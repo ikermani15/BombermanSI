@@ -10,7 +10,7 @@ public class ClassicLaberinto extends Laberinto {
     }
 	
 	@Override
-	public void generarLaberinto() {
+	public void laberintoaSortu() {
 	    Random rand = new Random();
 	    int etsaiKop = 0;
 
@@ -32,9 +32,6 @@ public class ClassicLaberinto extends Laberinto {
 	            }
 	        }
 	    }
-	    
-	    setChanged();
-        notifyObservers();
 	}
 
 }

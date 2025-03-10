@@ -18,6 +18,7 @@ public abstract class Bloke extends Observable {
     public int getY() { return y; }
     public ImageIcon getBlokeIrudia() { return blokeIrudia; }
 
+    // Bista eguneratu
     public void aldatu() {
         setChanged();
         notifyObservers();

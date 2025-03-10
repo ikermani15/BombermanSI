@@ -9,7 +9,6 @@ public abstract class Laberinto extends Observable {
     protected final int ilara = 11; 
     protected final int zutabe = 17; 
     protected Bloke[][] laberinto; // Blokeen matrizea
-    //protected String labMota;
     protected ImageIcon fondo;
 
     public Laberinto() {
@@ -26,8 +25,11 @@ public abstract class Laberinto extends Observable {
         }
     }
 
-    // Metodo abstraktua, subklaseak inplementatuko dute
-    public abstract void generarLaberinto();
+    // Subklaseak inplementatuko dute
+    public void laberintoaSortu() {
+    	setChanged();
+    	notifyObservers("laberinto");
+    }
 
     // Blokea lortu
     public Bloke getBloke(int x, int y) {
@@ -53,10 +55,9 @@ public abstract class Laberinto extends Observable {
 
         if (bloke != null && bloke.esDestructible()) { 
             setBloke(x, y, null);
-            System.out.println("BlokeBiguna destruido en (" + x + ", " + y + ")");
-
             setChanged();
-            notifyObservers();
+            notifyObservers(new int[]{x, y});
+            System.out.println("BlokeBiguna destruido en (" + x + ", " + y + ")");
         }
     }
 

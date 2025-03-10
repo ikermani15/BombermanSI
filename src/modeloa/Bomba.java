@@ -1,6 +1,8 @@
 package modeloa;
 
-public abstract class Bomba {
+import java.util.Observable;
+
+public abstract class Bomba extends Observable{
 	protected int x, y;
     protected int radio;
     protected int tiempoExplosion = 3; // Segundos antes de explotar
@@ -19,7 +21,10 @@ public abstract class Bomba {
     public int getRadio() { return radio; }
 
     // Método abstracto para explotar (cada bomba tendrá su propio radio)
-    public abstract void explotar();
+    public void explotar() {
+    	setChanged();
+    	notifyObservers("bomba");
+    }
 
     // Simula la cuenta regresiva antes de explotar
     public void iniciarCuentaRegresiva() {

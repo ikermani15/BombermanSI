@@ -47,7 +47,7 @@ public abstract class Bomberman extends Observable{
                     this.y = newY;
 
                     setChanged();
-                    notifyObservers();
+                    notifyObservers("mugitu");
                 }
             }
         }

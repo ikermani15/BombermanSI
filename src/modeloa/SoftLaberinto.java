@@ -10,7 +10,7 @@ public class SoftLaberinto extends Laberinto {
     }
 	
 	@Override
-	public void generarLaberinto() {
+	public void laberintoaSortu() {
 	    Random rand = new Random();
 	    int etsaiKop = 0;
 
@@ -22,16 +22,13 @@ public class SoftLaberinto extends Laberinto {
 	                int prob = rand.nextInt(100);
 
 	                if (prob > 40) {
-	                    laberinto[i][j] = new BlokeBiguna(j, i); // Más bloques SOFT
+	                    laberinto[i][j] = new BlokeBiguna(j, i);
 	                } else {
 	                    laberinto[i][j] = null;
 	                }
 	            }
 	        }
 	    }
-	    
-	    setChanged();
-        notifyObservers();
 	}
 
 }

@@ -7,21 +7,15 @@ import java.awt.event.KeyEvent;
 import bista.*;
 
 public class Jokoa {
-    private MainBista mainBista;
     private LaberintoBista laberintoBista;
     private Laberinto laberinto;
     private Bomberman bomberman;
 
-    public Jokoa() {
-        mainBista = new MainBista(this);
-        mainBista.setVisible(true);
-    }
-
     // Jokoa hasieratzen du
     public void hasiJokoa(String laberintoMota, String bombermanMota) {
     	// Laberinto mota lortu eta sortu
-        laberinto = laberintoSortu(laberintoMota);
-        laberinto.generarLaberinto();
+        laberinto = laberintoMota(laberintoMota);
+        laberinto.laberintoaSortu();
         // Bomberman mota lortu eta laberintoan gehitu
         bomberman = bombermanSortu(bombermanMota);
         bomberman.setLaberinto(laberinto);
@@ -31,7 +25,7 @@ public class Jokoa {
     }
 
     // Laberintoa sortu
-    private Laberinto laberintoSortu(String mota) {
+    private Laberinto laberintoMota(String mota) {
         if ("Classic".equals(mota)) {
             return new ClassicLaberinto();
         } else if ("Soft".equals(mota)) {
