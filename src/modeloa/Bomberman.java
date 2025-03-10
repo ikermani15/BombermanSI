@@ -49,6 +49,11 @@ public abstract class Bomberman extends Observable{
             }
         }
     }
+    public void colocarBomba() {
+        System.out.println("Bomberman colocó una bomba en (" + x + ", " + y + ")");
+        Bomba bomba = new DefaultBomba(x, y, laberinto);
+        bomba.iniciarCuentaRegresiva(); // La bomba explotará después de unos segundos
+    }
 
     // Posizioa pixeletan lortu
     public int getXPixel() { return x * cellSize; }

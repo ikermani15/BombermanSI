@@ -31,13 +31,17 @@ public class Etsaia {
     public void moverAleatorio() {
         int direccion = random.nextInt(4); // 0 = arriba, 1 = abajo, 2 = izquierda, 3 = derecha
 
-        switch (direccion) {
-            case 0 -> moverArriba();
-            case 1 -> moverAbajo();
-            case 2 -> moverIzquierda();
-            case 3 -> moverDerecha();
+        if (direccion == 0) {
+            moverArriba();
+        } else if (direccion == 1) {
+            moverAbajo();
+        } else if (direccion == 2) {
+            moverIzquierda();
+        } else if (direccion == 3) {
+            moverDerecha();
         }
     }
+
 
     // Métodos de movimiento
     public void moverArriba() { if (y > 0) y--; }

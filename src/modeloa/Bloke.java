@@ -18,4 +18,7 @@ public abstract class Bloke extends Observable {
         setChanged();
         notifyObservers();
     }
+    public boolean esDestructible() {
+        return false;
+    }
 }

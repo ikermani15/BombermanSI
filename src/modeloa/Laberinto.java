@@ -38,6 +38,32 @@ public abstract class Laberinto extends Observable {
             bloke.aldatu(); // Bloke Observer-a notifikatu
         }
     }
+    
+    public void explotarEn(int x, int y) {
+        // Verificar que la explosión no salga fuera del laberinto
+        if (x < 0 || x >= getColumnas() || y < 0 || y >= getFilas()) {
+            return;
+        }
+
+        // Obtener el bloque en la celda
+        Bloke bloke = getBloke(x, y);
+
+        if (bloke != null) {
+            if (bloke.esDestructible()) { // Si es un bloque blando, lo destruimos
+                setBloke(x, y, null);
+                System.out.println("BlokeBiguna destruido en (" + x + ", " + y + ")");
+            } else {
+                System.out.println("La explosión golpeó un BlokeGogorra en (" + x + ", " + y + ")");
+            }
+        } else {
+            System.out.println("Explosión en una celda vacía (" + x + ", " + y + ")");
+        }
+
+        // Notificar cambios a los observadores (si es necesario)
+        setChanged();
+        notifyObservers();
+    }
+
 
     public int getColumnas() { return zutabe; }
     public int getFilas() { return ilara; }

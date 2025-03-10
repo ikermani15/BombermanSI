@@ -32,13 +32,17 @@ public class Jokoa {
 
     // Laberintoa sortu
     private Laberinto laberintoSortu(String mota) {
-        return switch (mota) {
-            case "Classic" -> new ClassicLaberinto();
-            case "Soft" -> new SoftLaberinto();
-            case "Empty" -> new EmptyLaberinto();
-            default -> throw new IllegalArgumentException("Laberinto mota ez da zuzena.");
-        };
+        if ("Classic".equals(mota)) {
+            return new ClassicLaberinto();
+        } else if ("Soft".equals(mota)) {
+            return new SoftLaberinto();
+        } else if ("Empty".equals(mota)) {
+            return new EmptyLaberinto();
+        } else {
+            throw new IllegalArgumentException("Laberinto mota ez da zuzena.");
+        }
     }
+
 
     // Bomberman sortu
     private Bomberman bombermanSortu(String mota) {
@@ -51,11 +55,18 @@ public class Jokoa {
     
     // Teklatua kontrolatu
     public void teklaSakatu(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.VK_UP -> bomberman.mugituGora();
-            case KeyEvent.VK_DOWN -> bomberman.mugituBehera();
-            case KeyEvent.VK_LEFT -> bomberman.mugituEzkerra();
-            case KeyEvent.VK_RIGHT -> bomberman.mugituEskuma();
+        if (keyCode == KeyEvent.VK_UP) {
+            bomberman.mugituGora();
+        } else if (keyCode == KeyEvent.VK_DOWN) {
+            bomberman.mugituBehera();
+        } else if (keyCode == KeyEvent.VK_LEFT) {
+            bomberman.mugituEzkerra();
+        } else if (keyCode == KeyEvent.VK_RIGHT) {
+            bomberman.mugituEskuma();
+        }else if (keyCode == KeyEvent.VK_SPACE) {
+            bomberman.colocarBomba();
         }
+        
     }
+
 }
