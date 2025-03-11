@@ -5,9 +5,8 @@ public class UltraBomba extends Bomba{
         super(x, y, 20, laberinto); // Radio = 20
     }
 
-    @Override
-    public void explotar() {
-        System.out.println("ULTRABOMBA explotó en (" + x + ", " + y + ") con radio de " + radio);
-        //laberinto.explotarEn(x, y, radio);
+	@Override
+    public void eztanda() {
+        super.eztanda();
     }
 }

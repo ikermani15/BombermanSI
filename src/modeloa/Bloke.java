@@ -16,7 +16,8 @@ public abstract class Bloke {
     public int getY() { return y; }
     public ImageIcon getBlokeIrudia() { return blokeIrudia; }
 
-    public boolean esDestructible() {
+    // Apurtu daiteke(?)
+    public boolean apurtuDaiteke() {
         return false;
     }
 }

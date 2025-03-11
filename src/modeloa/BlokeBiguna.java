@@ -22,8 +22,9 @@ public class BlokeBiguna extends Bloke {
         this.blokeIrudia = SOFT_IMAGES[new Random().nextInt(SOFT_IMAGES.length)];
     }
 
+    // Bloke biguna apurtu daiteke
     @Override
-    public boolean esDestructible() {
+    public boolean apurtuDaiteke() {
         return true;
     }
 }

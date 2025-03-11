@@ -9,15 +9,15 @@ public abstract class Bomberman {
     private int lastX, lastY;
 
     private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
-    private int cantidadBombas; // Bomba kop
+    private int bombaKop; // Bomba kop
     private int radioExplosion; // Bomba eztanda radioa
     protected Laberinto laberinto; // Laberinto erreferentzia talka lortzeko
     protected ImageIcon bombermanIrudia;
 
-    public Bomberman(int cantidadBombas, int radioExplosion, String tipo) {
+    public Bomberman(int bombaKop, int radioExplosion, String tipo) {
         this.x = 0; // (0, 0)-n hasieratu
         this.y = 0;
-        this.cantidadBombas = cantidadBombas;
+        this.bombaKop = bombaKop;
         this.radioExplosion = radioExplosion;
     }
     
@@ -65,11 +65,11 @@ public abstract class Bomberman {
 
     // Bomba jartzeko
     public void bombaJarri() {
-        if (cantidadBombas > 0) {
-            System.out.println("Bomberman colocó una bomba en (" + x + ", " + y + ")");
+        if (bombaKop > 0) {
+            System.out.println("Bomberman bomba ezarri du pos (" + x + ", " + y + ")");
             Bomba bomba = new DefaultBomba(x, y, laberinto);
-            bomba.iniciarCuentaRegresiva();
-            cantidadBombas--;
+            bomba.countdownHasi();
+            bombaKop--;
         }
     }
 
@@ -86,7 +86,7 @@ public abstract class Bomberman {
     }
 
     public int getCantidadBombas() {
-        return cantidadBombas;
+        return bombaKop;
     }
 
     public int getRadioExplosion() {

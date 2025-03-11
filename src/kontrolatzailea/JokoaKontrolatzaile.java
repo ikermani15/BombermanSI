@@ -1,7 +1,5 @@
 package kontrolatzailea;
 
-import bista.MainBista;
-
 import java.awt.event.KeyEvent;
 
 import bista.LaberintoBista;
@@ -20,12 +18,13 @@ public class JokoaKontrolatzaile {
     	// Laberinto mota lortu eta sortu
         laberinto = laberintoMota(laberintoMota);
         laberinto.laberintoaChanged();
+        
         // Bomberman mota lortu eta laberintoan gehitu
         bomberman = bombermanSortu(bombermanMota);
         bomberman.setLaberinto(laberinto);
 
         // LaberintoBista hasieratu
-        laberintoBista = new LaberintoBista(laberinto, bomberman, this);  // Vista del juego
+        laberintoBista = new LaberintoBista(laberinto, bomberman, this);
     }
 
     // Laberintoa sortu
@@ -45,12 +44,8 @@ public class JokoaKontrolatzaile {
     private Bomberman bombermanSortu(String mota) {
         return mota.equals("White") ? new WhiteBomber() : new BlackBomber();
     }
-    // Posizioa lortu
-    public int[] getBombermanPosition() {
-        return new int[]{bomberman.getXPixel(), bomberman.getYPixel()};
-    }
     
-    // Teklatua kontrolatu
+    // Mugimendua
     public void teklaSakatu(int keyCode) {
         if (keyCode == KeyEvent.VK_UP) {
             bomberman.mugituGora();

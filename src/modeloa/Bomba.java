@@ -27,22 +27,22 @@ public abstract class Bomba {
     public ImageIcon getBombaImagen() { return bombaImage; }
     public ImageIcon getExpImagen() { return expImage; }
 
-    // Método para explotar (cada bomba tendrá su propio radio)
-    public void explotar() {
-        System.out.println("Explotando en (" + x + ", " + y + ")");
+    // Eztanda metodoa, bomba bakoitzak bere radioa izango du
+    public void eztanda() {
+        System.out.println("Eztanda pos (" + x + ", " + y + ")");
 
-        // Explosión en la celda actual
-        laberinto.explotarEn(x, y);
+        // Uneko gelaxkan eztanda
+        laberinto.eztandaPos(x, y);
 
-        // Explosión en las celdas adyacentes (según el radio)
+        // Radioaren arabera, alboko gelaxken eztanda
         for (int i = 1; i <= radio; i++) {
-            laberinto.explotarEn(x - i, y); // Izquierda
-            laberinto.explotarEn(x + i, y); // Derecha
-            laberinto.explotarEn(x, y - i); // Arriba
-            laberinto.explotarEn(x, y + i); // Abajo
+            laberinto.eztandaPos(x - i, y); // Izquierda
+            laberinto.eztandaPos(x + i, y); // Derecha
+            laberinto.eztandaPos(x, y - i); // Arriba
+            laberinto.eztandaPos(x, y + i); // Abajo
         }
 
-        // La explosión dura un par de segundos
+        // Eztanda 2s
         try {
             Thread.sleep(duracionExplosion * 1000);
         } catch (InterruptedException e) {
@@ -50,12 +50,12 @@ public abstract class Bomba {
         }
     }
 
-    // Iniciar la cuenta regresiva para la explosión
-    public void iniciarCuentaRegresiva() {
+    // Eztandarako countdown 3s
+    public void countdownHasi() {
         new Thread(() -> {
             try {
                 Thread.sleep(tiempoExplosion * 1000);
-                explotar();
+                eztanda();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

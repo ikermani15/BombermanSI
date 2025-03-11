@@ -59,17 +59,17 @@ public abstract class Laberinto extends Observable {
         notifyObservers(pos);
     }
     
-    // Destruir el bloque si es destructible
-    public void explotarEn(int x, int y) {
+    // Blokea ezabatu apurtu ahal bada
+    public void eztandaPos(int x, int y) {
         if (x < 0 || x >= getColumnas() || y < 0 || y >= getFilas()) {
-            return; // Si está fuera de los límites, no hacer nada
+            return; // Limiteen kanpo badago, ezer ez egin
         }
 
         Bloke bloke = getBloke(x, y);
-        if (bloke != null && bloke.esDestructible()) {
-            setBloke(x, y, null); // Destruir el bloque (eliminarlo)
+        if (bloke != null && bloke.apurtuDaiteke()) {
+            setBloke(x, y, null); // Blokea apurtu (ezabatu)
             setChanged();
-            notifyObservers(new int[]{x, y}); // Notificar a la vista
+            notifyObservers(new int[]{x, y}); // Bista notifikatu
             System.out.println("Bloke destruido en (" + x + ", " + y + ")");
         }
     }

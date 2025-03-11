@@ -71,24 +71,26 @@ public class LaberintoBista extends JFrame implements Observer, KeyListener {
 		} else if (arg instanceof int[]) {
 			int[] pos = (int[]) arg;
 
-			// Si el arreglo tiene 4 elementos, es un movimiento del Bomberman
+			// Argumentuak 4 elementu badi, mugimendua izango da
 			if (pos.length == 4) {
-				int lastX = pos[0], lastY = pos[1];
-				int newX = pos[2], newY = pos[3];
+				int lastX = pos[0], lastY = pos[1]; // Bomberman zegoen gelaxka posizioa
+				int newX = pos[2], newY = pos[3]; // Bomberman-aren posizio berria
 
 				// Aldatu behar diren gelaxkak soilik eguneratu
 				gamePanel.repaint(lastX * cellSize, lastY * cellSize, cellSize, cellSize);
 				gamePanel.repaint(newX * cellSize, newY * cellSize, cellSize, cellSize);
 			}
 
-			// Si el arreglo tiene 2 elementos, es una explosión de bomba
+			// 2 argumentu baditu, eztanda da
 			else if (pos.length == 2) {
 				int x = pos[0], y = pos[1];
-				gamePanel.repaint(x * cellSize, y * cellSize, cellSize, cellSize); // Se destruye el bloque
+				gamePanel.repaint(x * cellSize, y * cellSize, cellSize, cellSize); // Blokea berriz irudikatu posizio
+																					// horretan
 			}
 		}
 	}
 
+	// Kontrolatzaileak mugimendua kontrolatu
 	@Override
 	public void keyPressed(KeyEvent e) {
 		jk.teklaSakatu(e.getKeyCode());
