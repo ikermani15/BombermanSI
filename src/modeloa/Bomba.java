@@ -38,10 +38,10 @@ public abstract class Bomba extends Observable {
 
         // Radioaren arabera, alboko gelaxken eztanda
         for (int i = 1; i <= radio; i++) {
-            laberinto.eztandaPos(x - i, y); // Izquierda
-            laberinto.eztandaPos(x + i, y); // Derecha
-            laberinto.eztandaPos(x, y - i); // Arriba
-            laberinto.eztandaPos(x, y + i); // Abajo
+            laberinto.eztandaPos(x - i, y);
+            laberinto.eztandaPos(x + i, y);
+            laberinto.eztandaPos(x, y - i);
+            laberinto.eztandaPos(x, y + i);
         }
 
         // Eztanda 2s

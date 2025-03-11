@@ -13,7 +13,7 @@ public class EmptyLaberinto extends Laberinto {
 	public void laberintoaChanged() {
 	    for (int i = 0; i < getFilas(); i++) {
 	        for (int j = 0; j < getColumnas(); j++) {
-	            laberinto[i][j] = null; // Todo vacío
+	            laberinto[i][j] = null; // Dena hutsa
 	        }
 	    }
 	}

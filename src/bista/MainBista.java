@@ -21,7 +21,7 @@ public class MainBista extends JFrame {
 
 	public MainBista() {
 
-		// Leihoaren definitu
+		// Leihoa definitu
 		setTitle("Bomberman - Menu");
 		setSize(400, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,7 +65,6 @@ public class MainBista extends JFrame {
 		jokoaHasiBtn.setBounds(125, 180, 150, 30);
 		fondoLabel.add(jokoaHasiBtn);
 
-		// Kontrolatzailea
 		// Klik egitearen akzioa
 		jokoaHasiBtn.addActionListener(new ActionListener() {
 			@Override

@@ -13,16 +13,6 @@ public abstract class Laberinto extends Observable {
 
     public Laberinto() {
         this.laberinto = new Bloke[getFilas()][getColumnas()];
-        laberintoaHasieratu();
-    }
-
-    // Matrizea hasieratu bide hutsekin
-    private void laberintoaHasieratu() {
-        for (int i = 0; i < getFilas(); i++) {
-            for (int j = 0; j < getColumnas(); j++) {
-                laberinto[i][j] = null;  // Bide hutsa
-            }
-        }
     }
 
     // Subklaseak inplementatuko dute
@@ -31,7 +21,6 @@ public abstract class Laberinto extends Observable {
     	notifyObservers("sortu");
     }
 
-    // Blokea lortu
     public Bloke getBloke(int x, int y) {
         return laberinto[y][x];
     }
@@ -56,7 +45,7 @@ public abstract class Laberinto extends Observable {
         if (bloke != null && bloke.apurtuDaiteke()) {
         	bloke.apurtu(); // Blokea apurtu dela notifikatu bistari
             laberinto[y][x] = null; // Blokea ezabatu
-            System.out.println("Bloke apurtua pos (" + x + ", " + y + ")");
+            System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
         }
     }
 

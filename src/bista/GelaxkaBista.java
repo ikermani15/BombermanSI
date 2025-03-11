@@ -14,7 +14,7 @@ public class GelaxkaBista extends JLabel implements Observer {
 		this.bloke = bloke;
 		eguneratuIrudia(); // Irudia kargatu
 
-		// GelaxkaBista Bloke-ren Observer-a izango da
+		// GelaxkaBista Blokearen Observer-a izango da
 		if (bloke != null) {
 			bloke.addObserver(this);
 		}
@@ -32,9 +32,14 @@ public class GelaxkaBista extends JLabel implements Observer {
 	// Gelaxketan gertatzen diren aldaketak
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof Bloke && "apurtu".equals(arg)) {
-			this.bloke = null; // Blokea ezabatu
-			eguneratuIrudia(); // Blokearen irudia eguneratu
+		if (arg instanceof String) {
+			String evento = (String) arg;
+
+			switch (evento) {
+			case "apurtu":
+				this.bloke = null; // Blokea ezabatu
+				eguneratuIrudia(); // Blokearen irudia eguneratu
+			}
 		}
 	}
 }
