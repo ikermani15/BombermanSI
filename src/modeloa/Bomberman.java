@@ -1,16 +1,16 @@
 package modeloa;
 
 import java.awt.*;
-import java.util.Observable;
 
 import javax.swing.ImageIcon;
 
-public abstract class Bomberman extends Observable{
+public abstract class Bomberman {
     private int x, y; // Matrizeko posizioa
+    private int lastX, lastY;
+
     private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
     private int cantidadBombas; // Bomba kop
     private int radioExplosion; // Bomba eztanda radioa
-    protected Image imagen; // Bomberman irudia
     protected Laberinto laberinto; // Laberinto erreferentzia talka lortzeko
     protected ImageIcon bombermanIrudia;
 
@@ -26,10 +26,18 @@ public abstract class Bomberman extends Observable{
     }
 
     // Mugimendu metodoak, talka konprobatuz
-    public void mugituGora() { mugituPosible(x, y - 1); }
-    public void mugituBehera() { mugituPosible(x, y + 1); }
-    public void mugituEzkerra() { mugituPosible(x - 1, y); }
-    public void mugituEskuma() { mugituPosible(x + 1, y); }
+    public void mugituGora() { 
+    	mugituPosible(x, y - 1); 
+    }
+    public void mugituBehera() { 
+    	mugituPosible(x, y + 1); 
+    }
+    public void mugituEzkerra() { 
+    	mugituPosible(x - 1, y); 
+    }
+    public void mugituEskuma() { 
+    	mugituPosible(x + 1, y); 
+    }
     
     // Mugitu al den konprobatu
     private void mugituPosible(int newX, int newY) {
@@ -43,28 +51,39 @@ public abstract class Bomberman extends Observable{
 
                 // Gelaxka hutsa bada, mugitu posible
                 if (bloke == null) {
+                	lastX = x;
+                	lastY = y;
                     this.x = newX;
                     this.y = newY;
-
-                    setChanged();
-                    notifyObservers("mugitu");
+                    
+                    // Observable-ari deitu bista eguneratu dadin
+                    laberinto.mugituBomber(new int[]{lastX, lastY, x, y});
                 }
             }
         }
     }
-    public void colocarBomba() {
-        System.out.println("Bomberman colocó una bomba en (" + x + ", " + y + ")");
-        Bomba bomba = new DefaultBomba(x, y, laberinto);
-        bomba.iniciarCuentaRegresiva(); // La bomba explotará después de unos segundos
+
+    // Bomba jartzeko
+    public void bombaJarri() {
+        if (cantidadBombas > 0) {
+            System.out.println("Bomberman colocó una bomba en (" + x + ", " + y + ")");
+            Bomba bomba = new DefaultBomba(x, y, laberinto);
+            bomba.iniciarCuentaRegresiva();
+            cantidadBombas--;
+        }
     }
 
     public ImageIcon getIrudia() {
         return bombermanIrudia;
     }
     
-    // Posizioa pixeletan lortu
-    public int getXPixel() { return x * cellSize; }
-    public int getYPixel() { return y * cellSize; }
+    // Posizioa lortu
+    public int getXPixel() { 
+    	return x * cellSize; 
+    }
+    public int getYPixel() { 
+    	return y * cellSize; 
+    }
 
     public int getCantidadBombas() {
         return cantidadBombas;

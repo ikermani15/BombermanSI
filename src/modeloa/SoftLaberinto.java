@@ -10,7 +10,7 @@ public class SoftLaberinto extends Laberinto {
     }
 	
 	@Override
-	public void laberintoaSortu() {
+	public void laberintoaChanged() {
 	    Random rand = new Random();
 	    int etsaiKop = 0;
 

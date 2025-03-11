@@ -3,7 +3,6 @@ package bista;
 import javax.swing.*;
 
 import kontrolatzailea.JokoaKontrolatzaile;
-import modeloa.Jokoa;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,10 +16,10 @@ public class MainBista extends JFrame {
 	private JButton jokoaHasiBtn;
 	private JLabel fondoLabel;
 
-	private JokoaKontrolatzaile jokoaK;
+	private JokoaKontrolatzaile jk;
 
-	public MainBista(JokoaKontrolatzaile jokoaK) {
-		this.jokoaK = jokoaK;
+	public MainBista(JokoaKontrolatzaile jk) {
+		this.jk = jk;
 
 		// Leihoaren definitu
 		setTitle("Bomberman - Menu");
@@ -75,7 +74,7 @@ public class MainBista extends JFrame {
 				String bombermanMota = (String) bombermanComboBox.getSelectedItem();
 
 				// Jokoa hasieratu laberinto eta bomberman mota pasata
-				jokoaK.hasiJokoa(laberintoMota, bombermanMota);
+				jk.hasiJokoa(laberintoMota, bombermanMota);
 
 				dispose(); // Menua itxi
 			}

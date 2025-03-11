@@ -26,7 +26,7 @@ public abstract class Laberinto extends Observable {
     }
 
     // Subklaseak inplementatuko dute
-    public void laberintoaSortu() {
+    public void laberintoaChanged() {
     	setChanged();
     	notifyObservers("laberinto");
     }
@@ -39,31 +39,39 @@ public abstract class Laberinto extends Observable {
     // Blokea ezarri eta bista notifikatu
     public void setBloke(int x, int y, Bloke bloke) {
         laberinto[y][x] = bloke;
-        if(bloke != null) {
-        	bloke.aldatu();
-        }
-    }
-    
-    public void explotarEn(int x, int y) {
-        // Verificar que la explosión no salga fuera del laberinto
-        if (x < 0 || x >= getColumnas() || y < 0 || y >= getFilas()) {
-            return;
-        }
-
-        // Obtener el bloque en la celda
-        Bloke bloke = getBloke(x, y);
-
-        if (bloke != null && bloke.esDestructible()) { 
-            setBloke(x, y, null);
-            setChanged();
-            notifyObservers(new int[]{x, y});
-            System.out.println("BlokeBiguna destruido en (" + x + ", " + y + ")");
-        }
+        setChanged();
+        notifyObservers("laberinto");
     }
 
     public ImageIcon getFondo() {
     	return fondo;
     }
-    public int getColumnas() { return zutabe; }
-    public int getFilas() { return ilara; }
+    public int getColumnas() { 
+    	return zutabe; 
+    }
+    public int getFilas() {
+    	return ilara;
+    }
+    
+    //Bomberman mugitzen bada
+    public void mugituBomber(int[] pos) {
+        setChanged();
+        notifyObservers(pos);
+    }
+    
+    // Destruir el bloque si es destructible
+    public void explotarEn(int x, int y) {
+        if (x < 0 || x >= getColumnas() || y < 0 || y >= getFilas()) {
+            return; // Si está fuera de los límites, no hacer nada
+        }
+
+        Bloke bloke = getBloke(x, y);
+        if (bloke != null && bloke.esDestructible()) {
+            setBloke(x, y, null); // Destruir el bloque (eliminarlo)
+            setChanged();
+            notifyObservers(new int[]{x, y}); // Notificar a la vista
+            System.out.println("Bloke destruido en (" + x + ", " + y + ")");
+        }
+    }
+
 }

@@ -1,10 +1,8 @@
 package modeloa;
 
 import javax.swing.ImageIcon;
-import java.util.Observable;
-import java.util.Random;
 
-public abstract class Bloke extends Observable {
+public abstract class Bloke {
     protected int x, y;
     protected ImageIcon blokeIrudia;
 
@@ -17,12 +15,6 @@ public abstract class Bloke extends Observable {
     public int getX() { return x; }
     public int getY() { return y; }
     public ImageIcon getBlokeIrudia() { return blokeIrudia; }
-
-    // Bista eguneratu
-    public void aldatu() {
-        setChanged();
-        notifyObservers();
-    }
 
     public boolean esDestructible() {
         return false;
