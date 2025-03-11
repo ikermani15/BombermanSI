@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 
 public abstract class Bomberman extends Observable {
     private int x, y; // Matrizeko posizioa
-
     private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
     private int bombaKop; // Bomba kop
     private int radioExplosion; // Bomba eztanda radioa
@@ -64,7 +63,7 @@ public abstract class Bomberman extends Observable {
     // Bomba jartzeko
     public void bombaJarri() {
         if (bombaKop > 0) {
-            System.out.println("Bomberman bomba ezarri du pos (" + x + ", " + y + ")");
+            System.out.println("Bomberman bomba ezarri du pos (" + y + ", " + x + ")");
             Bomba bomba = new DefaultBomba(x, y, laberinto);
             bomba.countdownHasi();
             bombaKop--;
@@ -83,7 +82,7 @@ public abstract class Bomberman extends Observable {
     	return this.y * cellSize; 
     }
 
-    public int getCantidadBombas() {
+    public int getBombaKop() {
         return bombaKop;
     }
 

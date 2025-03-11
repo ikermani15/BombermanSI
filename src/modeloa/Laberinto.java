@@ -24,6 +24,10 @@ public abstract class Laberinto extends Observable {
     public Bloke getBloke(int x, int y) {
         return laberinto[y][x];
     }
+    
+    public void setBloke(int x, int y, Bloke bloke) {
+        laberinto[y][x] = bloke;
+    }
 
     public ImageIcon getFondo() {
     	return fondo;
@@ -33,20 +37,6 @@ public abstract class Laberinto extends Observable {
     }
     public int getFilas() {
     	return ilara;
-    }
-    
-    // Blokea ezabatu apurtu ahal bada
-    public void eztandaPos(int x, int y) {
-        if (x < 0 || x >= getColumnas() || y < 0 || y >= getFilas()) {
-            return; // Limiteen kanpo badago, ezer ez egin
-        }
-
-        Bloke bloke = getBloke(x, y);
-        if (bloke != null && bloke.apurtuDaiteke()) {
-        	bloke.apurtu(); // Blokea apurtu dela notifikatu bistari
-            laberinto[y][x] = null; // Blokea ezabatu
-            System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
-        }
     }
 
 }

@@ -10,38 +10,32 @@ public abstract class Bomba extends Observable {
     protected int tiempoExplosion = 3; // Segundos antes de explotar
     protected int duracionExplosion = 2; // Segundos que dura la explosión
     protected Laberinto laberinto;
-    protected ImageIcon bombaImage;
-    protected ImageIcon expImage;
 
     public Bomba(int x, int y, int radio, Laberinto laberinto) {
         this.x = x;
         this.y = y;
         this.radio = radio;
         this.laberinto = laberinto;
-        this.bombaImage = new ImageIcon(getClass().getResource("/img/bomb1.png"));
-        this.expImage = new ImageIcon(getClass().getResource("/img/kaBomb3.png"));
     }
 
     // Get-errak
     public int getX() { return x; }
     public int getY() { return y; }
     public int getRadio() { return radio; }
-    public ImageIcon getBombaImagen() { return bombaImage; }
-    public ImageIcon getExpImagen() { return expImage; }
 
     // Eztanda metodoa, bomba bakoitzak bere radioa izango du
     public void eztanda() {
-        System.out.println("Eztanda pos (" + x + ", " + y + ")");
+        System.out.println("Eztanda pos (" + y + ", " + x + ")");
 
         // Uneko gelaxkan eztanda
-        laberinto.eztandaPos(x, y);
+        eztandaPos(x, y);
 
         // Radioaren arabera, alboko gelaxken eztanda
         for (int i = 1; i <= radio; i++) {
-            laberinto.eztandaPos(x - i, y);
-            laberinto.eztandaPos(x + i, y);
-            laberinto.eztandaPos(x, y - i);
-            laberinto.eztandaPos(x, y + i);
+            eztandaPos(x - i, y);
+            eztandaPos(x + i, y);
+            eztandaPos(x, y - i);
+            eztandaPos(x, y + i);
         }
 
         // Eztanda 2s
@@ -49,6 +43,24 @@ public abstract class Bomba extends Observable {
             Thread.sleep(duracionExplosion * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        
+
+        setChanged();
+        notifyObservers("eztanda");
+    }
+    
+ // Blokea ezabatu apurtu ahal bada
+    public void eztandaPos(int x, int y) {
+        if (x < 0 || x >= laberinto.getColumnas() || y < 0 || y >= laberinto.getFilas()) {
+            return; // Limiteen kanpo badago, ezer ez egin
+        }
+
+        Bloke bloke = laberinto.getBloke(x, y);
+        if (bloke != null && bloke.apurtuDaiteke()) {
+        	bloke.apurtu(); // Blokea apurtu dela notifikatu bistari
+            laberinto.setBloke(x, y, null); // Blokea ezabatu
+            System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
         }
     }
 
