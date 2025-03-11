@@ -1,8 +1,10 @@
 package modeloa;
 
+import java.util.Observable;
+
 import javax.swing.ImageIcon;
 
-public abstract class Bloke {
+public abstract class Bloke extends Observable {
     protected int x, y;
     protected ImageIcon blokeIrudia;
 
@@ -20,4 +22,11 @@ public abstract class Bloke {
     public boolean apurtuDaiteke() {
         return false;
     }
+    
+    // Gelaxka apurtzen bada, bista notifikatu
+    public void apurtu() {
+        setChanged();
+        notifyObservers("apurtu");
+    }
+
 }

@@ -28,19 +28,12 @@ public abstract class Laberinto extends Observable {
     // Subklaseak inplementatuko dute
     public void laberintoaChanged() {
     	setChanged();
-    	notifyObservers("laberinto");
+    	notifyObservers("sortu");
     }
 
     // Blokea lortu
     public Bloke getBloke(int x, int y) {
         return laberinto[y][x];
-    }
-
-    // Blokea ezarri eta bista notifikatu
-    public void setBloke(int x, int y, Bloke bloke) {
-        laberinto[y][x] = bloke;
-        setChanged();
-        notifyObservers("laberinto");
     }
 
     public ImageIcon getFondo() {
@@ -53,12 +46,6 @@ public abstract class Laberinto extends Observable {
     	return ilara;
     }
     
-    //Bomberman mugitzen bada
-    public void mugituBomber(int[] pos) {
-        setChanged();
-        notifyObservers(pos);
-    }
-    
     // Blokea ezabatu apurtu ahal bada
     public void eztandaPos(int x, int y) {
         if (x < 0 || x >= getColumnas() || y < 0 || y >= getFilas()) {
@@ -67,10 +54,9 @@ public abstract class Laberinto extends Observable {
 
         Bloke bloke = getBloke(x, y);
         if (bloke != null && bloke.apurtuDaiteke()) {
-            setBloke(x, y, null); // Blokea apurtu (ezabatu)
-            setChanged();
-            notifyObservers(new int[]{x, y}); // Bista notifikatu
-            System.out.println("Bloke destruido en (" + x + ", " + y + ")");
+        	bloke.apurtu(); // Blokea apurtu dela notifikatu bistari
+            laberinto[y][x] = null; // Blokea ezabatu
+            System.out.println("Bloke apurtua pos (" + x + ", " + y + ")");
         }
     }
 

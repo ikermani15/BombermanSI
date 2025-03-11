@@ -1,8 +1,10 @@
 package modeloa;
 
+import java.util.Observable;
+
 import javax.swing.ImageIcon;
 
-public abstract class Bomba {
+public abstract class Bomba extends Observable {
     protected int x, y;
     protected int radio;
     protected int tiempoExplosion = 3; // Segundos antes de explotar

@@ -2,7 +2,7 @@ package bista;
 
 import javax.swing.*;
 
-import kontrolatzailea.JokoaKontrolatzaile;
+import modeloa.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,11 +15,11 @@ public class MainBista extends JFrame {
 	private JComboBox<String> bombermanComboBox;
 	private JButton jokoaHasiBtn;
 	private JLabel fondoLabel;
+	private LaberintoBista laberintoBista;
+	private Laberinto laberinto;
+	private Bomberman bomberman;
 
-	private JokoaKontrolatzaile jk;
-
-	public MainBista(JokoaKontrolatzaile jk) {
-		this.jk = jk;
+	public MainBista() {
 
 		// Leihoaren definitu
 		setTitle("Bomberman - Menu");
@@ -73,10 +73,14 @@ public class MainBista extends JFrame {
 				String laberintoMota = (String) laberintoComboBox.getSelectedItem();
 				String bombermanMota = (String) bombermanComboBox.getSelectedItem();
 
-				// Jokoa hasieratu laberinto eta bomberman mota pasata
-				jk.hasiJokoa(laberintoMota, bombermanMota);
+				laberinto = sortuLaberintoa(laberintoMota);
+				laberinto.laberintoaChanged();
+				bomberman = sortuBomberman(bombermanMota);
+				bomberman.setLaberinto(laberinto);
 
-				dispose(); // Menua itxi
+				laberintoBista = new LaberintoBista(laberinto, bomberman);
+
+				dispose();
 			}
 		});
 
@@ -90,6 +94,22 @@ public class MainBista extends JFrame {
 		});
 
 		setVisible(true);
+	}
+
+	private Laberinto sortuLaberintoa(String mota) {
+		if ("Classic".equals(mota)) {
+			return new ClassicLaberinto();
+		} else if ("Soft".equals(mota)) {
+			return new SoftLaberinto();
+		} else if ("Empty".equals(mota)) {
+			return new EmptyLaberinto();
+		} else {
+			throw new IllegalArgumentException("Laberinto mota ez da zuzena.");
+		}
+	}
+
+	private Bomberman sortuBomberman(String mota) {
+		return mota.equals("White") ? new WhiteBomber() : new BlackBomber();
 	}
 
 }

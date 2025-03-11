@@ -1,12 +1,12 @@
 package modeloa;
 
 import java.awt.*;
+import java.util.Observable;
 
 import javax.swing.ImageIcon;
 
-public abstract class Bomberman {
+public abstract class Bomberman extends Observable {
     private int x, y; // Matrizeko posizioa
-    private int lastX, lastY;
 
     private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
     private int bombaKop; // Bomba kop
@@ -51,13 +51,11 @@ public abstract class Bomberman {
 
                 // Gelaxka hutsa bada, mugitu posible
                 if (bloke == null) {
-                	lastX = x;
-                	lastY = y;
                     this.x = newX;
                     this.y = newY;
                     
-                    // Observable-ari deitu bista eguneratu dadin
-                    laberinto.mugituBomber(new int[]{lastX, lastY, x, y});
+                    setChanged();
+                    notifyObservers("mugitu");
                 }
             }
         }
@@ -79,10 +77,10 @@ public abstract class Bomberman {
     
     // Posizioa lortu
     public int getXPixel() { 
-    	return x * cellSize; 
+    	return this.x * cellSize; 
     }
     public int getYPixel() { 
-    	return y * cellSize; 
+    	return this.y * cellSize; 
     }
 
     public int getCantidadBombas() {

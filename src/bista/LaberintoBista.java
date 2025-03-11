@@ -1,133 +1,126 @@
 package bista;
 
 import javax.swing.*;
-
-import kontrolatzailea.JokoaKontrolatzaile;
 import modeloa.*;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class LaberintoBista extends JFrame implements Observer, KeyListener {
+public class LaberintoBista extends JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
 	private Laberinto laberinto;
 	private Bomberman bomberman;
 	private final int cellSize = 40;
-
-	private JokoaKontrolatzaile jk;
-
 	private Image fondo;
 	private Image bombermanImage;
 
-	private GamePanel gamePanel;
+	private JPanel laberintoPanel; // Panel principal que contendrá las celdas
+	private Kontrolatzaile kontrolatzaile; // Para manejar las entradas de teclado
 
-	public LaberintoBista(Laberinto laberinto, Bomberman bomberman, JokoaKontrolatzaile jk) {
+	public LaberintoBista(Laberinto laberinto, Bomberman bomberman) {
 		this.laberinto = laberinto;
 		this.bomberman = bomberman;
-		this.jk = jk;
 
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 
-		// Fondoa lortu
+		// Cargar fondo
 		fondo = laberinto.getFondo().getImage();
 
-		// Bomberman irudia lortu
+		// Cargar imagen de Bomberman
 		bombermanImage = bomberman.getIrudia().getImage();
 
-		// Jokoaren panela sortu
-		gamePanel = new GamePanel();
-		gamePanel.setPreferredSize(new Dimension(laberinto.getColumnas() * cellSize, laberinto.getFilas() * cellSize));
+		// Crear el panel de celdas del laberinto
+		laberintoPanel = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
 
-		gamePanel.setFocusable(true);
-		gamePanel.addKeyListener(this);
-		add(gamePanel);
+				// Dibujar el fondo
+				g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+
+				// Dibujar Bomberman
+				g.drawImage(bombermanImage, bomberman.getXPixel(), bomberman.getYPixel(), cellSize, cellSize, this);
+			}
+		};
+		laberintoPanel.setLayout(new GridLayout(laberinto.getFilas(), laberinto.getColumnas()));
+
+		laberintoPanel
+				.setPreferredSize(new Dimension(laberinto.getColumnas() * cellSize, laberinto.getFilas() * cellSize));
+
+		// GelaxkaBista Observer bat sortu laberintoak duen bloke bakoitzerako
+		for (int i = 0; i < laberinto.getFilas(); i++) {
+			for (int j = 0; j < laberinto.getColumnas(); j++) {
+				Bloke bloke = laberinto.getBloke(j, i);
+				GelaxkaBista gelaxka = new GelaxkaBista(bloke);
+				laberintoPanel.add(gelaxka);
+			}
+		}
+
+		// Configurar la ventana
+		add(laberintoPanel, BorderLayout.CENTER);
+
+		// Configurar el panel de control
+		this.kontrolatzaile = new Kontrolatzaile();
+		laberintoPanel.setFocusable(true);
+		laberintoPanel.addKeyListener(kontrolatzaile);
+
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
 
-		// Observer-a ezarri
+		// Registrar la vista como observador de Laberinto y Bomberman
 		laberinto.addObserver(this);
+		bomberman.addObserver(this);
 	}
 
-	// Observer-etan aldaketak egonez gero, aldatu bista
 	@Override
 	public void update(Observable o, Object arg) {
-		// Laberintoa sortzean blokeak ezarri
 		if (arg instanceof String) {
-			String event = (String) arg;
+			String evento = (String) arg;
 
-			switch (event) {
-			case "laberinto":
-				gamePanel.repaint(); // Laberintoa sortzean irudikatu
+			switch (evento) {
+			case "sortu":
+			case "mugitu":
+			case "bomba":
+				laberintoPanel.repaint(); // Solo repinta lo necesario
 				break;
-			}
-
-			// Bomberman mugitu bada edo bomba ezarri bada
-		} else if (arg instanceof int[]) {
-			int[] pos = (int[]) arg;
-
-			// Argumentuak 4 elementu badi, mugimendua izango da
-			if (pos.length == 4) {
-				int lastX = pos[0], lastY = pos[1]; // Bomberman zegoen gelaxka posizioa
-				int newX = pos[2], newY = pos[3]; // Bomberman-aren posizio berria
-
-				// Aldatu behar diren gelaxkak soilik eguneratu
-				gamePanel.repaint(lastX * cellSize, lastY * cellSize, cellSize, cellSize);
-				gamePanel.repaint(newX * cellSize, newY * cellSize, cellSize, cellSize);
-			}
-
-			// 2 argumentu baditu, eztanda da
-			else if (pos.length == 2) {
-				int x = pos[0], y = pos[1];
-				gamePanel.repaint(x * cellSize, y * cellSize, cellSize, cellSize); // Blokea berriz irudikatu posizio
-																					// horretan
 			}
 		}
 	}
 
-	// Kontrolatzaileak mugimendua kontrolatu
-	@Override
-	public void keyPressed(KeyEvent e) {
-		jk.teklaSakatu(e.getKeyCode());
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-	}
-
-	// Fondoa, laberinto blokeak eta Bomberman irudikatzen du
-	private class GamePanel extends JPanel {
-		private static final long serialVersionUID = 1L;
+	// Clase interna para manejar las entradas del teclado
+	private class Kontrolatzaile implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_UP:
+				bomberman.mugituGora();
+				break;
+			case KeyEvent.VK_DOWN:
+				bomberman.mugituBehera();
+				break;
+			case KeyEvent.VK_LEFT:
+				bomberman.mugituEzkerra();
+				break;
+			case KeyEvent.VK_RIGHT:
+				bomberman.mugituEskuma();
+				break;
+			case KeyEvent.VK_SPACE:
+				bomberman.bombaJarri();
+				break;
+			}
+		}
 
 		@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
+		public void keyTyped(KeyEvent e) {
+		}
 
-			// Fondoa ezarri
-			g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
-
-			// Blokeak irudikatu
-			for (int i = 0; i < laberinto.getFilas(); i++) {
-				for (int j = 0; j < laberinto.getColumnas(); j++) {
-					Bloke bloke = laberinto.getBloke(j, i);
-					if (bloke != null) {
-						g.drawImage(bloke.getBlokeIrudia().getImage(), j * cellSize, i * cellSize, cellSize, cellSize,
-								this);
-					}
-				}
-			}
-
-			// Bomberman irudikatu posizioan
-			g.drawImage(bombermanImage, bomberman.getXPixel(), bomberman.getYPixel(), cellSize, cellSize, this);
+		@Override
+		public void keyReleased(KeyEvent e) {
 		}
 	}
 }
