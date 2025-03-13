@@ -11,6 +11,8 @@ public abstract class Bomberman {
     private int radioExplosion; // Bomba eztanda radioa
     protected Laberinto laberinto; // Laberinto erreferentzia talka lortzeko
     protected ImageIcon bombermanIrudia;
+    protected int denbRegenBomba = 3; // Bombak erregeneratzeko denbora
+    private boolean regenBomba = false;
 
     public Bomberman(int bombaKop, int radioExplosion, String tipo) {
         this.x = 0; // (0, 0)-n hasieratu
@@ -85,7 +87,36 @@ public abstract class Bomberman {
             unekoa.gehituBomba(bomba);
             
             bombaKop--;
+            
+         // Bombarik ez baditu eta ez dago erregeneratzen, timer-a hasi 3 segundo ondoren bomba bat gehitzeko
+        } else if (bombaKop == 0 && !regenAktibo()) {
+        	bombaRegeneratu();            
         }
+    }
+    
+    // Bombak gehitzeko behin amaituta
+    private void bombaRegeneratu() {
+    	regenBomba = true;
+    	
+    	new Thread(() -> {
+            try {
+                System.out.println("Bomba regeneratzen...");
+                // 3 segundo itxaron
+                Thread.sleep(denbRegenBomba * 1000);
+                bombaKop++;  // Bomba gehitu
+                System.out.println("Bomba bat erregeneratu da, oraingo kopurua: " + bombaKop);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+            	regenBomba = false; // Berriro bomba gabe gelditzen bada, berriro gehitu ahal izateko
+            }
+            
+        }).start();
+    }
+    
+    // Bombak erregeneratzen dagoen konprobatu
+    public boolean regenAktibo() {
+        return regenBomba;
     }
 
     public ImageIcon getIrudia() {
