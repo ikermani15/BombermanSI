@@ -7,31 +7,28 @@ import javax.swing.ImageIcon;
 public class ClassicLaberinto extends Laberinto {
 	public ClassicLaberinto() {
         fondo = new ImageIcon(getClass().getResource("/img/stageBack1.png"));
+        laberintoaSortu();
     }
 	
-	@Override
-	public void laberintoaChanged() {
+	private void laberintoaSortu() {
 	    Random rand = new Random();
 	    int etsaiKop = 0;
 
 	    for (int i = 0; i < getFilas(); i++) {
-	        for (int j = 0; j < getColumnas(); j++) {
-	        	// Hasierako blokeak hutsak
-	            if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1)) {
-	                laberinto[i][j] = null;
-	            } else {
-	                int prob = rand.nextInt(100);
+            for (int j = 0; j < getColumnas(); j++) {
+                Bloke bloke = null;
 
-	                if (i % 2 != 0 && j % 2 != 0) {
-	                    laberinto[i][j] = new BlokeGogorra(j, i);  // BlokeGogorrak bakoiti posizioetan
-	                } else if (prob > 40) {
-	                    laberinto[i][j] = new BlokeBiguna(j, i);  // BlokeBigunak ezarri
-	                } else {
-	                    laberinto[i][j] = null; // Bidea
-	                }
-	            }
-	        }
-	    }
+                if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1)) {
+                    bloke = null; // Hasierako gelaxkak hutsak
+                } else if (i % 2 != 0 && j % 2 != 0) {
+                    bloke = new BlokeGogorra(j, i); // BlokeGogorrak posizio bakoitietan
+                } else if (rand.nextInt(100) > 40) {
+                    bloke = new BlokeBiguna(j, i); // BlokeBigunak
+                }
+
+                gelaxka[i][j] = new Gelaxka(j, i, bloke);
+            }
+        }
 	}
 
 }

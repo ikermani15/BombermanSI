@@ -7,13 +7,13 @@ import javax.swing.ImageIcon;
 public class EmptyLaberinto extends Laberinto {
 	public EmptyLaberinto() {
         fondo = new ImageIcon(getClass().getResource("/img/stageBack2.png"));
+        laberintoaSortu();
     }
 	
-	@Override
-	public void laberintoaChanged() {
+	private void laberintoaSortu() {
 	    for (int i = 0; i < getFilas(); i++) {
 	        for (int j = 0; j < getColumnas(); j++) {
-	            laberinto[i][j] = null; // Dena hutsa
+	        	gelaxka[i][j] = new Gelaxka(j, i, null); // Dena hutsik
 	        }
 	    }
 	}

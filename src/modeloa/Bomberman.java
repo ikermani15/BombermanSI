@@ -1,11 +1,10 @@
 package modeloa;
 
 import java.awt.*;
-import java.util.Observable;
 
 import javax.swing.ImageIcon;
 
-public abstract class Bomberman extends Observable {
+public abstract class Bomberman {
     private int x, y; // Matrizeko posizioa
     private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
     private int bombaKop; // Bomba kop
@@ -18,6 +17,20 @@ public abstract class Bomberman extends Observable {
         this.y = 0;
         this.bombaKop = bombaKop;
         this.radioExplosion = radioExplosion;
+    }
+    
+    public static Bomberman sortuBomberman(String mota, Laberinto laberinto) {
+    	Bomberman bomber;
+        if ("White".equals(mota)) {
+            bomber =  new WhiteBomber();
+        } else if ("Black".equals(mota)) {
+            bomber =  new BlackBomber();
+        } else {
+            throw new IllegalArgumentException("Bomberman mota ez da zuzena.");
+        }
+        
+        bomber.setLaberinto(laberinto);
+        return bomber;
     }
     
     public void setLaberinto(Laberinto laberinto) {
@@ -46,15 +59,14 @@ public abstract class Bomberman extends Observable {
 
             // Limiteen barruan dagoen konprobatu (matrize barruan)
             if (newX >= 0 && newX < columnas && newY >= 0 && newY < filas) {
-                Bloke bloke = laberinto.getBloke(newX, newY);
+                Gelaxka unekoa = laberinto.getGelaxka(x, y);
+                Gelaxka berria = laberinto.getGelaxka(newX, newY);
 
-                // Gelaxka hutsa bada, mugitu posible
-                if (bloke == null) {
+                if (berria.hutsikDago()) { 
+                    unekoa.kenduBomberman(); // Bomberman zaharra kendu
                     this.x = newX;
                     this.y = newY;
-                    
-                    setChanged();
-                    notifyObservers("mugitu");
+                    berria.gehituBomberman(this); // Bomberman berria ezarri
                 }
             }
         }
@@ -66,6 +78,10 @@ public abstract class Bomberman extends Observable {
             System.out.println("Bomberman bomba ezarri du pos (" + y + ", " + x + ")");
             Bomba bomba = new DefaultBomba(x, y, laberinto);
             bomba.countdownHasi();
+            
+            Gelaxka unekoa = laberinto.getGelaxka(x, y);
+            unekoa.gehituBomba(bomba);
+            
             bombaKop--;
         }
     }

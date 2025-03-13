@@ -1,9 +1,8 @@
 package modeloa;
 
-import java.util.Observable;
 import java.util.Random;
 
-public class Etsaia extends Observable {
+public class Etsaia {
     private int x, y; // Posición en la cuadrícula
     private String imagenSeleccionada; // Ahora guardamos la ruta de la imagen seleccionada
     private final int cellSize = 40; // Tamaño de cada celda

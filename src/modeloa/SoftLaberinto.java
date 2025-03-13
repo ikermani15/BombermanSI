@@ -7,26 +7,29 @@ import javax.swing.ImageIcon;
 public class SoftLaberinto extends Laberinto {
 	public SoftLaberinto() {
         fondo = new ImageIcon(getClass().getResource("/img/stageBack3.png"));
+        laberintoaSortu();
     }
 	
-	@Override
-	public void laberintoaChanged() {
+	private void laberintoaSortu() {
 	    Random rand = new Random();
 	    int etsaiKop = 0;
 
 	    for (int i = 0; i < getFilas(); i++) {
 	        for (int j = 0; j < getColumnas(); j++) {
+	        	Bloke bloke = null;
 	            if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1)) {
-	                laberinto[i][j] = null;
+	                bloke = null; // Hasierako pos hutsik
 	            } else {
 	                int prob = rand.nextInt(100);
 
 	                if (prob > 40) {
-	                    laberinto[i][j] = new BlokeBiguna(j, i);
+	                    bloke = new BlokeBiguna(j, i);
 	                } else {
-	                    laberinto[i][j] = null;
+	                    bloke = null;
 	                }
 	            }
+	            
+	            gelaxka[i][j] = new Gelaxka(j, i, bloke);
 	        }
 	    }
 	}

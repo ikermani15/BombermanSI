@@ -1,32 +1,42 @@
 package bista;
 
+import java.awt.Dimension;
+import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.*;
-import modeloa.Bloke;
+import modeloa.Gelaxka;
 
 public class GelaxkaBista extends JLabel implements Observer {
 	private static final long serialVersionUID = 1L;
-	private Bloke bloke;
-	private boolean sutan = false;
+	private Gelaxka gelaxka;
+	private Timer bombaTimer;
+	private static final int cellSize = 40;
 
-	public GelaxkaBista(Bloke bloke) {
-		this.bloke = bloke;
-		eguneratuIrudia(); // Irudia kargatu
+	public GelaxkaBista(Gelaxka gelaxka) {
+		this.gelaxka = gelaxka;
+		setPreferredSize(new Dimension(cellSize, cellSize));
+		gelaxkaIrudi();
 
-		// GelaxkaBista Blokearen Observer-a izango da
-		if (bloke != null) {
-			bloke.addObserver(this);
-		}
+		// GelaxkaBista Gelaxka Observer-a izango da
+		gelaxka.addObserver(this);
 	}
 
-	// Blokeak eguneratzeko
-	private void eguneratuIrudia() {
-		if (bloke != null) {
-			setIcon(bloke.getBlokeIrudia()); // Blokearen irudia erabili
-		} else {
-			setIcon(null); // Gelaxka hutsa blokea apurtu baldin bada
+	// Gelaxka bakoitzari irudiak ezarri
+	private void gelaxkaIrudi() {
+		if (gelaxka != null) {
+			if (gelaxka.getBomberman() != null) { // Bomberman dago
+				ImageIcon bomberImg = gelaxka.getBomberman().getIrudia();
+				if (bomberImg != null) {
+					Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+					setIcon(new ImageIcon(img));
+				}
+			} else if (gelaxka.getBloke() != null) {
+				setIcon(gelaxka.getBloke().getBlokeIrudia()); // Blokearen irudia
+			} else {
+				setIcon(null); // Gelaxka hutsa
+			}
 		}
 	}
 
@@ -34,28 +44,62 @@ public class GelaxkaBista extends JLabel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
-			String evento = (String) arg;
+			String event = (String) arg;
 
-			switch (evento) {
-			case "apurtu":
-				this.bloke = null; // Blokea ezabatu
-				eguneratuIrudia(); // Blokearen irudia eguneratu
-				break;
-			case "eztanda":
-				suaIrudia();
-				break;
+			if (event.equals("mugitu")) {
+				System.out.println("Update mugitu!");
+				eguneratuBomberman();
+			} else if (event.equals("apurtu")) {
+				System.out.println("Update apurtu!");
+				apurtuBlokea();
+			} else if (event.equals("bomba")) {
+				System.out.println("Update bomba!");
+				bombaJarri();
 			}
 		}
 	}
 
-	private void suaIrudia() {
-		setIcon(new ImageIcon(getClass().getResource("/img/kaBomb3.png")));
-		sutan = true;
+	// Bomberman gelaxkan eguneratu
+	private void eguneratuBomberman() {
+		if (gelaxka != null && gelaxka.getBomberman() != null) {
+			ImageIcon bomberImg = gelaxka.getBomberman().getIrudia();
+			if (bomberImg != null) {
+				Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+				setIcon(new ImageIcon(img));
+			}
+			// Bomba baldin badago
+		} else if (gelaxka.getBomba() != null) {
+			ImageIcon bombaImg = gelaxka.getBomba().getBombaIrudia();
+			// Irudia ezarri
+			if (bombaImg != null) {
+				Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+				setIcon(new ImageIcon(img));
+			}
+		} else {
+			setIcon(null); // Gelaxka hutsa jartzeko
+		}
+	}
 
-		// 2 segundo ondoren amata
-		new Timer(2000, e -> {
-			sutan = false;
-			eguneratuIrudia();
-		}).start();
+	// Blokea apurtzean
+	private void apurtuBlokea() {
+		setIcon(null);
+	}
+
+	// Bomba jartzean
+	private void bombaJarri() {
+		if (gelaxka.getBomba() != null) { // Bomba badago
+			ImageIcon bombaImg = gelaxka.getBomba().getBombaIrudia();
+			if (bombaImg != null) {
+				Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+				setIcon(new ImageIcon(img));
+			}
+		}
+
+		// Bombako timer-a
+		Timer newTimer = new Timer(3000, e -> {
+			setIcon(null); // Bomba irudia kendu
+		});
+
+		newTimer.start();
 	}
 }

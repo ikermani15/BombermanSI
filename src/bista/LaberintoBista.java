@@ -14,14 +14,21 @@ public class LaberintoBista extends JFrame implements Observer {
 	private Bomberman bomberman;
 	private final int cellSize = 40;
 	private Image fondo;
-	private Image bombermanImage;
 
 	private JPanel laberintoPanel;
 	private Kontrolatzaile kontrolatzaile;
 
-	public LaberintoBista(Laberinto laberinto, Bomberman bomberman) {
-		this.laberinto = laberinto;
-		this.bomberman = bomberman;
+	public LaberintoBista(String laberintoMota, String bombermanMota) {
+		this.laberinto = Laberinto.sortuLaberintoa(laberintoMota);
+
+		// LaberintoBista modeloko Laberinto
+		laberinto.addObserver(this);
+
+		this.bomberman = Bomberman.sortuBomberman(bombermanMota, laberinto);
+
+		// Lehen gelaxkan Bomberman ezarri
+		Gelaxka hasierakoGelaxka = laberinto.getGelaxka(0, 0);
+		hasierakoGelaxka.gehituBomberman(bomberman);
 
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,20 +37,13 @@ public class LaberintoBista extends JFrame implements Observer {
 		// Fondoaren irudia lortu
 		fondo = laberinto.getFondo().getImage();
 
-		// Bomberman irudia lortu
-		bombermanImage = bomberman.getIrudia().getImage();
-
 		// Laberintoaren panela sortu
 		laberintoPanel = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-
 				// Fondoaren irudia ezarri
 				g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
-
-				// Bomberman irudia ezarri
-				g.drawImage(bombermanImage, bomberman.getXPixel(), bomberman.getYPixel(), cellSize, cellSize, this);
 			}
 		};
 		// Matrizea sortu Layout erabiliz
@@ -53,47 +53,47 @@ public class LaberintoBista extends JFrame implements Observer {
 		laberintoPanel
 				.setPreferredSize(new Dimension(laberinto.getColumnas() * cellSize, laberinto.getFilas() * cellSize));
 
-		// GelaxkaBista Observer bat sortu laberintoak duen bloke bakoitzerako
+		// UPDATEAN
+		// Gelaxka bat sortu laberintoak duen gelaxka bakoitzerako
 		for (int i = 0; i < laberinto.getFilas(); i++) {
 			for (int j = 0; j < laberinto.getColumnas(); j++) {
-				Bloke bloke = laberinto.getBloke(j, i);
-				GelaxkaBista gelaxka = new GelaxkaBista(bloke);
-				laberintoPanel.add(gelaxka);
+				Gelaxka gelaxka = laberinto.getGelaxka(j, i);
+				GelaxkaBista gelaxkaBista = new GelaxkaBista(gelaxka);
+				laberintoPanel.add(gelaxkaBista);
 			}
 		}
 
 		add(laberintoPanel, BorderLayout.CENTER);
 
 		// Kontrolatzailea sortu (teklatua irakurtzeko)
-		this.kontrolatzaile = new Kontrolatzaile();
+		this.kontrolatzaile = new Kontrolatzaile(bomberman);
 		laberintoPanel.setFocusable(true);
 		laberintoPanel.addKeyListener(kontrolatzaile);
 
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
-
-		// LaberintoBista modeloko Laberinto eta Bomberman Observer-a ezarri
-		laberinto.addObserver(this);
-		bomberman.addObserver(this);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
-			String evento = (String) arg;
+			String event = (String) arg;
 
-			switch (evento) {
-			case "sortu":
-			case "mugitu":
-				laberintoPanel.repaint();
-				break;
+			if (event.equals("sortu")) {
+				repaint();
 			}
 		}
 	}
 
 	// Kontrolatzailerako klase pribatua (teklatua kontrolatzeko)
 	private class Kontrolatzaile implements KeyListener {
+		private Bomberman bomberman;
+
+		public Kontrolatzaile(Bomberman bomberman) {
+			this.bomberman = bomberman;
+		}
+
 		@Override
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode()) {
