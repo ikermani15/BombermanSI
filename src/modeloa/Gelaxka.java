@@ -34,7 +34,8 @@ public class Gelaxka extends Observable {
         notifyObservers("mugitu");
     }
 
-    public boolean isBombermanDago() {
+    // Gelaxkan Bomberman dago
+    public boolean bombermanDago() {
         return bombermanDago;
     }
 
