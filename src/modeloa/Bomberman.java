@@ -62,11 +62,12 @@ public abstract class Bomberman {
                 Gelaxka unekoa = laberinto.getGelaxka(x, y);
                 Gelaxka berria = laberinto.getGelaxka(newX, newY);
 
-                if (berria.hutsikDago()) { 
-                    unekoa.kenduBomberman(); // Bomberman zaharra kendu
+                // Gelaxka hutsa bada (bidea)
+                if (berria.hutsikDago() && !berria.bombaDago()) { 
+                    unekoa.kenduBomberman(); // Bomberman gelaxka zaharra kendu
                     this.x = newX;
                     this.y = newY;
-                    berria.gehituBomberman(this); // Bomberman berria ezarri
+                    berria.gehituBomberman(this); // Bomberman gelaxka berrian ezarri
                 }
             }
         }
@@ -79,6 +80,7 @@ public abstract class Bomberman {
             Bomba bomba = new DefaultBomba(x, y, laberinto);
             bomba.countdownHasi();
             
+            // Bomba gelaxkan ezarri
             Gelaxka unekoa = laberinto.getGelaxka(x, y);
             unekoa.gehituBomba(bomba);
             

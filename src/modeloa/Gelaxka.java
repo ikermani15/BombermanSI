@@ -84,6 +84,10 @@ public class Gelaxka extends Observable {
     public boolean hutsikDago() {
         return bloke == null;
     }
+    
+    public boolean bombaDago() {
+        return this.bomba != null && this.bomba.aktiboDago(); // Verificamos si hay una bomba activa en la celda
+    }
 
     public int getX() {
         return x;

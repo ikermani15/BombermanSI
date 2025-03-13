@@ -21,7 +21,7 @@ public class LaberintoBista extends JFrame implements Observer {
 	public LaberintoBista(String laberintoMota, String bombermanMota) {
 		this.laberinto = Laberinto.sortuLaberintoa(laberintoMota);
 
-		// LaberintoBista modeloko Laberinto
+		// LaberintoBista modeloko Laberintoren Oberver-a
 		laberinto.addObserver(this);
 
 		this.bomberman = Bomberman.sortuBomberman(bombermanMota, laberinto);
@@ -81,7 +81,7 @@ public class LaberintoBista extends JFrame implements Observer {
 			String event = (String) arg;
 
 			if (event.equals("sortu")) {
-				repaint();
+				laberintoPanel.repaint();
 			}
 		}
 	}

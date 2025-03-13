@@ -80,4 +80,10 @@ public abstract class Bomba {
             }
         }).start();
     }
+    
+    // Bomba aktiko dagoen konprobatu
+    public boolean aktiboDago() {
+        return tiempoExplosion > 0;
+    }
+
 }
