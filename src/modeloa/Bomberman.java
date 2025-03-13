@@ -62,7 +62,7 @@ public abstract class Bomberman {
                 Gelaxka unekoa = laberinto.getGelaxka(x, y);
                 Gelaxka berria = laberinto.getGelaxka(newX, newY);
 
-                // Gelaxka hutsa bada (bidea)
+                // Gelaxka hutsa bada (bidea) eta bombarik ez dago
                 if (berria.hutsikDago() && !berria.bombaDago()) { 
                     unekoa.kenduBomberman(); // Bomberman gelaxka zaharra kendu
                     this.x = newX;

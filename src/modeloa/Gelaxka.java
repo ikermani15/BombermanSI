@@ -81,12 +81,14 @@ public class Gelaxka extends Observable {
         notifyObservers("bomba");
     }
 
+    // Gelaxka hutsik dago
     public boolean hutsikDago() {
         return bloke == null;
     }
     
+    // Bomba aktibo dagoen konprobatu
     public boolean bombaDago() {
-        return this.bomba != null && this.bomba.aktiboDago(); // Verificamos si hay una bomba activa en la celda
+        return this.bomba != null && this.bomba.aktiboDago();
     }
 
     public int getX() {
