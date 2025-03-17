@@ -9,6 +9,7 @@ public abstract class Bomberman {
     private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
     private int bombaKop; // Bomba kop
     private int radioExplosion; // Bomba eztanda radioa
+    private String bomberMota;
     protected Laberinto laberinto; // Laberinto erreferentzia talka lortzeko
     protected ImageIcon bombermanIrudia;
     protected int denbRegenBomba = 3; // Bombak erregeneratzeko denbora
@@ -19,6 +20,7 @@ public abstract class Bomberman {
         this.y = 0;
         this.bombaKop = bombaKop;
         this.radioExplosion = radioExplosion;
+        this.bomberMota = tipo;
     }
     
     public static Bomberman sortuBomberman(String mota, Laberinto laberinto) {
@@ -80,7 +82,15 @@ public abstract class Bomberman {
     public void bombaJarri() {
         if (bombaKop > 0) {
             System.out.println("Bomberman bomba ezarri du pos (" + y + ", " + x + ")");
-            Bomba bomba = new DefaultBomba(x, y, laberinto);
+            
+            // Bomberman motaren arabera, bomba desberdina sortu
+            Bomba bomba;
+            if (bomberMota.equals("Black")) {
+                bomba = new UltraBomba(x, y, laberinto); // UltraBomba radio 20
+            } else {
+                bomba = new DefaultBomba(x, y, laberinto); // DefaultBomba radio 1
+            }
+            
             bomba.countdownHasi();
             
             // Bomba gelaxkan ezarri
