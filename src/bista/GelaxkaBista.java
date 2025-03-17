@@ -11,7 +11,6 @@ import modeloa.Gelaxka;
 public class GelaxkaBista extends JLabel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private Gelaxka gelaxka;
-	private Timer bombaTimer;
 	private static final int cellSize = 40;
 
 	public GelaxkaBista(Gelaxka gelaxka) {
@@ -52,9 +51,15 @@ public class GelaxkaBista extends JLabel implements Observer {
 			} else if (event.equals("apurtu")) {
 				System.out.println("Update apurtu!");
 				apurtuBlokea();
-			} else if (event.equals("bomba")) {
-				System.out.println("Update bomba!");
+			} else if (event.equals("bombaJarri")) {
+				System.out.println("Update bombaJarri!");
 				bombaJarri();
+			} else if (event.equals("bombaKendu")) {
+				System.out.println("Update bombaKendu!");
+				bombaKendu();
+			} else if (event.equals("eztanda")) {
+				System.out.println("Update eztanda!");
+				eztanda();
 			}
 		}
 	}
@@ -94,12 +99,15 @@ public class GelaxkaBista extends JLabel implements Observer {
 				setIcon(new ImageIcon(img));
 			}
 		}
+	}
 
-		// Bombako timer-a
-		Timer newTimer = new Timer(3000, e -> {
-			setIcon(null); // Bomba irudia kendu
-		});
+	// Bomba jartzean
+	private void bombaKendu() {
+		setIcon(null);
+	}
 
-		newTimer.start();
+	// Eztanda egitean
+	private void eztanda() {
+
 	}
 }

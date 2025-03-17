@@ -18,12 +18,23 @@ public class Gelaxka extends Observable {
         this.bomba = null;
     }
     
-    public Bomberman getBomberman() {
-    	return bomberman;
+    // Gelaxka atazak
+    public boolean hutsikDago() {
+        return bloke == null;
     }
     
-    public Bomba getBomba() {
-    	return bomba;
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    
+    
+    // Bomberman atazak
+    public Bomberman getBomberman() {
+    	return bomberman;
     }
     
     // Gelaxkan Bomberman ezarri eta bista notifikatu
@@ -52,6 +63,8 @@ public class Gelaxka extends Observable {
         notifyObservers("mugitu");
     }
 
+    
+    // Blokeen atazak
     public Bloke getBloke() {
         return bloke;
     }
@@ -64,10 +77,16 @@ public class Gelaxka extends Observable {
         notifyObservers("apurtu");
     }
     
+    
+    // Bomben atazak
+    public Bomba getBomba() {
+    	return bomba;
+    }
+    
     // Bomba gehitzean bista notifikatu
     public void gehituBomba(Bomba bomba) {
     	this.bomba = bomba;
-    	System.out.println("Bomba deitu da! Bomba ezarri da.");
+    	System.out.println("BombaJarri deitu da! Bomba ezarri da.");
         setChanged();
         notifyObservers("bomba");
     }
@@ -77,14 +96,17 @@ public class Gelaxka extends Observable {
         if (this.bomba != null) {
             this.bomba = null;
         }
-        System.out.println("Bomba deitu da! Bomba kendu da.");
+        System.out.println("BombaKendu deitu da! Bomba kendu da.");
         setChanged();
-        notifyObservers("bomba");
+        notifyObservers("bombaKendu");
     }
-
-    // Gelaxka hutsik dago
-    public boolean hutsikDago() {
-        return bloke == null;
+    
+    // Eztanda egitean, bista notifikatu
+    public void eztanda() {
+    	
+    	System.out.println("Eztanda deitu da! Sua ezarri da.");
+    	setChanged();
+        notifyObservers("bomba");
     }
     
     // Bomba aktibo dagoen konprobatu
@@ -92,11 +114,4 @@ public class Gelaxka extends Observable {
         return this.bomba != null && this.bomba.aktiboDago();
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
 }

@@ -53,7 +53,7 @@ public abstract class Bomba {
         }
     }
     
- // Blokea ezabatu apurtu ahal bada
+    // Blokea ezabatu apurtu ahal bada
     public void eztandaPos(int x, int y) {
         if (x < 0 || x >= laberinto.getColumnas() || y < 0 || y >= laberinto.getFilas()) {
             return; // Limiteen kanpo badago, ezer ez egin
@@ -65,6 +65,7 @@ public abstract class Bomba {
             if (bloke.apurtuDaiteke()) {
                 gelaxka.setBloke(null); // Blokea ezabatu
                 System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
+                gelaxka.eztanda(); // Eztanda deitu
             }
         }
     }
