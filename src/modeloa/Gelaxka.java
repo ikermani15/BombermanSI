@@ -106,7 +106,7 @@ public class Gelaxka extends Observable {
     	
     	System.out.println("Eztanda deitu da! Sua ezarri da.");
     	setChanged();
-        notifyObservers("bomba");
+        notifyObservers("eztanda");
     }
     
     // Bomba aktibo dagoen konprobatu

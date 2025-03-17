@@ -67,6 +67,7 @@ public abstract class Bomberman {
                 // Gelaxka hutsa bada (bidea) eta bombarik ez dago
                 if (berria.hutsikDago() && !berria.bombaDago()) { 
                     unekoa.kenduBomberman(); // Bomberman gelaxka zaharra kendu
+                    // Posizio berria ezarri
                     this.x = newX;
                     this.y = newY;
                     berria.gehituBomberman(this); // Bomberman gelaxka berrian ezarri

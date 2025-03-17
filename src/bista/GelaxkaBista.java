@@ -66,6 +66,7 @@ public class GelaxkaBista extends JLabel implements Observer {
 
 	// Bomberman gelaxkan eguneratu
 	private void eguneratuBomberman() {
+		// Gelaxkan bomberman badago irudia ezarri
 		if (gelaxka != null && gelaxka.getBomberman() != null) {
 			ImageIcon bomberImg = gelaxka.getBomberman().getIrudia();
 			if (bomberImg != null) {
@@ -80,6 +81,7 @@ public class GelaxkaBista extends JLabel implements Observer {
 				Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
 				setIcon(new ImageIcon(img));
 			}
+			// Ez badago, gelaxka hutsa ezarri
 		} else {
 			setIcon(null); // Gelaxka hutsa jartzeko
 		}
@@ -101,7 +103,7 @@ public class GelaxkaBista extends JLabel implements Observer {
 		}
 	}
 
-	// Bomba jartzean
+	// Eztanda egin ondoren bomba kendu
 	private void bombaKendu() {
 		setIcon(null);
 	}

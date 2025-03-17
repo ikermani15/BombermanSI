@@ -5,8 +5,8 @@ import javax.swing.ImageIcon;
 public abstract class Bomba {
     protected int x, y;
     protected int radio;
-    protected int tiempoExplosion = 3; // Segundos antes de explotar
-    protected int duracionExplosion = 2; // Segundos que dura la explosión
+    protected int bombaDenb = 3; // Eztanda egin aurretik duen denbora
+    protected int eztandaDenb = 2; // Eztanda irauten duen denbora
     protected Laberinto laberinto;
     protected ImageIcon bombImg;
 
@@ -47,7 +47,7 @@ public abstract class Bomba {
 
         // Eztanda 2s
         try {
-            Thread.sleep(duracionExplosion * 1000);
+            Thread.sleep(eztandaDenb * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -65,16 +65,18 @@ public abstract class Bomba {
             if (bloke.apurtuDaiteke()) {
                 gelaxka.setBloke(null); // Blokea ezabatu
                 System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
-                gelaxka.eztanda(); // Eztanda deitu
             }
         }
+        
+        // Eztanda deitu
+        gelaxka.eztanda();
     }
 
     // Eztandarako countdown 3s
     public void countdownHasi() {
         new Thread(() -> {
             try {
-                Thread.sleep(tiempoExplosion * 1000);
+                Thread.sleep(bombaDenb * 1000);
                 eztanda();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -84,7 +86,7 @@ public abstract class Bomba {
     
     // Bomba aktiko dagoen konprobatu
     public boolean aktiboDago() {
-        return tiempoExplosion > 0;
+        return bombaDenb > 0;
     }
 
 }
