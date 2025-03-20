@@ -22,6 +22,8 @@ public class GelaxkaBista extends JLabel implements Observer {
 		gelaxka.addObserver(this);
 	}
 
+	// ESTO EN EL UPDATE MEJOR, LLAMAR ALGO COMO "SORTU" PARA QUE AL CREARSE SE
+	// ASIGNEN LAS IMAGENES
 	// Gelaxka bakoitzari irudiak ezarri
 	private void gelaxkaIrudi() {
 		if (gelaxka != null) {
@@ -57,9 +59,12 @@ public class GelaxkaBista extends JLabel implements Observer {
 			} else if (event.equals("bombaKendu")) {
 				System.out.println("Update bombaKendu!");
 				bombaKendu();
-			} else if (event.equals("eztanda")) {
-				System.out.println("Update eztanda!");
-				eztanda();
+			} else if (event.equals("suaJarri")) {
+				System.out.println("Update suaJarri!");
+				suaJarri();
+			} else if (event.equals("suaKendu")) {
+				System.out.println("Update suaKendu!");
+				suaKendu();
 			}
 		}
 	}
@@ -109,7 +114,14 @@ public class GelaxkaBista extends JLabel implements Observer {
 	}
 
 	// Eztanda egitean
-	private void eztanda() {
+	private void suaJarri() {
+		ImageIcon suaImg = new ImageIcon(getClass().getResource("/img/kaBomb4.png"));
+		Image img = suaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+		setIcon(new ImageIcon(img));
+	}
 
+	// Sua kendu
+	private void suaKendu() {
+		setIcon(null);
 	}
 }

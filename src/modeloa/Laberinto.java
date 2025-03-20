@@ -6,34 +6,33 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 public abstract class Laberinto extends Observable {
+	private static Laberinto nLab;
     protected final int ilara = 11; 
     protected final int zutabe = 17; 
     protected Gelaxka[][] gelaxka; // Gelaxken matrizea
-    protected ImageIcon fondo;
+    protected ImageIcon fondo; // ESTO SOBRA, QUE LO OBTENGA DE CADA LABERINTO Y LISTO
 
     public Laberinto() {
     	this.gelaxka = new Gelaxka[getFilas()][getColumnas()];
-        for (int i = 0; i < ilara; i++) {
-            for (int j = 0; j < zutabe; j++) {	
-            	gelaxka[i][j] = new Gelaxka(j, i, null);
-            }
-        }
+    }
+   
+    public static Laberinto getLaberinto() {
+    	if(nLab == null) {
+    		nLab = new ClassicLaberinto(); // Defektuz
+    	}
+    	return nLab;
     }
     
-    public static Laberinto sortuLaberintoa(String mota) {
-    	Laberinto laberintoMota;
+    public void sortuLaberintoa(String mota) {
 		if ("Classic".equals(mota)) {
-			laberintoMota = new ClassicLaberinto();
+			nLab = new ClassicLaberinto();
 		} else if ("Soft".equals(mota)) {
-			laberintoMota =  new SoftLaberinto();
+			nLab =  new SoftLaberinto();
 		} else if ("Empty".equals(mota)) {
-			laberintoMota = new EmptyLaberinto();
-		} else {
-			throw new IllegalArgumentException("Laberinto mota ez da zuzena.");
+			nLab = new EmptyLaberinto();
 		}
 		
-		laberintoMota.laberintoaHasieratu();
-		return laberintoMota;
+		laberintoaHasieratu();
 	}
     
     // Bista notifikatu laberintoa sortu dela

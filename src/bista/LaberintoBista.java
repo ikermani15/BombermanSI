@@ -1,6 +1,7 @@
 package bista;
 
 import javax.swing.*;
+
 import modeloa.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -14,22 +15,24 @@ public class LaberintoBista extends JFrame implements Observer {
 	private Bomberman bomberman;
 	private final int cellSize = 40;
 	private Image fondo;
-
 	private JPanel laberintoPanel;
-	private Kontrolatzaile kontrolatzaile;
 
-	public LaberintoBista(String laberintoMota, String bombermanMota) {
-		this.laberinto = Laberinto.sortuLaberintoa(laberintoMota);
+	private Kontrolatzaile kontroler = null;
+
+	public LaberintoBista() {
+		// ESTO EN EL EREDU
+		laberinto = Laberinto.getLaberinto();
+		bomberman = Bomberman.getBomberman();
 
 		// LaberintoBista modeloko Laberintoren Oberver-a
 		laberinto.addObserver(this);
 
-		this.bomberman = Bomberman.sortuBomberman(bombermanMota, laberinto);
-
+		// ESTO CAMBIAR, DEBERIA INICIARSE SIEMPRE EN LA GELAXKA (0,0)
 		// Lehen gelaxkan Bomberman ezarri
 		Gelaxka hasierakoGelaxka = laberinto.getGelaxka(0, 0);
 		hasierakoGelaxka.gehituBomberman(bomberman);
 
+		// ESTO BIEN
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -64,11 +67,11 @@ public class LaberintoBista extends JFrame implements Observer {
 		}
 
 		add(laberintoPanel, BorderLayout.CENTER);
+		laberintoPanel.setFocusable(true);
 
 		// Kontrolatzailea sortu (teklatua irakurtzeko)
-		this.kontrolatzaile = new Kontrolatzaile(bomberman);
-		laberintoPanel.setFocusable(true);
-		laberintoPanel.addKeyListener(kontrolatzaile);
+		getKontroler();
+		laberintoPanel.addKeyListener(kontroler);
 
 		pack();
 		setLocationRelativeTo(null);
@@ -86,13 +89,16 @@ public class LaberintoBista extends JFrame implements Observer {
 		}
 	}
 
+	private Kontrolatzaile getKontroler() {
+		if (kontroler == null) {
+			kontroler = new Kontrolatzaile();
+		}
+		return kontroler;
+	}
+
 	// Kontrolatzailerako klase pribatua (teklatua kontrolatzeko)
 	private class Kontrolatzaile implements KeyListener {
-		private Bomberman bomberman;
-
-		public Kontrolatzaile(Bomberman bomberman) {
-			this.bomberman = bomberman;
-		}
+		Bomberman bomberman = Bomberman.getBomberman();
 
 		@Override
 		public void keyPressed(KeyEvent e) {

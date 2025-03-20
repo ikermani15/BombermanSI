@@ -6,7 +6,6 @@ import modeloa.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainBista extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -15,10 +14,9 @@ public class MainBista extends JFrame {
 	private JComboBox<String> bombermanComboBox;
 	private JButton jokoaHasiBtn;
 	private JLabel fondoLabel;
-	private LaberintoBista laberintoBista;
+	private MenuKontrolatzaile kontroler = null;
 
 	public MainBista() {
-
 		// Leihoa definitu
 		setTitle("Bomberman - Menu");
 		setSize(400, 300);
@@ -63,29 +61,44 @@ public class MainBista extends JFrame {
 		jokoaHasiBtn.setBounds(125, 180, 150, 30);
 		fondoLabel.add(jokoaHasiBtn);
 
-		// Klik egitearen akzioa
-		jokoaHasiBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String laberintoMota = (String) laberintoComboBox.getSelectedItem();
-				String bombermanMota = (String) bombermanComboBox.getSelectedItem();
-
-				laberintoBista = new LaberintoBista(laberintoMota, bombermanMota);
-
-				dispose();
-			}
-		});
-
-		// "Esc" klikatzean programa itxi
-		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "itxi");
-		getRootPane().getActionMap().put("itxi", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0); // Programa itxi
-			}
-		});
+		// Kontrolatzailea
+		getKontroler();
 
 		setVisible(true);
+	}
+
+	private MenuKontrolatzaile getKontroler() {
+		if (kontroler == null) {
+			kontroler = new MenuKontrolatzaile();
+		}
+		return kontroler;
+	}
+
+	private class MenuKontrolatzaile {
+		public MenuKontrolatzaile() {
+			// Botoia sakatzean
+			jokoaHasiBtn.addActionListener(e -> hasiJokoa());
+
+			// "Esc" klik eginez gero, leihoa itxi
+			getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "itxi");
+			getRootPane().getActionMap().put("itxi", new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+		}
+
+		// Jokoa hasieratzeko metodoa
+		private void hasiJokoa() {
+			String laberintoMota = (String) laberintoComboBox.getSelectedItem();
+			String bombermanMota = (String) bombermanComboBox.getSelectedItem();
+
+			Laberinto.getLaberinto().sortuLaberintoa(laberintoMota);
+			Bomberman.getBomberman().sortuBomberman(bombermanMota);
+			new LaberintoBista();
+			dispose();
+		}
 	}
 
 }

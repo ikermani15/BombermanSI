@@ -3,8 +3,11 @@ package modeloa;
 import java.awt.*;
 
 import javax.swing.ImageIcon;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class Bomberman {
+	private static Bomberman nBomber;
     private int x, y; // Matrizeko posizioa
     private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
     private int bombaKop; // Bomba kop
@@ -14,6 +17,7 @@ public abstract class Bomberman {
     protected ImageIcon bombermanIrudia;
     protected int denbRegenBomba = 3; // Bombak erregeneratzeko denbora
     private boolean regenBomba = false;
+    private Timer timer;
 
     public Bomberman(int bombaKop, int radioExplosion, String tipo) {
         this.x = 0; // (0, 0)-n hasieratu
@@ -23,23 +27,27 @@ public abstract class Bomberman {
         this.bomberMota = tipo;
     }
     
-    public static Bomberman sortuBomberman(String mota, Laberinto laberinto) {
-    	Bomberman bomber;
+    public static Bomberman getBomberman() {
+    	if(nBomber == null) {
+    		nBomber = new WhiteBomber(); // Defektuz
+    	}
+    	
+    	return nBomber;
+    }
+    
+    public void sortuBomberman(String mota) {
         if ("White".equals(mota)) {
-            bomber =  new WhiteBomber();
+        	nBomber =  new WhiteBomber();
         } else if ("Black".equals(mota)) {
-            bomber =  new BlackBomber();
-        } else {
-            throw new IllegalArgumentException("Bomberman mota ez da zuzena.");
+        	nBomber =  new BlackBomber();
         }
         
-        bomber.setLaberinto(laberinto);
-        return bomber;
+        nBomber.setLaberinto(Laberinto.getLaberinto()); // Relacionar con el laberinto
     }
     
     public void setLaberinto(Laberinto laberinto) {
         this.laberinto = laberinto;
-    }
+    }    
 
     // Mugimendu metodoak, talka konprobatuz
     public void mugituGora() { 
@@ -91,7 +99,7 @@ public abstract class Bomberman {
                 bomba = new DefaultBomba(x, y, laberinto); // DefaultBomba radio 1
             }
             
-            bomba.countdownHasi();
+            bomba.bombaTimer();
             
             // Bomba gelaxkan ezarri
             Gelaxka unekoa = laberinto.getGelaxka(x, y);
@@ -108,21 +116,17 @@ public abstract class Bomberman {
     // Bombak gehitzeko behin amaituta
     private void bombaRegeneratu() {
     	regenBomba = true;
-    	
-    	new Thread(() -> {
-            try {
-                System.out.println("Bomba regeneratzen...");
-                // 3 segundo itxaron
-                Thread.sleep(denbRegenBomba * 1000);
-                bombaKop++;  // Bomba gehitu
+        System.out.println("Bomba regeneratzen...");
+        timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                bombaKop++;
+                regenBomba = false; // Berriro bomba barik geratzen bada, erregeneratu ahal izateko
                 System.out.println("Bomba bat erregeneratu da, oraingo kopurua: " + bombaKop);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-            	regenBomba = false; // Berriro bomba gabe gelditzen bada, berriro gehitu ahal izateko
             }
-            
-        }).start();
+        };
+        timer.schedule(timerTask, denbRegenBomba * 1000);
     }
     
     // Bombak erregeneratzen dagoen konprobatu
