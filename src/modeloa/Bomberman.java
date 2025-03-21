@@ -80,7 +80,7 @@ public abstract class Bomberman {
                     // Posizio berria ezarri
                     this.x = newX;
                     this.y = newY;
-                    berria.gehituBomberman(this); // Bomberman gelaxka berrian ezarri
+                    berria.gehituBomberman(); // Bomberman gelaxka berrian ezarri
                 }
             }
         }

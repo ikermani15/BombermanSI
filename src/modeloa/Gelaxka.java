@@ -13,9 +13,6 @@ public class Gelaxka extends Observable {
         this.x = x;
         this.y = y;
         this.bloke = bloke;
-        this.bombermanDago = false;
-        this.bomberman = null;
-        this.bomba = null;
     }
     
     // Gelaxka atazak
@@ -38,9 +35,8 @@ public class Gelaxka extends Observable {
     }
     
     // Gelaxkan Bomberman ezarri eta bista notifikatu
-    public void gehituBomberman(Bomberman bomberman) {
-        this.bomberman = bomberman;
-        System.out.println("Mugitu deitu da! Bomberman gehitu da.");
+    public void gehituBomberman() {
+        this.bomberman = Bomberman.getBomberman();
         setChanged();
         notifyObservers("mugitu");
     }
@@ -58,7 +54,6 @@ public class Gelaxka extends Observable {
     // Bomberman gelaxka berrira mugitu
     public void kenduBomberman() {
         this.bomberman = null;
-        System.out.println("Mugitu deitu da! Bomberman kendu da.");
         setChanged();
         notifyObservers("mugitu");
     }
@@ -103,14 +98,12 @@ public class Gelaxka extends Observable {
     
     // Eztanda egitean, bista notifikatu
     public void suaJarri() {
-    	System.out.println("SuaJarri deitu da! Sua ezarri da.");
     	setChanged();
         notifyObservers("suaJarri");
     }
     
     // Eztanda amaitzean, bista notifikatu
     public void suaKendu() {
-    	System.out.println("SuaKendu deitu da! Sua kendu da.");
     	setChanged();
         notifyObservers("suaKendu");
     }

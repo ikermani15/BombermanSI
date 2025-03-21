@@ -11,34 +11,26 @@ import java.util.Observer;
 
 public class LaberintoBista extends JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
-	private Laberinto laberinto;
-	private Bomberman bomberman;
 	private final int cellSize = 40;
-	private Image fondo;
 	private JPanel laberintoPanel;
 
 	private Kontrolatzaile kontroler = null;
 
 	public LaberintoBista() {
-		// ESTO EN EL EREDU
-		laberinto = Laberinto.getLaberinto();
-		bomberman = Bomberman.getBomberman();
-
-		// LaberintoBista modeloko Laberintoren Oberver-a
-		laberinto.addObserver(this);
-
-		// ESTO CAMBIAR, DEBERIA INICIARSE SIEMPRE EN LA GELAXKA (0,0)
-		// Lehen gelaxkan Bomberman ezarri
-		Gelaxka hasierakoGelaxka = laberinto.getGelaxka(0, 0);
-		hasierakoGelaxka.gehituBomberman(bomberman);
-
-		// ESTO BIEN
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 
+		// UPDATEAN
+		Laberinto laberinto = Laberinto.getLaberinto();
+
+		// ESTO CAMBIAR, DEBERIA INICIARSE SIEMPRE EN LA GELAXKA (0,0)
+		// Lehen gelaxkan Bomberman ezarri
+		Gelaxka hasierakoGelaxka = laberinto.getGelaxka(0, 0);
+		hasierakoGelaxka.gehituBomberman();
+
 		// Fondoaren irudia lortu
-		fondo = laberinto.getFondo().getImage();
+		Image fondo = laberinto.getFondo().getImage();
 
 		// Laberintoaren panela sortu
 		laberintoPanel = new JPanel() {
@@ -56,7 +48,6 @@ public class LaberintoBista extends JFrame implements Observer {
 		laberintoPanel
 				.setPreferredSize(new Dimension(laberinto.getColumnas() * cellSize, laberinto.getFilas() * cellSize));
 
-		// UPDATEAN
 		// Gelaxka bat sortu laberintoak duen gelaxka bakoitzerako
 		for (int i = 0; i < laberinto.getFilas(); i++) {
 			for (int j = 0; j < laberinto.getColumnas(); j++) {
@@ -74,8 +65,12 @@ public class LaberintoBista extends JFrame implements Observer {
 		laberintoPanel.addKeyListener(kontroler);
 
 		pack();
+
 		setLocationRelativeTo(null);
 		setVisible(true);
+
+		// LaberintoBista modeloko Laberintoren Oberver-a
+		Laberinto.getLaberinto().addObserver(this);
 	}
 
 	@Override
@@ -98,25 +93,23 @@ public class LaberintoBista extends JFrame implements Observer {
 
 	// Kontrolatzailerako klase pribatua (teklatua kontrolatzeko)
 	private class Kontrolatzaile implements KeyListener {
-		Bomberman bomberman = Bomberman.getBomberman();
-
 		@Override
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
-				bomberman.mugituGora();
+				Bomberman.getBomberman().mugituGora();
 				break;
 			case KeyEvent.VK_DOWN:
-				bomberman.mugituBehera();
+				Bomberman.getBomberman().mugituBehera();
 				break;
 			case KeyEvent.VK_LEFT:
-				bomberman.mugituEzkerra();
+				Bomberman.getBomberman().mugituEzkerra();
 				break;
 			case KeyEvent.VK_RIGHT:
-				bomberman.mugituEskuma();
+				Bomberman.getBomberman().mugituEskuma();
 				break;
 			case KeyEvent.VK_SPACE:
-				bomberman.bombaJarri();
+				Bomberman.getBomberman().bombaJarri();
 				break;
 			}
 		}

@@ -24,11 +24,14 @@ public class ClassicLaberinto extends Laberinto {
                     bloke = new BlokeGogorra(j, i); // BlokeGogorrak posizio bakoitietan
                 } else if (rand.nextInt(100) > 40) {
                     bloke = new BlokeBiguna(j, i); // BlokeBigunak
+                    gehituBlokeBigunKop();
                 }
 
                 gelaxka[i][j] = new Gelaxka(j, i, bloke);
             }
         }
+	    
+	    System.out.println("BlokeBigun totala: " + getBlokeBigunKop());
 	}
 
 }

@@ -94,7 +94,7 @@ public class MainBista extends JFrame {
 			String laberintoMota = (String) laberintoComboBox.getSelectedItem();
 			String bombermanMota = (String) bombermanComboBox.getSelectedItem();
 
-			Laberinto.getLaberinto().sortuLaberintoa(laberintoMota);
+			Laberinto.sortuLaberintoa(laberintoMota);
 			Bomberman.getBomberman().sortuBomberman(bombermanMota);
 			new LaberintoBista();
 			dispose();

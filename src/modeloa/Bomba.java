@@ -64,11 +64,20 @@ public abstract class Bomba {
             // Bloke biguna bada
             if (bloke.apurtuDaiteke()) {
                 gelaxka.setBloke(null); // Blokea ezabatu
+                laberinto.kenduBlokeBigunKop();
                 gelaxka.suaJarri();
+                
                 System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
+            	System.out.println("BlokeBigun totala: " + Laberinto.getBlokeBigunKop());
             }
         } else {
         	gelaxka.suaJarri();
+        }
+        
+        // Partida amaitu den konprobatu
+        if (Laberinto.getBlokeBigunKop() == 0) {
+        	System.out.println("WIN!");
+        	System.exit(1);
         }
         
     }

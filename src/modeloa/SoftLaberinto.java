@@ -24,6 +24,7 @@ public class SoftLaberinto extends Laberinto {
 
 	                if (prob > 40) {
 	                    bloke = new BlokeBiguna(j, i);
+	                    gehituBlokeBigunKop();
 	                } else {
 	                    bloke = null;
 	                }
@@ -32,6 +33,8 @@ public class SoftLaberinto extends Laberinto {
 	            gelaxka[i][j] = new Gelaxka(j, i, bloke);
 	        }
 	    }
+	    
+	    System.out.println("BlokeBigun totala: " + getBlokeBigunKop());
 	}
 
 }

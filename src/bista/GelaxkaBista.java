@@ -48,7 +48,6 @@ public class GelaxkaBista extends JLabel implements Observer {
 			String event = (String) arg;
 
 			if (event.equals("mugitu")) {
-				System.out.println("Update mugitu!");
 				eguneratuBomberman();
 			} else if (event.equals("apurtu")) {
 				System.out.println("Update apurtu!");
@@ -60,15 +59,14 @@ public class GelaxkaBista extends JLabel implements Observer {
 				System.out.println("Update bombaKendu!");
 				bombaKendu();
 			} else if (event.equals("suaJarri")) {
-				System.out.println("Update suaJarri!");
 				suaJarri();
 			} else if (event.equals("suaKendu")) {
-				System.out.println("Update suaKendu!");
 				suaKendu();
 			}
 		}
 	}
 
+	// HOBETO BI METODOTAN BANATZEA, BOMBERMAN GEHITU/KENDU GELAXKA
 	// Bomberman gelaxkan eguneratu
 	private void eguneratuBomberman() {
 		// Gelaxkan bomberman badago irudia ezarri
