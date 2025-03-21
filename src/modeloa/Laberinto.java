@@ -5,6 +5,8 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import bista.LaberintoBista;
+
 public abstract class Laberinto extends Observable {
 	private static Laberinto nLab;
     protected final int ilara = 11; 
@@ -21,6 +23,7 @@ public abstract class Laberinto extends Observable {
     	return nLab;
     }
     
+    // Autatutako laberinto mota sortu
     public static void sortuLaberintoa(String mota) {
 		if ("Classic".equals(mota)) {
 			nLab = new ClassicLaberinto();
@@ -29,13 +32,11 @@ public abstract class Laberinto extends Observable {
 		} else if ("Empty".equals(mota)) {
 			nLab = new EmptyLaberinto();
 		}
-		
-		//laberintoaHasieratu();
 	}
     
     // Bista notifikatu laberintoa sortu dela
     public void laberintoaHasieratu() {
-    	System.out.println("Sortu deitu da!");
+    	System.out.println("Laberintoa sortu da!");
         setChanged();
         notifyObservers("sortu");
     }

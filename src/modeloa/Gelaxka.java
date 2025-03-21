@@ -8,6 +8,8 @@ public class Gelaxka extends Observable {
     private Bomba bomba;
     private final int x, y;
     private boolean bombermanDago;
+    private boolean suaDago = false;
+    private int suaKop = 0;
 
     public Gelaxka(int x, int y, Bloke bloke) {
         this.x = x;
@@ -45,11 +47,6 @@ public class Gelaxka extends Observable {
     public boolean bombermanDago() {
         return bombermanDago;
     }
-
-    // Bomberman gelaxkan dagoen konprobatu
-    public void setBombermanDago(boolean dago) {
-        this.bombermanDago = dago;
-    }
     
     // Bomberman gelaxka berrira mugitu
     public void kenduBomberman() {
@@ -67,7 +64,6 @@ public class Gelaxka extends Observable {
     // Blokea apurtzean bista notifikatu
     public void setBloke(Bloke bloke) {
         this.bloke = bloke;
-        System.out.println("Apurtu deitu da! Blokea apurtu da.");
         setChanged();
         notifyObservers("apurtu");
     }
@@ -81,7 +77,6 @@ public class Gelaxka extends Observable {
     // Bomba gehitzean bista notifikatu
     public void gehituBomba(Bomba bomba) {
     	this.bomba = bomba;
-    	System.out.println("BombaJarri deitu da! Bomba ezarri da.");
         setChanged();
         notifyObservers("bomba");
     }
@@ -91,26 +86,56 @@ public class Gelaxka extends Observable {
         if (this.bomba != null) {
             this.bomba = null;
         }
-        System.out.println("BombaKendu deitu da! Bomba kendu da.");
         setChanged();
         notifyObservers("bombaKendu");
     }
     
     // Eztanda egitean, bista notifikatu
     public void suaJarri() {
+    	suaKop++;
+    	suaDago = true;
     	setChanged();
         notifyObservers("suaJarri");
     }
     
     // Eztanda amaitzean, bista notifikatu
     public void suaKendu() {
-    	setChanged();
-        notifyObservers("suaKendu");
+    	// Hainbat bomba aldi berean jartzean, ezin dugu sua beti kendu
+    	if (suaKop > 0) {
+            suaKop--; 
+        }
+        
+        if (suaKop == 0) { // Sua kendu gelaxkan su-rik ez dagoenean
+            suaDago = false;
+            setChanged();
+            notifyObservers("suaKendu");
+        }
     }
     
     // Bomba aktibo dagoen konprobatu
     public boolean bombaDago() {
-        return this.bomba != null && this.bomba.aktiboDago();
+        return this.bomba != null && this.bomba.bombaAktiboDago();
     }
+    
+    // Gelaxkan Sua dago
+    public boolean suaDago() {
+        return suaDago;
+    }
+    
+    
+    // BlokeBiguna-rik ez dagoenean
+    public void irabazi() {
+    	System.out.println("BlokeBigun guztiak apartu dira!");
+    	System.out.println("WIN!");
+    	System.exit(1);
+    }
+    
+    // Eztanda radio barruan egonez gero
+    public void galdu() {
+    	System.out.println("Eztanda arrapatu zaitu!");
+    	System.out.println("GAME OVER!");
+    	System.exit(1);
+    }
+
 
 }

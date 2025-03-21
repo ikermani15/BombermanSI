@@ -28,14 +28,10 @@ public abstract class Bomberman {
     }
     
     public static Bomberman getBomberman() {
-    	if(nBomber == null) {
-    		nBomber = new WhiteBomber(); // Defektuz
-    	}
-    	
     	return nBomber;
     }
     
-    public void sortuBomberman(String mota) {
+    public static void sortuBomberman(String mota) {
         if ("White".equals(mota)) {
         	nBomber =  new WhiteBomber();
         } else if ("Black".equals(mota)) {
@@ -81,6 +77,11 @@ public abstract class Bomberman {
                     this.x = newX;
                     this.y = newY;
                     berria.gehituBomberman(); // Bomberman gelaxka berrian ezarri
+                    
+                    // Posizio berrian sua baldin badago
+                    if(berria.suaDago()) {
+                    	berria.galdu();
+                    }
                 }
             }
         }
@@ -89,7 +90,7 @@ public abstract class Bomberman {
     // Bomba jartzeko
     public void bombaJarri() {
         if (bombaKop > 0) {
-            System.out.println("Bomberman bomba ezarri du pos (" + y + ", " + x + ")");
+            System.out.println("Bomba ezarri da pos (" + y + ", " + x + ")");
             
             // Bomberman motaren arabera, bomba desberdina sortu
             Bomba bomba;

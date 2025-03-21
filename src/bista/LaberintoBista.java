@@ -21,34 +21,46 @@ public class LaberintoBista extends JFrame implements Observer {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 
-		// UPDATEAN
+		// LaberintoBista modeloko Laberintoren Oberver-a
+		Laberinto.getLaberinto().addObserver(this);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (arg instanceof String) {
+			String event = (String) arg;
+
+			if (event.equals("sortu")) {
+				laberintoSortu();
+			}
+		}
+	}
+
+	private void laberintoSortu() {
 		Laberinto laberinto = Laberinto.getLaberinto();
 
-		// ESTO CAMBIAR, DEBERIA INICIARSE SIEMPRE EN LA GELAXKA (0,0)
 		// Lehen gelaxkan Bomberman ezarri
 		Gelaxka hasierakoGelaxka = laberinto.getGelaxka(0, 0);
 		hasierakoGelaxka.gehituBomberman();
 
-		// Fondoaren irudia lortu
+		// Fondo de la imagen
 		Image fondo = laberinto.getFondo().getImage();
 
-		// Laberintoaren panela sortu
+		// Panel del laberinto
 		laberintoPanel = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				// Fondoaren irudia ezarri
 				g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
 			}
 		};
-		// Matrizea sortu Layout erabiliz
-		laberintoPanel.setLayout(new GridLayout(laberinto.getFilas(), laberinto.getColumnas()));
 
-		// Panelaren tamaina ezarri
+		// Crear la grid layout para las celdas
+		laberintoPanel.setLayout(new GridLayout(laberinto.getFilas(), laberinto.getColumnas()));
 		laberintoPanel
 				.setPreferredSize(new Dimension(laberinto.getColumnas() * cellSize, laberinto.getFilas() * cellSize));
 
-		// Gelaxka bat sortu laberintoak duen gelaxka bakoitzerako
+		// Crear cada GelaxkaBista para cada celda en el laberinto
 		for (int i = 0; i < laberinto.getFilas(); i++) {
 			for (int j = 0; j < laberinto.getColumnas(); j++) {
 				Gelaxka gelaxka = laberinto.getGelaxka(j, i);
@@ -60,28 +72,13 @@ public class LaberintoBista extends JFrame implements Observer {
 		add(laberintoPanel, BorderLayout.CENTER);
 		laberintoPanel.setFocusable(true);
 
-		// Kontrolatzailea sortu (teklatua irakurtzeko)
+		// Controlador para manejar teclas
 		getKontroler();
 		laberintoPanel.addKeyListener(kontroler);
 
 		pack();
-
 		setLocationRelativeTo(null);
 		setVisible(true);
-
-		// LaberintoBista modeloko Laberintoren Oberver-a
-		Laberinto.getLaberinto().addObserver(this);
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		if (arg instanceof String) {
-			String event = (String) arg;
-
-			if (event.equals("sortu")) {
-				laberintoPanel.repaint();
-			}
-		}
 	}
 
 	private Kontrolatzaile getKontroler() {
