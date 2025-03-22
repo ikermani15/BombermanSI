@@ -5,19 +5,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public abstract class Bomba {
-    protected int x, y;
-    protected int radio;
-    protected int bombaDenb = 3; // Eztanda egin aurretik duen denbora
-    protected int eztandaDenb = 2; // Eztanda irauten duen denbora
-    protected Laberinto laberinto;
+    private int x, y;
+    private int radio;
+    private int bombaDenb = 3; // Eztanda egin aurretik duen denbora
+    private int eztandaDenb = 2; // Eztanda irauten duen denbora
+    private Laberinto laberinto = Laberinto.getLaberinto();
     protected ImageIcon bombImg;
     private Timer timer;
 
-    public Bomba(int x, int y, int radio, Laberinto laberinto) {
+    public Bomba(int x, int y, int radio) {
         this.x = x;
         this.y = y;
         this.radio = radio;
-        this.laberinto = laberinto;
     }
 
     // Get-errak

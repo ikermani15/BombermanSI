@@ -43,10 +43,9 @@ public class LaberintoBista extends JFrame implements Observer {
 		Gelaxka hasierakoGelaxka = laberinto.getGelaxka(0, 0);
 		hasierakoGelaxka.gehituBomberman();
 
-		// Fondo de la imagen
 		Image fondo = laberinto.getFondo().getImage();
 
-		// Panel del laberinto
+		// Laberinto panela
 		laberintoPanel = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -55,12 +54,12 @@ public class LaberintoBista extends JFrame implements Observer {
 			}
 		};
 
-		// Crear la grid layout para las celdas
+		// Gelaxkak ondo ezartzeko GridLayout
 		laberintoPanel.setLayout(new GridLayout(laberinto.getIlarak(), laberinto.getZutabeak()));
 		laberintoPanel
 				.setPreferredSize(new Dimension(laberinto.getZutabeak() * cellSize, laberinto.getIlarak() * cellSize));
 
-		// Crear cada GelaxkaBista para cada celda en el laberinto
+		// Laberintoko gelaxka bakoitzerako GelaxkaBista sortu
 		for (int i = 0; i < laberinto.getIlarak(); i++) {
 			for (int j = 0; j < laberinto.getZutabeak(); j++) {
 				Gelaxka gelaxka = laberinto.getGelaxka(j, i);
@@ -72,7 +71,7 @@ public class LaberintoBista extends JFrame implements Observer {
 		add(laberintoPanel, BorderLayout.CENTER);
 		laberintoPanel.setFocusable(true);
 
-		// Controlador para manejar teclas
+		// Kontrolatzailea ezarri teklaturako
 		getKontroler();
 		laberintoPanel.addKeyListener(kontroler);
 

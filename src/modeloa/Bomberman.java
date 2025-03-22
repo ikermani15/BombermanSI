@@ -9,22 +9,17 @@ import java.util.TimerTask;
 public abstract class Bomberman {
 	private static Bomberman nBomber;
     private int x, y; // Matrizeko posizioa
-    private final int cellSize = 40; // Gelaxka bakoitzaren tamaina
     private int bombaKop; // Bomba kop
-    private int radioExplosion; // Bomba eztanda radioa
     private String bomberMota;
-    protected Laberinto laberinto; // Laberinto erreferentzia talka lortzeko
+    private Laberinto laberinto = Laberinto.getLaberinto(); // Laberinto erreferentzia talka lortzeko
     protected ImageIcon bombermanIrudia;
-    protected int denbRegenBomba = 3; // Bombak erregeneratzeko denbora
+    private int denbRegenBomba = 3; // Bombak erregeneratzeko denbora
     private boolean regenBomba = false;
     private Timer timer;
 
-    public Bomberman(int bombaKop, int radioExplosion, String tipo) {
-        this.x = 0; // (0, 0)-n hasieratu
-        this.y = 0;
+    public Bomberman(int bombaKop, String mota) {
         this.bombaKop = bombaKop;
-        this.radioExplosion = radioExplosion;
-        this.bomberMota = tipo;
+        this.bomberMota = mota;
     }
     
     public static Bomberman getBomberman() {
@@ -37,14 +32,8 @@ public abstract class Bomberman {
         } else if ("Black".equals(mota)) {
         	nBomber =  new BlackBomber();
         }
-        
-        nBomber.setLaberinto(Laberinto.getLaberinto()); // Relacionar con el laberinto
     }
     
-    public void setLaberinto(Laberinto laberinto) {
-        this.laberinto = laberinto;
-    }    
-
     // Mugimendu metodoak, talka konprobatuz
     public void mugituGora() { 
     	mugituPosible(x, y - 1); 
@@ -62,11 +51,9 @@ public abstract class Bomberman {
     // Mugitu al den konprobatu
     private void mugituPosible(int newX, int newY) {
         if (laberinto != null) {
-            int filas = laberinto.getIlarak();
-            int columnas = laberinto.getZutabeak();
 
             // Limiteen barruan dagoen konprobatu (matrize barruan)
-            if (newX >= 0 && newX < columnas && newY >= 0 && newY < filas) {
+            if (newX >= 0 && newX < laberinto.getZutabeak() && newY >= 0 && newY < laberinto.getIlarak()) {
                 Gelaxka unekoa = laberinto.getGelaxka(x, y);
                 Gelaxka berria = laberinto.getGelaxka(newX, newY);
 
@@ -95,9 +82,9 @@ public abstract class Bomberman {
             // Bomberman motaren arabera, bomba desberdina sortu
             Bomba bomba;
             if (bomberMota.equals("Black")) {
-                bomba = new UltraBomba(x, y, laberinto); // UltraBomba radio 20
+                bomba = new UltraBomba(x, y); // UltraBomba radio 20
             } else {
-                bomba = new DefaultBomba(x, y, laberinto); // DefaultBomba radio 1
+                bomba = new DefaultBomba(x, y); // DefaultBomba radio 1
             }
             
             bomba.bombaTimer();
@@ -138,20 +125,8 @@ public abstract class Bomberman {
     public ImageIcon getIrudia() {
         return bombermanIrudia;
     }
-    
-    // Posizioa lortu
-    public int getXPixel() { 
-    	return this.x * cellSize; 
-    }
-    public int getYPixel() { 
-    	return this.y * cellSize; 
-    }
 
     public int getBombaKop() {
         return bombaKop;
-    }
-
-    public int getRadioExplosion() {
-        return radioExplosion;
     }
 }

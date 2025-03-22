@@ -3,7 +3,7 @@ package modeloa;
 import javax.swing.ImageIcon;
 
 public abstract class Bloke{
-    protected int x, y;
+    private int x, y;
     protected ImageIcon blokeIrudia;
 
     public Bloke(int x, int y) {
@@ -16,7 +16,7 @@ public abstract class Bloke{
     public int getY() { return y; }
     public ImageIcon getBlokeIrudia() { return blokeIrudia; }
 
-    // Apurtu daiteke(?)
+    // Apurtu daiteke (bakarrik BlokeBiguna)
     public boolean apurtuDaiteke() {
         return false;
     }
