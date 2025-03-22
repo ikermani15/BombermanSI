@@ -56,13 +56,13 @@ public class LaberintoBista extends JFrame implements Observer {
 		};
 
 		// Crear la grid layout para las celdas
-		laberintoPanel.setLayout(new GridLayout(laberinto.getFilas(), laberinto.getColumnas()));
+		laberintoPanel.setLayout(new GridLayout(laberinto.getIlarak(), laberinto.getZutabeak()));
 		laberintoPanel
-				.setPreferredSize(new Dimension(laberinto.getColumnas() * cellSize, laberinto.getFilas() * cellSize));
+				.setPreferredSize(new Dimension(laberinto.getZutabeak() * cellSize, laberinto.getIlarak() * cellSize));
 
 		// Crear cada GelaxkaBista para cada celda en el laberinto
-		for (int i = 0; i < laberinto.getFilas(); i++) {
-			for (int j = 0; j < laberinto.getColumnas(); j++) {
+		for (int i = 0; i < laberinto.getIlarak(); i++) {
+			for (int j = 0; j < laberinto.getZutabeak(); j++) {
 				Gelaxka gelaxka = laberinto.getGelaxka(j, i);
 				GelaxkaBista gelaxkaBista = new GelaxkaBista(gelaxka);
 				laberintoPanel.add(gelaxkaBista);

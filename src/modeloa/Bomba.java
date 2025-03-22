@@ -65,7 +65,7 @@ public abstract class Bomba {
     
     // Eztandaren metodoa
     public boolean eztandaPos(int x, int y) {
-        if (x < 0 || x >= laberinto.getColumnas() || y < 0 || y >= laberinto.getFilas()) {
+        if (x < 0 || x >= laberinto.getZutabeak() || y < 0 || y >= laberinto.getIlarak()) {
             return false;
         }
 
@@ -97,7 +97,7 @@ public abstract class Bomba {
         }
 
         // BlokeBigun guztiak apurtuz gero irabazi
-        if (Laberinto.getBlokeBigunKop() == 0) {
+        if (laberinto.getBlokeBigunKop() == 0) {
             gelaxka.irabazi();
         }
 
@@ -118,7 +118,7 @@ public abstract class Bomba {
     }
 
     private void kenduSuaPos(int x, int y) {
-        if (x < 0 || x >= laberinto.getColumnas() || y < 0 || y >= laberinto.getFilas()) {
+        if (x < 0 || x >= laberinto.getZutabeak() || y < 0 || y >= laberinto.getIlarak()) {
             return;
         }
 
@@ -136,7 +136,7 @@ public abstract class Bomba {
             @Override
             public void run() {
                 eztanda();
-                System.out.println("BlokeBigun totala: " + Laberinto.getBlokeBigunKop());
+                System.out.println("BlokeBigun totala: " + laberinto.getBlokeBigunKop());
             }
         };
         timer.schedule(timerTask, bombaDenb * 1000);

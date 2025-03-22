@@ -1,11 +1,7 @@
 package modeloa;
 
 import java.util.Observable;
-import java.util.Random;
-
 import javax.swing.ImageIcon;
-
-import bista.LaberintoBista;
 
 public abstract class Laberinto extends Observable {
 	private static Laberinto nLab;
@@ -13,10 +9,10 @@ public abstract class Laberinto extends Observable {
     protected final int zutabe = 17; 
     protected Gelaxka[][] gelaxka; // Gelaxken matrizea
     protected ImageIcon fondo;
-    private static int blokeBigunKop = 0;
+    private int blokeBigunKop = 0;
 
     public Laberinto() {
-    	this.gelaxka = new Gelaxka[getFilas()][getColumnas()];
+    	this.gelaxka = new Gelaxka[getIlarak()][getZutabeak()];
     }
    
     public static Laberinto getLaberinto() {
@@ -42,7 +38,7 @@ public abstract class Laberinto extends Observable {
     }
     
     // BlokeBigun kopurua lortzeko
-    public static int getBlokeBigunKop() {
+    public int getBlokeBigunKop() {
         return blokeBigunKop;
     }
 
@@ -68,11 +64,11 @@ public abstract class Laberinto extends Observable {
         return fondo;
     }
 
-    public int getColumnas() {
+    public int getZutabeak() {
         return zutabe;
     }
 
-    public int getFilas() {
+    public int getIlarak() {
         return ilara;
     }
 

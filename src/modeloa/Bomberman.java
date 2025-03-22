@@ -62,8 +62,8 @@ public abstract class Bomberman {
     // Mugitu al den konprobatu
     private void mugituPosible(int newX, int newY) {
         if (laberinto != null) {
-            int filas = laberinto.getFilas();
-            int columnas = laberinto.getColumnas();
+            int filas = laberinto.getIlarak();
+            int columnas = laberinto.getZutabeak();
 
             // Limiteen barruan dagoen konprobatu (matrize barruan)
             if (newX >= 0 && newX < columnas && newY >= 0 && newY < filas) {

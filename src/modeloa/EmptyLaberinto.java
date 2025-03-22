@@ -11,8 +11,8 @@ public class EmptyLaberinto extends Laberinto {
     }
 	
 	private void laberintoaSortu() {
-	    for (int i = 0; i < getFilas(); i++) {
-	        for (int j = 0; j < getColumnas(); j++) {
+	    for (int i = 0; i < getIlarak(); i++) {
+	        for (int j = 0; j < getZutabeak(); j++) {
 	        	gelaxka[i][j] = new Gelaxka(j, i, null); // Dena hutsik
 	        }
 	    }

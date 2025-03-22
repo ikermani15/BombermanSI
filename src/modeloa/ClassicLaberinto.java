@@ -14,8 +14,8 @@ public class ClassicLaberinto extends Laberinto {
 	    Random rand = new Random();
 	    int etsaiKop = 0;
 
-	    for (int i = 0; i < getFilas(); i++) {
-            for (int j = 0; j < getColumnas(); j++) {
+	    for (int i = 0; i < getIlarak(); i++) {
+            for (int j = 0; j < getZutabeak(); j++) {
                 Bloke bloke = null;
 
                 if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1)) {
