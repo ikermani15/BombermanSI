@@ -22,17 +22,13 @@ public class GelaxkaBista extends JLabel implements Observer {
 		gelaxka.addObserver(this);
 	}
 
-	// ESTO EN EL UPDATE MEJOR, LLAMAR ALGO COMO "SORTU" PARA QUE AL CREARSE SE
-	// ASIGNEN LAS IMAGENES
 	// Gelaxka bakoitzari irudiak ezarri
 	private void gelaxkaIrudi() {
 		if (gelaxka != null) {
 			if (gelaxka.getBomberman() != null) { // Bomberman dago
 				ImageIcon bomberImg = gelaxka.getBomberman().getIrudia();
-				if (bomberImg != null) {
-					Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-					setIcon(new ImageIcon(img));
-				}
+				Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+				setIcon(new ImageIcon(img));
 			} else if (gelaxka.getBloke() != null) {
 				setIcon(gelaxka.getBloke().getBlokeIrudia()); // Blokearen irudia
 			} else {
@@ -68,21 +64,15 @@ public class GelaxkaBista extends JLabel implements Observer {
 		// Gelaxkan bomberman badago irudia ezarri
 		if (gelaxka != null && gelaxka.getBomberman() != null) {
 			ImageIcon bomberImg = gelaxka.getBomberman().getIrudia();
-			if (bomberImg != null) {
-				Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-				setIcon(new ImageIcon(img));
-			}
+			Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+			setIcon(new ImageIcon(img));
 			// Bomba baldin badago
 		} else if (gelaxka.getBomba() != null) {
 			ImageIcon bombaImg = gelaxka.getBomba().getBombaIrudia();
-			// Irudia ezarri
-			if (bombaImg != null) {
-				Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-				setIcon(new ImageIcon(img));
-			}
-			// Ez badago, gelaxka hutsa ezarri
+			Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+			setIcon(new ImageIcon(img));
 		} else {
-			setIcon(null); // Gelaxka hutsa jartzeko
+			setIcon(null);
 		}
 	}
 
@@ -93,12 +83,10 @@ public class GelaxkaBista extends JLabel implements Observer {
 
 	// Bomba jartzean
 	private void bombaJarri() {
-		if (gelaxka.getBomba() != null) { // Bomba badago
+		if (gelaxka.getBomba() != null) {
 			ImageIcon bombaImg = gelaxka.getBomba().getBombaIrudia();
-			if (bombaImg != null) {
-				Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-				setIcon(new ImageIcon(img));
-			}
+			Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+			setIcon(new ImageIcon(img));
 		}
 	}
 
@@ -116,10 +104,6 @@ public class GelaxkaBista extends JLabel implements Observer {
 
 	// Sua kendu
 	private void suaKendu() {
-		if (gelaxka.getBloke() != null) {
-			setIcon(gelaxka.getBloke().getBlokeIrudia());
-		} else {
-			setIcon(null);
-		}
+		setIcon(null);
 	}
 }

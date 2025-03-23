@@ -12,7 +12,6 @@ public class SoftLaberinto extends Laberinto {
 	
 	private void laberintoaSortu() {
 	    Random rand = new Random();
-	    int etsaiKop = 0;
 
 	    for (int i = 0; i < getIlarak(); i++) {
 	        for (int j = 0; j < getZutabeak(); j++) {

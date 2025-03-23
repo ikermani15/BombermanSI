@@ -69,9 +69,6 @@ public abstract class Bomba {
         }
 
         Gelaxka gelaxka = laberinto.getGelaxka(x, y);
-        if (gelaxka == null) {
-            return false;
-        }
 
         // Bloke bat badago
         Bloke bloke = gelaxka.getBloke();
@@ -100,9 +97,8 @@ public abstract class Bomba {
             gelaxka.irabazi();
         }
 
-        return true; // Norabide honetan eztanda jarraitu
+        return true; // Eztanda jarraitu
     }
-
     
     // Gelaxketatik sua kentzeko
     private void kenduSua() {
@@ -122,8 +118,8 @@ public abstract class Bomba {
         }
 
         Gelaxka gelaxka = laberinto.getGelaxka(x, y);
-        // BlokeGogorra-k ez ezabatzeko
-        if (gelaxka != null && (gelaxka.getBloke() == null || gelaxka.getBloke().apurtuDaiteke())) {
+        // Blokeak ez ezabatzeko
+        if (gelaxka != null && gelaxka.getBloke() == null) {
             gelaxka.suaKendu();
         }
     }
@@ -157,6 +153,5 @@ public abstract class Bomba {
     public boolean bombaAktiboDago() {
         return bombaDenb > 0;
     }
-    
 
 }
