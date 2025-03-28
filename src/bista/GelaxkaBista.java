@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import javax.swing.*;
 import modeloa.Gelaxka;
@@ -16,24 +17,25 @@ public class GelaxkaBista extends JLabel implements Observer {
 	public GelaxkaBista(Gelaxka gelaxka) {
 		this.gelaxka = gelaxka;
 		setPreferredSize(new Dimension(cellSize, cellSize));
-		gelaxkaIrudi();
 
 		// GelaxkaBista Gelaxka Observer-a izango da
 		gelaxka.addObserver(this);
+
+		gelaxkaIrudi();
 	}
 
 	// Gelaxka bakoitzari irudiak ezarri
 	private void gelaxkaIrudi() {
-		if (gelaxka != null) {
-			if (gelaxka.getBomberman() != null) { // Bomberman dago
-				ImageIcon bomberImg = gelaxka.getBomberman().getIrudia();
-				Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-				setIcon(new ImageIcon(img));
-			} else if (gelaxka.getBloke() != null) {
-				setIcon(gelaxka.getBloke().getBlokeIrudia()); // Blokearen irudia
+		if (gelaxka.getBomberman() != null) { // Bomberman dago
+			gehituBomberman();
+		} else if (gelaxka.getBloke() != null) {
+			if (gelaxka.getBloke().apurtuDaiteke()) {
+				blokeBigunaSortu();
 			} else {
-				setIcon(null); // Gelaxka hutsa
+				blokeGogorraSortu();
 			}
+		} else {
+			setIcon(null); // Gelaxka hutsa
 		}
 	}
 
@@ -43,8 +45,17 @@ public class GelaxkaBista extends JLabel implements Observer {
 		if (arg instanceof String) {
 			String event = (String) arg;
 
-			if (event.equals("mugitu")) {
-				eguneratuBomberman();
+			if (event.equals("blokeBigunaSortu")) {
+				System.out.println("Sortu BIGUN deitu");
+				blokeBigunaSortu();
+			} else if (event.equals("blokeGogorraSortu")) {
+				System.out.println("Sortu GOGOR deitu");
+				blokeGogorraSortu();
+			} else if (event.equals("gehituBomberman")) {
+				System.out.println("BOMBERMAN");
+				gehituBomberman();
+			} else if (event.equals("kenduBomberman")) {
+				kenduBomberman();
 			} else if (event.equals("apurtu")) {
 				apurtuBlokea();
 			} else if (event.equals("bombaJarri")) {
@@ -59,21 +70,40 @@ public class GelaxkaBista extends JLabel implements Observer {
 		}
 	}
 
-	// Bomberman gelaxkan eguneratu
-	private void eguneratuBomberman() {
-		// Gelaxkan bomberman badago irudia ezarri
-		if (gelaxka != null && gelaxka.getBomberman() != null) {
-			ImageIcon bomberImg = gelaxka.getBomberman().getIrudia();
-			Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-			setIcon(new ImageIcon(img));
-			// Bomba baldin badago
-		} else if (gelaxka.getBomba() != null) {
-			ImageIcon bombaImg = gelaxka.getBomba().getBombaIrudia();
-			Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-			setIcon(new ImageIcon(img));
-		} else {
-			setIcon(null);
-		}
+	private void blokeBigunaSortu() {
+		System.out.println("Sortu BIGUNA deitu");
+		ImageIcon[] softImages = { new ImageIcon(getClass().getResource("/img/soft1.png")),
+				new ImageIcon(getClass().getResource("/img/soft2.png")),
+				new ImageIcon(getClass().getResource("/img/soft3.png")),
+				new ImageIcon(getClass().getResource("/img/soft4.png")),
+				new ImageIcon(getClass().getResource("/img/soft41.png")),
+				new ImageIcon(getClass().getResource("/img/soft42.png")),
+				new ImageIcon(getClass().getResource("/img/soft43.png")),
+				new ImageIcon(getClass().getResource("/img/soft44.png")),
+				new ImageIcon(getClass().getResource("/img/soft45.png")),
+				new ImageIcon(getClass().getResource("/img/soft46.png")) };
+		setIcon(softImages[new Random().nextInt(softImages.length)]);
+	}
+
+	private void blokeGogorraSortu() {
+		System.out.println("Sortu GOGORRA deitu");
+		ImageIcon[] hardImages = { new ImageIcon(getClass().getResource("/img/hard1.png")),
+				new ImageIcon(getClass().getResource("/img/hard2.png")),
+				new ImageIcon(getClass().getResource("/img/hard3.png")),
+				new ImageIcon(getClass().getResource("/img/hard4.png")) };
+		setIcon(hardImages[new Random().nextInt(hardImages.length)]);
+	}
+
+	// Bomberman gelaxkan gehitu
+	private void gehituBomberman() {
+		ImageIcon bomberImg = new ImageIcon(getClass().getResource("/img/whitefront1.png"));
+		Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+		setIcon(new ImageIcon(img));
+	}
+
+	// Bomberman gelaxkan gehitu
+	private void kenduBomberman() {
+		setIcon(null);
 	}
 
 	// Blokea apurtzean
@@ -83,11 +113,9 @@ public class GelaxkaBista extends JLabel implements Observer {
 
 	// Bomba jartzean
 	private void bombaJarri() {
-		if (gelaxka.getBomba() != null) {
-			ImageIcon bombaImg = gelaxka.getBomba().getBombaIrudia();
-			Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-			setIcon(new ImageIcon(img));
-		}
+		ImageIcon bombaImg = new ImageIcon(getClass().getResource("/img/bomb1.png"));
+		Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+		setIcon(new ImageIcon(img));
 	}
 
 	// Eztanda egin ondoren bomba kendu

@@ -1,8 +1,5 @@
 package modeloa;
 
-import java.awt.*;
-
-import javax.swing.ImageIcon;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,8 +8,6 @@ public abstract class Bomberman {
     private int x, y; // Matrizeko posizioa
     private int bombaKop; // Bomba kop
     private String bomberMota;
-    private Laberinto laberinto = Laberinto.getLaberinto(); // Laberinto erreferentzia talka lortzeko
-    protected ImageIcon bombermanIrudia;
     private int denbRegenBomba = 3; // Bombak erregeneratzeko denbora
     private boolean regenBomba = false;
     private Timer timer;
@@ -50,12 +45,12 @@ public abstract class Bomberman {
     
     // Mugitu al den konprobatu
     private void mugituPosible(int newX, int newY) {
-        if (laberinto != null) {
+        if (Laberinto.getLaberinto() != null) {
 
             // Limiteen barruan dagoen konprobatu (matrize barruan)
-            if (newX >= 0 && newX < laberinto.getZutabeak() && newY >= 0 && newY < laberinto.getIlarak()) {
-                Gelaxka unekoa = laberinto.getGelaxka(x, y);
-                Gelaxka berria = laberinto.getGelaxka(newX, newY);
+            if (newX >= 0 && newX < Laberinto.getLaberinto().getZutabeak() && newY >= 0 && newY < Laberinto.getLaberinto().getIlarak()) {
+                Gelaxka unekoa = Laberinto.getLaberinto().getGelaxka(x, y);
+                Gelaxka berria = Laberinto.getLaberinto().getGelaxka(newX, newY);
 
                 // Gelaxka hutsa bada (bidea) eta bombarik ez dago
                 if (berria.hutsikDago() && !berria.bombaDago()) { 
@@ -90,7 +85,7 @@ public abstract class Bomberman {
             bomba.bombaTimer();
             
             // Bomba gelaxkan ezarri
-            Gelaxka unekoa = laberinto.getGelaxka(x, y);
+            Gelaxka unekoa = Laberinto.getLaberinto().getGelaxka(x, y);
             unekoa.gehituBomba(bomba);
             
             bombaKop--;
@@ -120,10 +115,6 @@ public abstract class Bomberman {
     // Bombak erregeneratzen dagoen konprobatu
     public boolean regenAktibo() {
         return regenBomba;
-    }
-
-    public ImageIcon getIrudia() {
-        return bombermanIrudia;
     }
 
     public int getBombaKop() {

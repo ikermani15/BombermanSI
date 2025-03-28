@@ -29,8 +29,6 @@ public class ClassicLaberinto extends Laberinto {
                 gelaxka[i][j] = new Gelaxka(j, i, bloke);
             }
         }
-	    
 	    System.out.println("BlokeBigun totala: " + getBlokeBigunKop());
 	}
-
 }

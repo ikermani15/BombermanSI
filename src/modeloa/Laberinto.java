@@ -3,7 +3,7 @@ package modeloa;
 import java.util.Observable;
 import javax.swing.ImageIcon;
 
-public abstract class Laberinto extends Observable {
+public class Laberinto extends Observable {
 	private static Laberinto nLab;
     protected final int ilara = 11; 
     protected final int zutabe = 17; 

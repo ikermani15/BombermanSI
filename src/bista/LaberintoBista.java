@@ -39,10 +39,6 @@ public class LaberintoBista extends JFrame implements Observer {
 	private void laberintoSortu() {
 		Laberinto laberinto = Laberinto.getLaberinto();
 
-		// Lehen gelaxkan Bomberman ezarri
-		Gelaxka hasierakoGelaxka = laberinto.getGelaxka(0, 0);
-		hasierakoGelaxka.gehituBomberman();
-
 		Image fondo = laberinto.getFondo().getImage();
 
 		// Laberinto panela
@@ -91,21 +87,23 @@ public class LaberintoBista extends JFrame implements Observer {
 	private class Kontrolatzaile implements KeyListener {
 		@Override
 		public void keyPressed(KeyEvent e) {
+			Bomberman bomberman = Bomberman.getBomberman();
+
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
-				Bomberman.getBomberman().mugituGora();
+				bomberman.mugituGora();
 				break;
 			case KeyEvent.VK_DOWN:
-				Bomberman.getBomberman().mugituBehera();
+				bomberman.mugituBehera();
 				break;
 			case KeyEvent.VK_LEFT:
-				Bomberman.getBomberman().mugituEzkerra();
+				bomberman.mugituEzkerra();
 				break;
 			case KeyEvent.VK_RIGHT:
-				Bomberman.getBomberman().mugituEskuma();
+				bomberman.mugituEskuma();
 				break;
 			case KeyEvent.VK_SPACE:
-				Bomberman.getBomberman().bombaJarri();
+				bomberman.bombaJarri();
 				break;
 			}
 		}

@@ -15,6 +15,17 @@ public class Gelaxka extends Observable {
         this.x = x;
         this.y = y;
         this.bloke = bloke;
+        
+        // Blokea bada sortu
+        if (bloke != null) {
+        	System.out.println("Sortu deitu");
+            blokeSortu();
+        }
+        
+        // Lehen gelaxka bada
+        if (x == 0 && y == 0) {
+            gehituBomberman();
+        }
     }
     
     // Gelaxka atazak
@@ -30,6 +41,18 @@ public class Gelaxka extends Observable {
         return y;
     }
     
+    public void blokeSortu() {
+    	System.out.println("Deitu da");
+    	setChanged();
+    	if(bloke.apurtuDaiteke()) {
+    		System.out.println("BIGUNA");
+    		notifyObservers("blokeBigunaSortu");
+    	} else {
+    		System.out.println("GOGORRA");
+    		notifyObservers("blokeGogorraSortu");	
+    	}
+    }
+    
     
     // Bomberman atazak
     public Bomberman getBomberman() {
@@ -38,9 +61,11 @@ public class Gelaxka extends Observable {
     
     // Gelaxkan Bomberman ezarri eta bista notifikatu
     public void gehituBomberman() {
+    	System.out.println("BOMBER");
         this.bomberman = Bomberman.getBomberman();
+        this.bombermanDago = true;
         setChanged();
-        notifyObservers("mugitu");
+        notifyObservers("gehituBomberman");
     }
 
     // Gelaxkan Bomberman dago
@@ -48,11 +73,17 @@ public class Gelaxka extends Observable {
         return bombermanDago;
     }
     
-    // Bomberman gelaxka berrira mugitu
+ // Bomberman gelaxka berrira mugitu
     public void kenduBomberman() {
         this.bomberman = null;
+        this.bombermanDago = false;
         setChanged();
-        notifyObservers("mugitu");
+        
+        if (bomba != null) {
+            notifyObservers("bombaJarri");  // Bomba jarri baldin badu
+        } else {
+            notifyObservers("kenduBomberman");
+        }
     }
 
     
@@ -78,7 +109,7 @@ public class Gelaxka extends Observable {
     public void gehituBomba(Bomba bomba) {
     	this.bomba = bomba;
         setChanged();
-        notifyObservers("bomba");
+        notifyObservers("bombaJarri");
     }
     
     // Bomba eztanda egitean, gelaxkatik kendu

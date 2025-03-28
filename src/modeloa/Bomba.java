@@ -1,6 +1,5 @@
 package modeloa;
 
-import javax.swing.ImageIcon;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,7 +9,6 @@ public abstract class Bomba {
     private int bombaDenb = 3; // Eztanda egin aurretik duen denbora
     private int eztandaDenb = 2; // Eztanda irauten duen denbora
     private Laberinto laberinto = Laberinto.getLaberinto();
-    protected ImageIcon bombImg;
     private Timer timer;
 
     public Bomba(int x, int y, int radio) {
@@ -23,7 +21,6 @@ public abstract class Bomba {
     public int getX() { return x; }
     public int getY() { return y; }
     public int getRadio() { return radio; }
-    public ImageIcon getBombaIrudia() { return bombImg; }
 
     // Eztanda metodoa, bomba bakoitzak bere radioa izango du
     public void eztanda() {
