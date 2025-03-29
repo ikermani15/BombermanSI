@@ -46,7 +46,6 @@ public abstract class Bomberman {
     // Mugitu al den konprobatu
     private void mugituPosible(int newX, int newY) {
         if (Laberinto.getLaberinto() != null) {
-
             // Limiteen barruan dagoen konprobatu (matrize barruan)
             if (newX >= 0 && newX < Laberinto.getLaberinto().getZutabeak() && newY >= 0 && newY < Laberinto.getLaberinto().getIlarak()) {
                 Gelaxka unekoa = Laberinto.getLaberinto().getGelaxka(x, y);

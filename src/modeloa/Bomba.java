@@ -8,7 +8,6 @@ public abstract class Bomba {
     private int radio;
     private int bombaDenb = 3; // Eztanda egin aurretik duen denbora
     private int eztandaDenb = 2; // Eztanda irauten duen denbora
-    private Laberinto laberinto = Laberinto.getLaberinto();
     private Timer timer;
 
     public Bomba(int x, int y, int radio) {
@@ -27,7 +26,7 @@ public abstract class Bomba {
         System.out.println("Eztanda pos (" + y + ", " + x + ")");
 
         // Bomba gelaxkatik kendu
-        Gelaxka gelaxka = laberinto.getGelaxka(x, y);
+        Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
         if (gelaxka != null) {
             gelaxka.kenduBomba();
         }
@@ -61,11 +60,11 @@ public abstract class Bomba {
     
     // Eztandaren metodoa
     public boolean eztandaPos(int x, int y) {
-        if (x < 0 || x >= laberinto.getZutabeak() || y < 0 || y >= laberinto.getIlarak()) {
+        if (x < 0 || x >= Laberinto.getLaberinto().getZutabeak() || y < 0 || y >= Laberinto.getLaberinto().getIlarak()) {
             return false;
         }
 
-        Gelaxka gelaxka = laberinto.getGelaxka(x, y);
+        Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
 
         // Bloke bat badago
         Bloke bloke = gelaxka.getBloke();
@@ -76,7 +75,7 @@ public abstract class Bomba {
 
             // BlokeBiguna bada apurtu, baina eztandarekin jarraitu
             gelaxka.setBloke(null);
-            laberinto.kenduBlokeBigunKop();
+            Laberinto.getLaberinto().kenduBlokeBigunKop();
             gelaxka.suaJarri();
             
             System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
@@ -90,7 +89,7 @@ public abstract class Bomba {
         }
 
         // BlokeBigun guztiak apurtuz gero irabazi
-        if (laberinto.getBlokeBigunKop() == 0) {
+        if (Laberinto.getLaberinto().getBlokeBigunKop() == 0) {
             gelaxka.irabazi();
         }
 
@@ -110,11 +109,11 @@ public abstract class Bomba {
     }
 
     private void kenduSuaPos(int x, int y) {
-        if (x < 0 || x >= laberinto.getZutabeak() || y < 0 || y >= laberinto.getIlarak()) {
+        if (x < 0 || x >= Laberinto.getLaberinto().getZutabeak() || y < 0 || y >= Laberinto.getLaberinto().getIlarak()) {
             return;
         }
 
-        Gelaxka gelaxka = laberinto.getGelaxka(x, y);
+        Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
         // Blokeak ez ezabatzeko
         if (gelaxka != null && gelaxka.getBloke() == null) {
             gelaxka.suaKendu();
@@ -128,7 +127,7 @@ public abstract class Bomba {
             @Override
             public void run() {
                 eztanda();
-                System.out.println("BlokeBigun totala: " + laberinto.getBlokeBigunKop());
+                System.out.println("BlokeBigun totala: " + Laberinto.getLaberinto().getBlokeBigunKop());
             }
         };
         timer.schedule(timerTask, bombaDenb * 1000);
