@@ -3,7 +3,7 @@ package modeloa;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public abstract class Bomberman {
+public class Bomberman {
 	private static Bomberman nBomber;
     private int x, y; // Matrizeko posizioa
     private int bombaKop; // Bomba kop

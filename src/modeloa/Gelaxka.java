@@ -15,17 +15,6 @@ public class Gelaxka extends Observable {
         this.x = x;
         this.y = y;
         this.bloke = bloke;
-        
-        // Blokea bada sortu
-        if (bloke != null) {
-        	System.out.println("Sortu deitu");
-            blokeSortu();
-        }
-        
-        // Lehen gelaxka bada
-        if (x == 0 && y == 0) {
-            gehituBomberman();
-        }
     }
     
     // Gelaxka atazak
@@ -42,13 +31,10 @@ public class Gelaxka extends Observable {
     }
     
     public void blokeSortu() {
-    	System.out.println("Deitu da");
     	setChanged();
     	if(bloke.apurtuDaiteke()) {
-    		System.out.println("BIGUNA");
     		notifyObservers("blokeBigunaSortu");
     	} else {
-    		System.out.println("GOGORRA");
     		notifyObservers("blokeGogorraSortu");	
     	}
     }

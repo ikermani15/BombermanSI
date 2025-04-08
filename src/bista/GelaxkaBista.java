@@ -11,32 +11,13 @@ import modeloa.Gelaxka;
 
 public class GelaxkaBista extends JLabel implements Observer {
 	private static final long serialVersionUID = 1L;
-	private Gelaxka gelaxka;
 	private static final int cellSize = 40;
 
 	public GelaxkaBista(Gelaxka gelaxka) {
-		this.gelaxka = gelaxka;
 		setPreferredSize(new Dimension(cellSize, cellSize));
 
 		// GelaxkaBista Gelaxka Observer-a izango da
 		gelaxka.addObserver(this);
-
-		gelaxkaIrudi();
-	}
-
-	// Gelaxka bakoitzari irudiak ezarri
-	private void gelaxkaIrudi() {
-		if (gelaxka.getBomberman() != null) { // Bomberman dago
-			gehituBomberman();
-		} else if (gelaxka.getBloke() != null) {
-			if (gelaxka.getBloke().apurtuDaiteke()) {
-				blokeBigunaSortu();
-			} else {
-				blokeGogorraSortu();
-			}
-		} else {
-			setIcon(null); // Gelaxka hutsa
-		}
 	}
 
 	// Gelaxketan gertatzen diren aldaketak
@@ -46,13 +27,10 @@ public class GelaxkaBista extends JLabel implements Observer {
 			String event = (String) arg;
 
 			if (event.equals("blokeBigunaSortu")) {
-				System.out.println("Sortu BIGUN deitu");
 				blokeBigunaSortu();
 			} else if (event.equals("blokeGogorraSortu")) {
-				System.out.println("Sortu GOGOR deitu");
 				blokeGogorraSortu();
 			} else if (event.equals("gehituBomberman")) {
-				System.out.println("BOMBERMAN");
 				gehituBomberman();
 			} else if (event.equals("kenduBomberman")) {
 				kenduBomberman();

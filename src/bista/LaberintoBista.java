@@ -61,8 +61,13 @@ public class LaberintoBista extends JFrame implements Observer {
 				Gelaxka gelaxka = laberinto.getGelaxka(j, i);
 				GelaxkaBista gelaxkaBista = new GelaxkaBista(gelaxka);
 				laberintoPanel.add(gelaxkaBista);
+
+				if (gelaxka.getBloke() != null) {
+					gelaxka.blokeSortu();
+				}
 			}
 		}
+		laberinto.getGelaxka(0, 0).gehituBomberman();
 
 		add(laberintoPanel, BorderLayout.CENTER);
 		laberintoPanel.setFocusable(true);
