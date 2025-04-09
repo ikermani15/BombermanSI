@@ -78,18 +78,25 @@ public abstract class Bomba {
             Laberinto.getLaberinto().kenduBlokeBigunKop();
             gelaxka.suaJarri();
             
-            System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
+            //System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
+            
+        } else if(gelaxka.etsaiaDago()) {
+        	gelaxka.getEtsaia().hil();
+        	gelaxka.kenduEtsaia();
+        	Laberinto.getLaberinto().kenduEtsaiKop();
+        	System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
+        	System.out.println("Etsai kopuru totala: " + Laberinto.getLaberinto().getEtsaiKop());
         } else {
             gelaxka.suaJarri(); // Blokerik ez badago sua jarri
         }
 
         // Bomberman eztanda radioan badago, partida amaitu
-        if (gelaxka.getBomberman() != null) {
+        if (gelaxka.bombermanDago()) {
             gelaxka.galdu();
         }
 
-        // BlokeBigun guztiak apurtuz gero irabazi
-        if (Laberinto.getLaberinto().getBlokeBigunKop() == 0) {
+        // Etsai guztiak eliminatuz gero irabazi
+        if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
             gelaxka.irabazi();
         }
 
@@ -114,8 +121,8 @@ public abstract class Bomba {
         }
 
         Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
-        // Blokeak ez ezabatzeko
-        if (gelaxka != null && gelaxka.getBloke() == null) {
+        // Irudiak ez ezabatzeko (BlokeGogorra topatuz gero)
+        if (gelaxka != null && gelaxka.getBloke() == null && !gelaxka.etsaiaDago() && !gelaxka.bombermanDago() && !gelaxka.bombaDago()) {
             gelaxka.suaKendu();
         }
     }

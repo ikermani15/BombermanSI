@@ -60,7 +60,7 @@ public class Bomberman {
                     berria.gehituBomberman(); // Bomberman gelaxka berrian ezarri
                     
                     // Posizio berrian sua baldin badago
-                    if(berria.suaDago()) {
+                    if(berria.suaDago() || berria.etsaiaDago()) {
                     	berria.galdu();
                     }
                 }

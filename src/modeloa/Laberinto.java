@@ -8,8 +8,8 @@ public class Laberinto extends Observable {
     protected final int ilara = 11; 
     protected final int zutabe = 17; 
     protected Gelaxka[][] gelaxka; // Gelaxken matrizea
-    protected ImageIcon fondo;
     private int blokeBigunKop = 0;
+    private int etsaiKop = 0;
 
     public Laberinto() {
     	this.gelaxka = new Gelaxka[getIlarak()][getZutabeak()];
@@ -37,6 +37,17 @@ public class Laberinto extends Observable {
         notifyObservers("sortu");
     }
     
+    public void abiaraziEtsaiGuztiak() {
+        for (int i = 0; i < getIlarak(); i++) {
+            for (int j = 0; j < getZutabeak(); j++) {
+                Gelaxka g = getGelaxka(j, i);
+                if (g.etsaiaDago() && g.getEtsaia() != null) {
+                    g.getEtsaia().abiaraziEtsaia();
+                }
+            }
+        }
+    }
+    
     // BlokeBigun kopurua lortzeko
     public int getBlokeBigunKop() {
         return blokeBigunKop;
@@ -51,6 +62,21 @@ public class Laberinto extends Observable {
             blokeBigunKop--;
         }
     }
+    
+    // Etsai kopurua lortzeko
+    public int getEtsaiKop() {
+        return etsaiKop;
+    }
+    
+    public void gehituEtsaiKop() {
+    	etsaiKop++;
+    }
+
+    public void kenduEtsaiKop() {
+        if (etsaiKop > 0) {
+        	etsaiKop--;
+        }
+    }
 
     public Gelaxka getGelaxka(int x, int y) {
         return gelaxka[y][x];
@@ -58,10 +84,6 @@ public class Laberinto extends Observable {
 
     public void setBloke(int x, int y, Bloke bloke) {
     	gelaxka[y][x].setBloke(bloke);
-    }
-
-    public ImageIcon getFondo() {
-        return fondo;
     }
 
     public int getZutabeak() {

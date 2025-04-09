@@ -6,6 +6,8 @@ public class Gelaxka extends Observable {
     private Bloke bloke;
     private Bomberman bomberman;
     private Bomba bomba;
+    private Etsaia etsai;
+    private boolean etsaiaDago;
     private final int x, y;
     private boolean bombermanDago;
     private boolean suaDago = false;
@@ -30,13 +32,32 @@ public class Gelaxka extends Observable {
         return y;
     }
     
-    public void blokeSortu() {
+    
+    // Etsaien atazak
+    public Etsaia getEtsaia() {
+    	return this.etsai;
+    }
+    
+    public void sortuEtsaia(Etsaia etsai) {
+    	this.etsai = etsai;
+    }
+    
+    public void gehituEtsaia() {
+    	this.etsaiaDago = true;
+        setChanged();
+        notifyObservers("gehituEtsaia");
+    }
+    
+    public void kenduEtsaia() {
+    	this.etsai = null;
+    	this.etsaiaDago = false;
     	setChanged();
-    	if(bloke.apurtuDaiteke()) {
-    		notifyObservers("blokeBigunaSortu");
-    	} else {
-    		notifyObservers("blokeGogorraSortu");	
-    	}
+    	notifyObservers("kenduEtsaia");
+    }
+    
+    // Gelaxkan Etsaia dago
+    public boolean etsaiaDago() {
+        return this.etsaiaDago;
     }
     
     
@@ -55,7 +76,7 @@ public class Gelaxka extends Observable {
 
     // Gelaxkan Bomberman dago
     public boolean bombermanDago() {
-        return bombermanDago;
+        return this.bombermanDago;
     }
     
     // Bomberman gelaxka berrira mugitu
@@ -75,6 +96,15 @@ public class Gelaxka extends Observable {
     // Blokeen atazak
     public Bloke getBloke() {
         return bloke;
+    }
+    
+    public void gehituBloke() {
+    	setChanged();
+    	if(bloke.apurtuDaiteke()) {
+    		notifyObservers("blokeBigunaSortu");
+    	} else {
+    		notifyObservers("blokeGogorraSortu");	
+    	}
     }
 
     // Blokea apurtzean bista notifikatu
@@ -109,7 +139,7 @@ public class Gelaxka extends Observable {
     // Eztanda egitean, bista notifikatu
     public void suaJarri() {
     	suaKop++;
-    	suaDago = true;
+    	this.suaDago = true;
     	setChanged();
         notifyObservers("suaJarri");
     }
@@ -122,7 +152,7 @@ public class Gelaxka extends Observable {
         }
         
         if (suaKop == 0) { // Sua kendu gelaxkan su-rik ez dagoenean
-            suaDago = false;
+            this.suaDago = false;
             setChanged();
             notifyObservers("suaKendu");
         }
@@ -135,20 +165,18 @@ public class Gelaxka extends Observable {
     
     // Gelaxkan Sua dago
     public boolean suaDago() {
-        return suaDago;
+        return this.suaDago;
     }
     
     
     // BlokeBiguna-rik ez dagoenean
     public void irabazi() {
-    	System.out.println("BlokeBigun guztiak apartu dira!");
     	System.out.println("WIN!");
     	System.exit(1);
     }
     
     // Eztanda radio barruan egonez gero
     public void galdu() {
-    	System.out.println("Eztanda arrapatu zaitu!");
     	System.out.println("GAME OVER!");
     	System.exit(1);
     }

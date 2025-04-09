@@ -44,12 +44,26 @@ public class GelaxkaBista extends JLabel implements Observer {
 				suaJarri();
 			} else if (event.equals("suaKendu")) {
 				suaKendu();
+			} else if (event.equals("kenduEtsaia")) {
+				kenduEtsaia();
+			} else if (event.equals("gehituEtsaia")) {
+				gehituEtsaia();
 			}
 		}
 	}
 
+	// Gelaxkan etsaia gehitu
+	private void gehituEtsaia() {
+		ImageIcon etsaiImages = new ImageIcon(getClass().getResource("/img/baloon1.png"));
+		setIcon(etsaiImages);
+	}
+
+	// Gelaxkatik etsaia kendu
+	private void kenduEtsaia() {
+		setIcon(null);
+	}
+
 	private void blokeBigunaSortu() {
-		System.out.println("Sortu BIGUNA deitu");
 		ImageIcon[] softImages = { new ImageIcon(getClass().getResource("/img/soft1.png")),
 				new ImageIcon(getClass().getResource("/img/soft2.png")),
 				new ImageIcon(getClass().getResource("/img/soft3.png")),
@@ -64,7 +78,6 @@ public class GelaxkaBista extends JLabel implements Observer {
 	}
 
 	private void blokeGogorraSortu() {
-		System.out.println("Sortu GOGORRA deitu");
 		ImageIcon[] hardImages = { new ImageIcon(getClass().getResource("/img/hard1.png")),
 				new ImageIcon(getClass().getResource("/img/hard2.png")),
 				new ImageIcon(getClass().getResource("/img/hard3.png")),
