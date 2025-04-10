@@ -76,19 +76,28 @@ public abstract class Bomba {
             // BlokeBiguna bada apurtu, baina eztandarekin jarraitu
             gelaxka.setBloke(null);
             Laberinto.getLaberinto().kenduBlokeBigunKop();
-            gelaxka.suaJarri();
             
             //System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
-            
-        } else if(gelaxka.etsaiaDago()) {
-        	gelaxka.getEtsaia().hil();
-        	gelaxka.kenduEtsaia();
-        	Laberinto.getLaberinto().kenduEtsaiKop();
-        	System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
-        	System.out.println("Etsai kopuru totala: " + Laberinto.getLaberinto().getEtsaiKop());
-        } else {
-            gelaxka.suaJarri(); // Blokerik ez badago sua jarri
         }
+        
+        // Gelaxkan etsaia badago
+        if (gelaxka.etsaiaDago()) {
+            Etsaia etsaia = gelaxka.getEtsaia();
+            if (etsaia != null) {
+                etsaia.hil();
+                gelaxka.kenduEtsaia();
+                Laberinto.getLaberinto().kenduEtsaiKop();
+                System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
+                System.out.println("Etsai kopuru totala: " + Laberinto.getLaberinto().getEtsaiKop());
+
+                // Si ya no quedan enemigos, ganar el juego
+                if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
+                    gelaxka.irabazi();
+                }
+            }
+        }
+        
+        gelaxka.suaJarri(); // BlokeGogorrik ez dagoen tokian sua jarri
 
         // Bomberman eztanda radioan badago, partida amaitu
         if (gelaxka.bombermanDago()) {

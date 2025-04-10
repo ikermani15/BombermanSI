@@ -23,7 +23,7 @@ public class Etsaia {
                 mugituAleatorio();
             }
         };
-        mugTimer.scheduleAtFixedRate(mugimenduTask, 0, 2000); // Mugitu 2 segundoro
+        mugTimer.scheduleAtFixedRate(mugimenduTask, 0, 1000); // Mugitu segundoro
     }
     
     public void hil() {
