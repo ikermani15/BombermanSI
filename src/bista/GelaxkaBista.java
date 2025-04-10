@@ -30,8 +30,10 @@ public class GelaxkaBista extends JLabel implements Observer {
 				blokeBigunaSortu();
 			} else if (event.equals("blokeGogorraSortu")) {
 				blokeGogorraSortu();
-			} else if (event.equals("gehituBomberman")) {
-				gehituBomberman();
+			} else if (event.equals("gehituWhiteBomberman")) {
+				gehituWhiteBomberman();
+			} else if (event.equals("gehituBlackBomberman")) {
+				gehituBlackBomberman();
 			} else if (event.equals("kenduBomberman")) {
 				kenduBomberman();
 			} else if (event.equals("apurtu")) {
@@ -85,9 +87,16 @@ public class GelaxkaBista extends JLabel implements Observer {
 		setIcon(hardImages[new Random().nextInt(hardImages.length)]);
 	}
 
-	// Bomberman gelaxkan gehitu
-	private void gehituBomberman() {
+	// WhiteBomber gelaxkan gehitu
+	private void gehituWhiteBomberman() {
 		ImageIcon bomberImg = new ImageIcon(getClass().getResource("/img/whitefront1.png"));
+		Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+		setIcon(new ImageIcon(img));
+	}
+
+	// BlackBomber gelaxkan gehitu
+	private void gehituBlackBomberman() {
+		ImageIcon bomberImg = new ImageIcon(getClass().getResource("/img/blackfront1.png"));
 		Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
 		setIcon(new ImageIcon(img));
 	}

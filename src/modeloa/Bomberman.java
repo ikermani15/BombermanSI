@@ -7,24 +7,33 @@ public class Bomberman {
 	private static Bomberman nBomber;
     private int x, y; // Matrizeko posizioa
     private int bombaKop; // Bomba kop
-    private String bomberMota;
     private int denbRegenBomba = 3; // Bombak erregeneratzeko denbora
     private boolean regenBomba = false;
     private Timer timer;
+    private String mota;
 
     public Bomberman(int bombaKop, String mota) {
         this.bombaKop = bombaKop;
-        this.bomberMota = mota;
+        this.mota = mota;
     }
     
     public static Bomberman getBomberman() {
     	return nBomber;
     }
     
+    public String getMota() {
+    	return this.mota;
+    }
+    
     public static Bomberman sortuBomberman(String mota) {
     	BombermanFactory factory = BombermanFactory.getBombermanFactory();
         nBomber = factory.createBomberman(mota);
         return nBomber;
+    }
+    
+    public Bomba sortuBomba(int x, int y) {
+        // Defektuz normala
+        return new DefaultBomba(x, y, 1);
     }
     
     // Mugimendu metodoak, talka konprobatuz
@@ -55,7 +64,13 @@ public class Bomberman {
                     // Posizio berria ezarri
                     this.x = newX;
                     this.y = newY;
-                    berria.gehituBomberman(); // Bomberman gelaxka berrian ezarri
+                    
+                    // Motaren arabera gelaxka berrian bomberman gehitu
+                    if(nBomber.getMota().equals("White")) {
+                    	berria.gehituWhiteBomberman();
+                    } else {
+                    	berria.gehituBlackBomberman();
+                    }
                     
                     // Posizio berrian sua baldin badago
                     if(berria.suaDago() || berria.etsaiaDago()) {
@@ -69,15 +84,10 @@ public class Bomberman {
     // Bomba jartzeko
     public void bombaJarri() {
         if (bombaKop > 0) {
-            System.out.println("Bomba ezarri da pos (" + y + ", " + x + ")");
+            //System.out.println("Bomba ezarri da pos (" + y + ", " + x + ")");
             
             // Bomberman motaren arabera, bomba desberdina sortu
-            Bomba bomba;
-            if (bomberMota.equals("Black")) {
-                bomba = new UltraBomba(x, y,20); // UltraBomba radio 20
-            } else {
-                bomba = new DefaultBomba(x, y,1); // DefaultBomba radio 1
-            }
+            Bomba bomba = sortuBomba(x, y);
             
             bomba.bombaTimer();
             

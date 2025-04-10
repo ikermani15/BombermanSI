@@ -70,7 +70,12 @@ public class LaberintoBista extends JFrame implements Observer {
 				}
 			}
 		}
-		laberinto.getGelaxka(0, 0).gehituBomberman();
+		String bombermanMota = Bomberman.getBomberman().getMota();
+		if ("White".equals(bombermanMota)) {
+			laberinto.getGelaxka(0, 0).gehituWhiteBomberman();
+		} else if ("Black".equals(bombermanMota)) {
+			laberinto.getGelaxka(0, 0).gehituBlackBomberman();
+		}
 
 		add(laberintoPanel, BorderLayout.CENTER);
 		laberintoPanel.setFocusable(true);

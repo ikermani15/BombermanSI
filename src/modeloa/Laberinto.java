@@ -1,7 +1,6 @@
 package modeloa;
 
 import java.util.Observable;
-import javax.swing.ImageIcon;
 
 public class Laberinto extends Observable {
 	private static Laberinto nLab;
@@ -21,8 +20,7 @@ public class Laberinto extends Observable {
     
     // Autatutako laberinto mota sortu
     public static Laberinto sortuLaberintoa(String mota) {
-		
-		LaberintoFactory factoryL = LaberintoFactory.getLaberintoFactory();
+		LaberintoFactory factoryL = LaberintoFactory.getLaberintoFactory(); // Factory-tik laberintoa lortu
 		nLab = factoryL.createLaberinto(mota);
 		return nLab;
 	}

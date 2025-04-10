@@ -8,10 +8,11 @@ public abstract class Bomba {
     private int radio;
     private int bombaDenb = 3; // Eztanda egin aurretik duen denbora
     private int eztandaDenb = 2; // Eztanda irauten duen denbora
-    private Timer timer;
+    private Timer expTimer;
+    private Timer eztTimer;
     private EztandaStrategy estrategiaEztanda;
 
-    public Bomba(int x, int y, int radio,EztandaStrategy estrategia) {
+    public Bomba(int x, int y, int radio, EztandaStrategy estrategia) {
         this.x = x;
         this.y = y;
         this.radio = radio;
@@ -25,10 +26,18 @@ public abstract class Bomba {
 
     // Eztanda metodoa, bomba bakoitzak bere radioa izango du
     public void eztanda() {
-        
     	estrategiaEztanda.eztanda(this);
         eztandaTimer();
     }
+    
+    public void kenduBombaEtaEztanda(int x, int y) {
+        Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
+        if (gelaxka != null) {
+            gelaxka.kenduBomba();
+        }
+        eztandaPos(x, y);
+    }
+
     
     // Eztandaren metodoa
     public boolean eztandaPos(int x, int y) {
@@ -111,27 +120,27 @@ public abstract class Bomba {
 
     // Eztandarako countdown 3s
     public void bombaTimer() {
-    	timer = new Timer();
+    	expTimer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 eztanda();
-                System.out.println("BlokeBigun totala: " + Laberinto.getLaberinto().getBlokeBigunKop());
+                //System.out.println("BlokeBigun totala: " + Laberinto.getLaberinto().getBlokeBigunKop());
             }
         };
-        timer.schedule(timerTask, bombaDenb * 1000);
+        expTimer.schedule(timerTask, bombaDenb * 1000);
     }
     
     // Eztanda 2s
     public void eztandaTimer() {
-    	timer = new Timer();
+    	eztTimer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 kenduSua();
             }
         };
-        timer.schedule(timerTask, eztandaDenb * 1000);
+        eztTimer.schedule(timerTask, eztandaDenb * 1000);
     }
     
     // Bomba aktiko dagoen konprobatu

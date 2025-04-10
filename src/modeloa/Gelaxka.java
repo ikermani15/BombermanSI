@@ -31,9 +31,7 @@ public class Gelaxka extends Observable {
     public int getY() {
         return y;
     }
-
     
-   
     
     // Etsaien atazak
     public Etsaia getEtsaia() {
@@ -69,12 +67,20 @@ public class Gelaxka extends Observable {
     	return bomberman;
     }
     
-    // Gelaxkan Bomberman ezarri eta bista notifikatu
-    public void gehituBomberman() {
+    // Gelaxkan WhiteBomberm ezarri eta bista notifikatu
+    public void gehituWhiteBomberman() {
         this.bomberman = Bomberman.getBomberman();
         this.bombermanDago = true;
         setChanged();
-        notifyObservers("gehituBomberman");
+        notifyObservers("gehituWhiteBomberman");
+    }
+    
+    // Gelaxkan BlackBomber ezarri eta bista notifikatu
+    public void gehituBlackBomberman() {
+        this.bomberman = Bomberman.getBomberman();
+        this.bombermanDago = true;
+        setChanged();
+        notifyObservers("gehituBlackBomberman");
     }
 
     // Gelaxkan Bomberman dago
@@ -183,8 +189,5 @@ public class Gelaxka extends Observable {
     	System.out.println("GAME OVER!");
     	System.exit(1);
     }
-
-
-
 
 }
