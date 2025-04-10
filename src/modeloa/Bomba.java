@@ -9,11 +9,13 @@ public abstract class Bomba {
     private int bombaDenb = 3; // Eztanda egin aurretik duen denbora
     private int eztandaDenb = 2; // Eztanda irauten duen denbora
     private Timer timer;
+    private EztandaStrategy estrategiaEztanda;
 
-    public Bomba(int x, int y, int radio) {
+    public Bomba(int x, int y, int radio,EztandaStrategy estrategia) {
         this.x = x;
         this.y = y;
         this.radio = radio;
+        this.estrategiaEztanda = estrategia;
     }
 
     // Get-errak
@@ -23,38 +25,8 @@ public abstract class Bomba {
 
     // Eztanda metodoa, bomba bakoitzak bere radioa izango du
     public void eztanda() {
-        System.out.println("Eztanda pos (" + y + ", " + x + ")");
-
-        // Bomba gelaxkatik kendu
-        Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
-        if (gelaxka != null) {
-            gelaxka.kenduBomba();
-        }
         
-        // Uneko gelaxkan eztanda
-        eztandaPos(x, y);
-
-        // Radioaren arabera, alboko gelaxken eztanda
-        // Ezkerra (-x)
-        for (int i = 1; i <= radio; i++) {
-            if (!eztandaPos(x - i, y)) break; 
-        }
-
-        // Eskuma (+x)
-        for (int i = 1; i <= radio; i++) {
-            if (!eztandaPos(x + i, y)) break; 
-        }
-
-        // Gora (-y)
-        for (int i = 1; i <= radio; i++) {
-            if (!eztandaPos(x, y - i)) break; 
-        }
-
-        // Behera (+y)
-        for (int i = 1; i <= radio; i++) {
-            if (!eztandaPos(x, y + i)) break; 
-        }
-
+    	estrategiaEztanda.eztanda(this);
         eztandaTimer();
     }
     
@@ -76,20 +48,36 @@ public abstract class Bomba {
             // BlokeBiguna bada apurtu, baina eztandarekin jarraitu
             gelaxka.setBloke(null);
             Laberinto.getLaberinto().kenduBlokeBigunKop();
-            gelaxka.suaJarri();
             
-            System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
-        } else {
-            gelaxka.suaJarri(); // Blokerik ez badago sua jarri
+            //System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
         }
+        
+        // Gelaxkan etsaia badago
+        if (gelaxka.etsaiaDago()) {
+            Etsaia etsaia = gelaxka.getEtsaia();
+            if (etsaia != null) {
+                etsaia.hil();
+                gelaxka.kenduEtsaia();
+                Laberinto.getLaberinto().kenduEtsaiKop();
+                System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
+                System.out.println("Etsai kopuru totala: " + Laberinto.getLaberinto().getEtsaiKop());
+
+                // Si ya no quedan enemigos, ganar el juego
+                if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
+                    gelaxka.irabazi();
+                }
+            }
+        }
+        
+        gelaxka.suaJarri(); // BlokeGogorrik ez dagoen tokian sua jarri
 
         // Bomberman eztanda radioan badago, partida amaitu
-        if (gelaxka.getBomberman() != null) {
+        if (gelaxka.bombermanDago()) {
             gelaxka.galdu();
         }
 
-        // BlokeBigun guztiak apurtuz gero irabazi
-        if (Laberinto.getLaberinto().getBlokeBigunKop() == 0) {
+        // Etsai guztiak eliminatuz gero irabazi
+        if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
             gelaxka.irabazi();
         }
 
@@ -114,11 +102,12 @@ public abstract class Bomba {
         }
 
         Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
-        // Blokeak ez ezabatzeko
-        if (gelaxka != null && gelaxka.getBloke() == null) {
+        // Irudiak ez ezabatzeko (BlokeGogorra topatuz gero)
+        if (gelaxka != null && gelaxka.getBloke() == null && !gelaxka.etsaiaDago() && !gelaxka.bombermanDago() && !gelaxka.bombaDago()) {
             gelaxka.suaKendu();
         }
     }
+
 
     // Eztandarako countdown 3s
     public void bombaTimer() {

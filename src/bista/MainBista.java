@@ -99,6 +99,7 @@ public class MainBista extends JFrame {
 
 			LaberintoBista lb = new LaberintoBista();
 			Laberinto.getLaberinto().laberintoaHasieratu();
+			Laberinto.getLaberinto().abiaraziEtsaiGuztiak();
 			lb.setVisible(true);
 
 			dispose();

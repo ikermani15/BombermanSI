@@ -1,11 +1,11 @@
 package modeloa;
 
-public class UltraBomba extends Bomba{
-	public UltraBomba(int x, int y) {
-        super(x, y, 20); // Radio = 20
+public class UltraBomba extends Bomba {
+    public UltraBomba(int x, int y, int radio) {
+        super(x, y,radio, new EztandaKlasikoa()); // Radio = 1, bomba normala
     }
 
-	@Override
+    @Override
     public void eztanda() {
         super.eztanda();
     }

@@ -6,6 +6,8 @@ public class Gelaxka extends Observable {
     private Bloke bloke;
     private Bomberman bomberman;
     private Bomba bomba;
+    private Etsaia etsai;
+    private boolean etsaiaDago;
     private final int x, y;
     private boolean bombermanDago;
     private boolean suaDago = false;
@@ -29,8 +31,35 @@ public class Gelaxka extends Observable {
     public int getY() {
         return y;
     }
+    // Etsaien atazak
+    public Etsaia getEtsaia() {
+    	return this.etsai;
+    }
     
-    public void blokeSortu() {
+    public void sortuEtsaia(Etsaia etsai) {
+    	this.etsai = etsai;
+    }
+    
+    public void gehituEtsaia() {
+    	this.etsaiaDago = true;
+        setChanged();
+        notifyObservers("gehituEtsaia");
+    }
+    
+    public void kenduEtsaia() {
+    	this.etsai = null;
+    	this.etsaiaDago = false;
+    	setChanged();
+    	notifyObservers("kenduEtsaia");
+    }
+    
+    // Gelaxkan Etsaia dago
+    public boolean etsaiaDago() {
+        return this.etsaiaDago;
+    }
+    
+    
+    public void gehituBloke() {
     	setChanged();
     	if(bloke.apurtuDaiteke()) {
     		notifyObservers("blokeBigunaSortu");
@@ -141,17 +170,17 @@ public class Gelaxka extends Observable {
     
     // BlokeBiguna-rik ez dagoenean
     public void irabazi() {
-    	System.out.println("BlokeBigun guztiak apartu dira!");
     	System.out.println("WIN!");
     	System.exit(1);
     }
     
     // Eztanda radio barruan egonez gero
     public void galdu() {
-    	System.out.println("Eztanda arrapatu zaitu!");
     	System.out.println("GAME OVER!");
     	System.exit(1);
     }
+
+
 
 
 }

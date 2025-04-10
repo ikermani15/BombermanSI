@@ -21,12 +21,10 @@ public class Bomberman {
     	return nBomber;
     }
     
-    public static void sortuBomberman(String mota) {
-        if ("White".equals(mota)) {
-        	nBomber =  new WhiteBomber();
-        } else if ("Black".equals(mota)) {
-        	nBomber =  new BlackBomber();
-        }
+    public static Bomberman sortuBomberman(String mota) {
+    	BombermanFactory factory = BombermanFactory.getBombermanFactory();
+        nBomber = factory.createBomberman(mota);
+        return nBomber;
     }
     
     // Mugimendu metodoak, talka konprobatuz
@@ -60,7 +58,7 @@ public class Bomberman {
                     berria.gehituBomberman(); // Bomberman gelaxka berrian ezarri
                     
                     // Posizio berrian sua baldin badago
-                    if(berria.suaDago()) {
+                    if(berria.suaDago() || berria.etsaiaDago()) {
                     	berria.galdu();
                     }
                 }
@@ -76,9 +74,9 @@ public class Bomberman {
             // Bomberman motaren arabera, bomba desberdina sortu
             Bomba bomba;
             if (bomberMota.equals("Black")) {
-                bomba = new UltraBomba(x, y); // UltraBomba radio 20
+                bomba = new UltraBomba(x, y,20); // UltraBomba radio 20
             } else {
-                bomba = new DefaultBomba(x, y); // DefaultBomba radio 1
+                bomba = new DefaultBomba(x, y,1); // DefaultBomba radio 1
             }
             
             bomba.bombaTimer();

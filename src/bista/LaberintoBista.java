@@ -39,7 +39,8 @@ public class LaberintoBista extends JFrame implements Observer {
 	private void laberintoSortu() {
 		Laberinto laberinto = Laberinto.getLaberinto();
 
-		Image fondo = laberinto.getFondo().getImage();
+		ImageIcon f = new ImageIcon(getClass().getResource("/img/stageBack1.png"));
+		Image fondo = f.getImage();
 
 		// Laberinto panela
 		laberintoPanel = new JPanel() {
@@ -63,7 +64,9 @@ public class LaberintoBista extends JFrame implements Observer {
 				laberintoPanel.add(gelaxkaBista);
 
 				if (gelaxka.getBloke() != null) {
-					gelaxka.blokeSortu();
+					gelaxka.gehituBloke();
+				} else if (gelaxka.getEtsaia() != null) {
+					gelaxka.gehituEtsaia();
 				}
 			}
 		}

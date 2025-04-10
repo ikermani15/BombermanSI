@@ -10,6 +10,7 @@ public class Laberinto extends Observable {
     protected Gelaxka[][] gelaxka; // Gelaxken matrizea
     protected ImageIcon fondo;
     private int blokeBigunKop = 0;
+    private int etsaiKop = 0;
 
     public Laberinto() {
     	this.gelaxka = new Gelaxka[getIlarak()][getZutabeak()];
@@ -20,14 +21,11 @@ public class Laberinto extends Observable {
     }
     
     // Autatutako laberinto mota sortu
-    public static void sortuLaberintoa(String mota) {
-		if ("Classic".equals(mota)) {
-			nLab = new ClassicLaberinto();
-		} else if ("Soft".equals(mota)) {
-			nLab =  new SoftLaberinto();
-		} else if ("Empty".equals(mota)) {
-			nLab = new EmptyLaberinto();
-		}
+    public static Laberinto sortuLaberintoa(String mota) {
+		
+		LaberintoFactory factoryL = LaberintoFactory.getLaberintoFactory();
+		nLab = factoryL.createLaberinto(mota);
+		return nLab;
 	}
     
     // Bista notifikatu laberintoa sortu dela
@@ -35,6 +33,16 @@ public class Laberinto extends Observable {
     	System.out.println("Laberintoa sortu da!");
         setChanged();
         notifyObservers("sortu");
+    }
+    public void abiaraziEtsaiGuztiak() {
+        for (int i = 0; i < getIlarak(); i++) {
+            for (int j = 0; j < getZutabeak(); j++) {
+                Gelaxka g = getGelaxka(j, i);
+                if (g.etsaiaDago() && g.getEtsaia() != null) {
+                    g.getEtsaia().abiaraziEtsaia();
+                }
+            }
+        }
     }
     
     // BlokeBigun kopurua lortzeko
@@ -51,6 +59,22 @@ public class Laberinto extends Observable {
             blokeBigunKop--;
         }
     }
+    
+    // Etsai kopurua lortzeko
+    public int getEtsaiKop() {
+        return etsaiKop;
+    }
+    
+    public void gehituEtsaiKop() {
+    	etsaiKop++;
+    }
+
+    public void kenduEtsaiKop() {
+        if (etsaiKop > 0) {
+        	etsaiKop--;
+        }
+    }
+
 
     public Gelaxka getGelaxka(int x, int y) {
         return gelaxka[y][x];
