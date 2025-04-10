@@ -8,7 +8,6 @@ public class Laberinto extends Observable {
     protected final int ilara = 11; 
     protected final int zutabe = 17; 
     protected Gelaxka[][] gelaxka; // Gelaxken matrizea
-    protected ImageIcon fondo;
     private int blokeBigunKop = 0;
     private int etsaiKop = 0;
 
@@ -34,6 +33,8 @@ public class Laberinto extends Observable {
         setChanged();
         notifyObservers("sortu");
     }
+    
+    
     public void abiaraziEtsaiGuztiak() {
         for (int i = 0; i < getIlarak(); i++) {
             for (int j = 0; j < getZutabeak(); j++) {
@@ -82,10 +83,6 @@ public class Laberinto extends Observable {
 
     public void setBloke(int x, int y, Bloke bloke) {
     	gelaxka[y][x].setBloke(bloke);
-    }
-
-    public ImageIcon getFondo() {
-        return fondo;
     }
 
     public int getZutabeak() {

@@ -31,6 +31,10 @@ public class Gelaxka extends Observable {
     public int getY() {
         return y;
     }
+
+    
+   
+    
     // Etsaien atazak
     public Etsaia getEtsaia() {
     	return this.etsai;
@@ -49,6 +53,7 @@ public class Gelaxka extends Observable {
     public void kenduEtsaia() {
     	this.etsai = null;
     	this.etsaiaDago = false;
+
     	setChanged();
     	notifyObservers("kenduEtsaia");
     }
@@ -56,16 +61,6 @@ public class Gelaxka extends Observable {
     // Gelaxkan Etsaia dago
     public boolean etsaiaDago() {
         return this.etsaiaDago;
-    }
-    
-    
-    public void gehituBloke() {
-    	setChanged();
-    	if(bloke.apurtuDaiteke()) {
-    		notifyObservers("blokeBigunaSortu");
-    	} else {
-    		notifyObservers("blokeGogorraSortu");	
-    	}
     }
     
     
@@ -84,7 +79,7 @@ public class Gelaxka extends Observable {
 
     // Gelaxkan Bomberman dago
     public boolean bombermanDago() {
-        return bombermanDago;
+        return this.bombermanDago;
     }
     
     // Bomberman gelaxka berrira mugitu
@@ -104,6 +99,15 @@ public class Gelaxka extends Observable {
     // Blokeen atazak
     public Bloke getBloke() {
         return bloke;
+    }
+    
+    public void gehituBloke() {
+    	setChanged();
+    	if(bloke.apurtuDaiteke()) {
+    		notifyObservers("blokeBigunaSortu");
+    	} else {
+    		notifyObservers("blokeGogorraSortu");	
+    	}
     }
 
     // Blokea apurtzean bista notifikatu
@@ -138,7 +142,7 @@ public class Gelaxka extends Observable {
     // Eztanda egitean, bista notifikatu
     public void suaJarri() {
     	suaKop++;
-    	suaDago = true;
+    	this.suaDago = true;
     	setChanged();
         notifyObservers("suaJarri");
     }
@@ -151,7 +155,7 @@ public class Gelaxka extends Observable {
         }
         
         if (suaKop == 0) { // Sua kendu gelaxkan su-rik ez dagoenean
-            suaDago = false;
+            this.suaDago = false;
             setChanged();
             notifyObservers("suaKendu");
         }
@@ -164,7 +168,7 @@ public class Gelaxka extends Observable {
     
     // Gelaxkan Sua dago
     public boolean suaDago() {
-        return suaDago;
+        return this.suaDago;
     }
     
     
