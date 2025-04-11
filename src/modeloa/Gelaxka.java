@@ -68,19 +68,19 @@ public class Gelaxka extends Observable {
     }
     
     // Gelaxkan WhiteBomberm ezarri eta bista notifikatu
-    public void gehituWhiteBomberman() {
+    public void gehituWhiteBomberman(String norabidea) {
         this.bomberman = Bomberman.getBomberman();
         this.bombermanDago = true;
         setChanged();
-        notifyObservers("gehituWhiteBomberman");
+        notifyObservers(norabidea + "WhiteBomberman");
     }
     
     // Gelaxkan BlackBomber ezarri eta bista notifikatu
-    public void gehituBlackBomberman() {
+    public void gehituBlackBomberman(String norabidea) {
         this.bomberman = Bomberman.getBomberman();
         this.bombermanDago = true;
         setChanged();
-        notifyObservers("gehituBlackBomberman");
+        notifyObservers(norabidea + "BlackBomberman");
     }
 
     // Gelaxkan Bomberman dago

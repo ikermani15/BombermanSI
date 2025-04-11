@@ -38,20 +38,20 @@ public class Bomberman {
     
     // Mugimendu metodoak, talka konprobatuz
     public void mugituGora() { 
-    	mugituPosible(x, y - 1); 
+    	mugituPosible(x, y - 1, "gora"); 
     }
     public void mugituBehera() { 
-    	mugituPosible(x, y + 1); 
+    	mugituPosible(x, y + 1, "behera"); 
     }
     public void mugituEzkerra() { 
-    	mugituPosible(x - 1, y); 
+    	mugituPosible(x - 1, y, "ezkerra"); 
     }
     public void mugituEskuma() { 
-    	mugituPosible(x + 1, y); 
+    	mugituPosible(x + 1, y, "eskuma"); 
     }
     
     // Mugitu al den konprobatu
-    private void mugituPosible(int newX, int newY) {
+    private void mugituPosible(int newX, int newY, String norabidea) {
         if (Laberinto.getLaberinto() != null) {
             // Limiteen barruan dagoen konprobatu (matrize barruan)
             if (newX >= 0 && newX < Laberinto.getLaberinto().getZutabeak() && newY >= 0 && newY < Laberinto.getLaberinto().getIlarak()) {
@@ -67,9 +67,9 @@ public class Bomberman {
                     
                     // Motaren arabera gelaxka berrian bomberman gehitu
                     if(nBomber.getMota().equals("White")) {
-                    	berria.gehituWhiteBomberman();
+                    	berria.gehituWhiteBomberman(norabidea);
                     } else {
-                    	berria.gehituBlackBomberman();
+                    	berria.gehituBlackBomberman(norabidea);
                     }
                     
                     // Posizio berrian sua baldin badago
