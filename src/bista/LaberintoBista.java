@@ -49,8 +49,6 @@ public class LaberintoBista extends JFrame implements Observer {
 	}
 
 	private void laberintoSortu(Image fondoLab) {
-		Laberinto laberinto = Laberinto.getLaberinto();
-
 		Image fondo = fondoLab;
 
 		// Laberinto panela
@@ -63,15 +61,16 @@ public class LaberintoBista extends JFrame implements Observer {
 		};
 
 		// Gelaxkak ondo ezartzeko GridLayout
-		laberintoPanel.setLayout(new GridLayout(laberinto.getIlarak(), laberinto.getZutabeak()));
-		laberintoPanel
-				.setPreferredSize(new Dimension(laberinto.getZutabeak() * cellSize, laberinto.getIlarak() * cellSize));
+		laberintoPanel.setLayout(
+				new GridLayout(Laberinto.getLaberinto().getIlarak(), Laberinto.getLaberinto().getZutabeak()));
+		laberintoPanel.setPreferredSize(new Dimension(Laberinto.getLaberinto().getZutabeak() * cellSize,
+				Laberinto.getLaberinto().getIlarak() * cellSize));
 
 		gelaxkaBista = new ArrayList<>();
 		// Laberintoko gelaxka bakoitzerako GelaxkaBista sortu
-		for (int i = 0; i < laberinto.getIlarak(); i++) {
-			for (int j = 0; j < laberinto.getZutabeak(); j++) {
-				Gelaxka gelaxka = laberinto.getGelaxka(j, i);
+		for (int i = 0; i < Laberinto.getLaberinto().getIlarak(); i++) {
+			for (int j = 0; j < Laberinto.getLaberinto().getZutabeak(); j++) {
+				Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(j, i);
 				GelaxkaBista gb = new GelaxkaBista(gelaxka);
 				gelaxka.addObserver(gb); // Gelaxkari Observer-a gehitu
 				gelaxkaBista.add(gb);
