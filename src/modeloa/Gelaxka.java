@@ -20,27 +20,15 @@ public class Gelaxka extends Observable {
     }
     
     // Gelaxka atazak
-    public boolean hutsikDago() {
-        return bloke == null;
-    }
-    
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
+    public boolean hutsikDago() { return bloke == null; }
+    public int getX() {  return x; }
+    public int getY() { return y;  }
     
     
     // Etsaien atazak
-    public Etsaia getEtsaia() {
-    	return this.etsai;
-    }
-    
-    public void sortuEtsaia(Etsaia etsai) {
-    	this.etsai = etsai;
-    }
+    public Etsaia getEtsaia() { return this.etsai; }
+    public void sortuEtsaia(Etsaia etsai) { this.etsai = etsai; }
+    public boolean etsaiaDago() { return this.etsaiaDago; }
     
     public void gehituEtsaia() {
     	this.etsaiaDago = true;
@@ -51,20 +39,21 @@ public class Gelaxka extends Observable {
     public void kenduEtsaia() {
     	this.etsai = null;
     	this.etsaiaDago = false;
-
     	setChanged();
-    	notifyObservers("kenduEtsaia");
-    }
-    
-    // Gelaxkan Etsaia dago
-    public boolean etsaiaDago() {
-        return this.etsaiaDago;
+    	notifyObservers("kendu");
     }
     
     
     // Bomberman atazak
-    public Bomberman getBomberman() {
-    	return bomberman;
+    public Bomberman getBomberman() { return bomberman; }
+    public boolean bombermanDago() { return this.bombermanDago; }
+    
+    public void gehituBomberman(String mota) {
+    	if(mota.equals("White")) {
+    		gehituWhiteBomberman("gehitu");
+    	} else {
+    		gehituBlackBomberman("gehitu");
+    	}
     }
     
     // Gelaxkan WhiteBomberm ezarri eta bista notifikatu
@@ -83,11 +72,6 @@ public class Gelaxka extends Observable {
         notifyObservers(norabidea + "BlackBomberman");
     }
 
-    // Gelaxkan Bomberman dago
-    public boolean bombermanDago() {
-        return this.bombermanDago;
-    }
-    
     // Bomberman gelaxka berrira mugitu
     public void kenduBomberman() {
         this.bomberman = null;
@@ -97,15 +81,13 @@ public class Gelaxka extends Observable {
         if (bomba != null) {
             notifyObservers("bombaJarri");  // Bomba jarri baldin badu
         } else {
-            notifyObservers("kenduBomberman");
+            notifyObservers("kendu");
         }
     }
 
     
     // Blokeen atazak
-    public Bloke getBloke() {
-        return bloke;
-    }
+    public Bloke getBloke() { return bloke; }
     
     public void gehituBloke() {
     	setChanged();
@@ -120,14 +102,14 @@ public class Gelaxka extends Observable {
     public void setBloke(Bloke bloke) {
         this.bloke = bloke;
         setChanged();
-        notifyObservers("apurtu");
+        notifyObservers("kendu");
     }
     
     
     // Bomben atazak
-    public Bomba getBomba() {
-    	return bomba;
-    }
+    public Bomba getBomba() { return bomba; }
+    public boolean bombaDago() { return this.bomba != null && this.bomba.bombaAktiboDago(); }
+    public boolean suaDago() { return this.suaDago; }
     
     // Bomba gehitzean bista notifikatu
     public void gehituBomba(Bomba bomba) {
@@ -142,7 +124,7 @@ public class Gelaxka extends Observable {
             this.bomba = null;
         }
         setChanged();
-        notifyObservers("bombaKendu");
+        notifyObservers("kendu");
     }
     
     // Eztanda egitean, bista notifikatu
@@ -163,28 +145,17 @@ public class Gelaxka extends Observable {
         if (suaKop == 0) { // Sua kendu gelaxkan su-rik ez dagoenean
             this.suaDago = false;
             setChanged();
-            notifyObservers("suaKendu");
+            notifyObservers("kendu");
         }
     }
     
-    // Bomba aktibo dagoen konprobatu
-    public boolean bombaDago() {
-        return this.bomba != null && this.bomba.bombaAktiboDago();
-    }
-    
-    // Gelaxkan Sua dago
-    public boolean suaDago() {
-        return this.suaDago;
-    }
-    
-    
-    // BlokeBiguna-rik ez dagoenean
+    // Etsai guztiak eliminatzean
     public void irabazi() {
     	System.out.println("WIN!");
     	System.exit(1);
     }
     
-    // Eztanda radio barruan egonez gero
+    // Eztanda radio barruan edo etsaiak arraputuz gero
     public void galdu() {
     	System.out.println("GAME OVER!");
     	System.exit(1);

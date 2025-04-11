@@ -15,9 +15,6 @@ public class GelaxkaBista extends JLabel implements Observer {
 
 	public GelaxkaBista(Gelaxka gelaxka) {
 		setPreferredSize(new Dimension(cellSize, cellSize));
-
-		// GelaxkaBista Gelaxka Observer-a izango da
-		gelaxka.addObserver(this);
 	}
 
 	// Gelaxketan gertatzen diren aldaketak
@@ -53,39 +50,24 @@ public class GelaxkaBista extends JLabel implements Observer {
 			} else if (event.equals("eskumaBlackBomberman")) {
 				eskumaBlackBomberman();
 
-			} else if (event.equals("kenduBomberman")) {
-				kenduBomberman();
-
-			} else if (event.equals("apurtu")) {
-				apurtuBlokea();
-
 			} else if (event.equals("bombaJarri")) {
 				bombaJarri();
-			} else if (event.equals("bombaKendu")) {
-				bombaKendu();
 			} else if (event.equals("suaJarri")) {
 				suaJarri();
-			} else if (event.equals("suaKendu")) {
-				suaKendu();
 
-			} else if (event.equals("kenduEtsaia")) {
-				kenduEtsaia();
 			} else if (event.equals("gehituEtsaia")) {
 				gehituEtsaia();
+
+			} else if (event.equals("kendu")) {
+				kenduIrudia();
 			}
 		}
 	}
 
-	// Gelaxkan etsaia gehitu
 	private void gehituEtsaia() {
 		ImageIcon[] hardImages = { new ImageIcon(getClass().getResource("/img/baloon1.png")),
 				new ImageIcon(getClass().getResource("/img/baloon2.png")) };
 		setIcon(hardImages[new Random().nextInt(hardImages.length)]);
-	}
-
-	// Gelaxkatik etsaia kendu
-	private void kenduEtsaia() {
-		setIcon(null);
 	}
 
 	private void blokeBigunaSortu() {
@@ -110,121 +92,85 @@ public class GelaxkaBista extends JLabel implements Observer {
 		setIcon(hardImages[new Random().nextInt(hardImages.length)]);
 	}
 
-	// WhiteBomber gelaxkan gehitu
 	private void gehituWhiteBomberman() {
-		ImageIcon bomberImg = new ImageIcon(getClass().getResource("/img/whitefront1.png"));
-		Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-		setIcon(new ImageIcon(img));
+		setScaledIcon("/img/whitefront1.png");
 	}
 
 	private void goraWhiteBomberman() {
-		ImageIcon[] bomberImages = { new ImageIcon(getClass().getResource("/img/whiteup1.png")),
-				new ImageIcon(getClass().getResource("/img/whiteup2.png")),
-				new ImageIcon(getClass().getResource("/img/whiteup3.png")),
-				new ImageIcon(getClass().getResource("/img/whiteup4.png")),
-				new ImageIcon(getClass().getResource("/img/whiteup5.png")) };
-		setIcon(bomberImages[new Random().nextInt(bomberImages.length)]);
+		String[] gora = { "/img/whiteup1.png", "/img/whiteup2.png", "/img/whiteup3.png", "/img/whiteup4.png",
+				"/img/whiteup5.png" };
+		setRandomScaledIcon(gora);
 	}
 
 	private void beheraWhiteBomberman() {
-		ImageIcon[] bomberImages = { new ImageIcon(getClass().getResource("/img/whitedown1.png")),
-				new ImageIcon(getClass().getResource("/img/whitedown2.png")),
-				new ImageIcon(getClass().getResource("/img/whitedown3.png")),
-				new ImageIcon(getClass().getResource("/img/whitedown4.png")) };
-		setIcon(bomberImages[new Random().nextInt(bomberImages.length)]);
+		String[] behera = { "/img/whitedown1.png", "/img/whitedown2.png", "/img/whitedown3.png",
+				"/img/whitedown4.png" };
+		setRandomScaledIcon(behera);
 	}
 
 	private void ezkerraWhiteBomberman() {
-		ImageIcon[] bomberImages = { new ImageIcon(getClass().getResource("/img/whiteleft1.png")),
-				new ImageIcon(getClass().getResource("/img/whiteleft2.png")),
-				new ImageIcon(getClass().getResource("/img/whiteleft3.png")),
-				new ImageIcon(getClass().getResource("/img/whiteleft4.png")),
-				new ImageIcon(getClass().getResource("/img/whiteleft5.png")) };
-		setIcon(bomberImages[new Random().nextInt(bomberImages.length)]);
+		String[] ezkerra = { "/img/whiteleft1.png", "/img/whiteleft2.png", "/img/whiteleft3.png", "/img/whiteleft4.png",
+				"/img/whiteleft5.png" };
+		setRandomScaledIcon(ezkerra);
 	}
 
 	private void eskumaWhiteBomberman() {
-		ImageIcon[] bomberImages = { new ImageIcon(getClass().getResource("/img/whiteright1.png")),
-				new ImageIcon(getClass().getResource("/img/whiteright2.png")),
-				new ImageIcon(getClass().getResource("/img/whiteright3.png")),
-				new ImageIcon(getClass().getResource("/img/whiteright4.png")),
-				new ImageIcon(getClass().getResource("/img/whiteright5.png")) };
-		setIcon(bomberImages[new Random().nextInt(bomberImages.length)]);
+		String[] eskuma = { "/img/whiteright1.png", "/img/whiteright2.png", "/img/whiteright3.png",
+				"/img/whiteright4.png", "/img/whiteright5.png" };
+		setRandomScaledIcon(eskuma);
 	}
 
-	// BlackBomber gelaxkan gehitu
 	private void gehituBlackBomberman() {
-		ImageIcon bomberImg = new ImageIcon(getClass().getResource("/img/blackfront1.png"));
-		Image img = bomberImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-		setIcon(new ImageIcon(img));
+		setScaledIcon("/img/blackfront1.png");
 	}
 
 	private void goraBlackBomberman() {
-		ImageIcon[] bomberImages = { new ImageIcon(getClass().getResource("/img/blackup1.png")),
-				new ImageIcon(getClass().getResource("/img/blackup2.png")),
-				new ImageIcon(getClass().getResource("/img/blackup3.png")),
-				new ImageIcon(getClass().getResource("/img/blackup4.png")),
-				new ImageIcon(getClass().getResource("/img/blackup5.png")) };
-		setIcon(bomberImages[new Random().nextInt(bomberImages.length)]);
+		String[] goraB = { "/img/blackup1.png", "/img/blackup2.png", "/img/blackup3.png", "/img/blackup4.png",
+				"/img/blackup5.png" };
+		setRandomScaledIcon(goraB);
 	}
 
 	private void beheraBlackBomberman() {
-		ImageIcon[] bomberImages = { new ImageIcon(getClass().getResource("/img/blackdown1.png")),
-				new ImageIcon(getClass().getResource("/img/blackdown2.png")),
-				new ImageIcon(getClass().getResource("/img/blackdown3.png")),
-				new ImageIcon(getClass().getResource("/img/blackdown4.png")) };
-		setIcon(bomberImages[new Random().nextInt(bomberImages.length)]);
+		String[] beheraB = { "/img/blackdown1.png", "/img/blackdown2.png", "/img/blackdown3.png",
+				"/img/blackdown4.png" };
+		setRandomScaledIcon(beheraB);
 	}
 
 	private void ezkerraBlackBomberman() {
-		ImageIcon[] bomberImages = { new ImageIcon(getClass().getResource("/img/blackleft1.png")),
-				new ImageIcon(getClass().getResource("/img/blackleft2.png")),
-				new ImageIcon(getClass().getResource("/img/blackleft3.png")),
-				new ImageIcon(getClass().getResource("/img/blackleft4.png")),
-				new ImageIcon(getClass().getResource("/img/blackleft5.png")) };
-		setIcon(bomberImages[new Random().nextInt(bomberImages.length)]);
+		String[] ezkerraB = { "/img/blackleft1.png", "/img/blackleft2.png", "/img/blackleft3.png",
+				"/img/blackleft4.png", "/img/blackleft5.png" };
+		setRandomScaledIcon(ezkerraB);
 	}
 
 	private void eskumaBlackBomberman() {
-		ImageIcon[] bomberImages = { new ImageIcon(getClass().getResource("/img/blackright1.png")),
-				new ImageIcon(getClass().getResource("/img/blackright2.png")),
-				new ImageIcon(getClass().getResource("/img/blackright3.png")),
-				new ImageIcon(getClass().getResource("/img/blackright4.png")),
-				new ImageIcon(getClass().getResource("/img/blackright5.png")) };
-		setIcon(bomberImages[new Random().nextInt(bomberImages.length)]);
+		String[] ezkerraB = { "/img/blackright1.png", "/img/blackright2.png", "/img/blackright3.png",
+				"/img/blackright4.png", "/img/blackright5.png" };
+		setRandomScaledIcon(ezkerraB);
 	}
 
-	// Bomberman gelaxkan gehitu
-	private void kenduBomberman() {
-		setIcon(null);
-	}
-
-	// Blokea apurtzean
-	private void apurtuBlokea() {
-		setIcon(null);
-	}
-
-	// Bomba jartzean
 	private void bombaJarri() {
-		ImageIcon bombaImg = new ImageIcon(getClass().getResource("/img/bomb1.png"));
-		Image img = bombaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
-		setIcon(new ImageIcon(img));
+		setScaledIcon("/img/bomb1.png");
 	}
 
-	// Eztanda egin ondoren bomba kendu
-	private void bombaKendu() {
-		setIcon(null);
-	}
-
-	// Eztanda egitean
 	private void suaJarri() {
-		ImageIcon suaImg = new ImageIcon(getClass().getResource("/img/kaBomb4.png"));
-		Image img = suaImg.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
+		setScaledIcon("/img/kaBomb4.png");
+	}
+
+	private void kenduIrudia() {
+		setIcon(null);
+	}
+
+	// Irudi bakarra eskalatzeko (gelaxka tamainara ezartzeko)
+	private void setScaledIcon(String path) {
+		ImageIcon icon = new ImageIcon(getClass().getResource(path));
+		Image img = icon.getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH);
 		setIcon(new ImageIcon(img));
 	}
 
-	// Sua kendu
-	private void suaKendu() {
-		setIcon(null);
+	// Irudia eskalatu eta random bat aukeratu
+	private void setRandomScaledIcon(String[] paths) {
+		String selectedPath = paths[new Random().nextInt(paths.length)];
+		setScaledIcon(selectedPath);
 	}
+
 }

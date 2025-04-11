@@ -6,6 +6,7 @@ import modeloa.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,6 +14,7 @@ public class LaberintoBista extends JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
 	private final int cellSize = 40;
 	private JPanel laberintoPanel;
+	private ArrayList<GelaxkaBista> gelaxkaBista;
 
 	private Kontrolatzaile kontroler = null;
 
@@ -30,17 +32,26 @@ public class LaberintoBista extends JFrame implements Observer {
 		if (arg instanceof String) {
 			String event = (String) arg;
 
-			if (event.equals("sortu")) {
-				laberintoSortu();
+			if (event.equals("sortuClassic")) {
+				ImageIcon f = new ImageIcon(getClass().getResource("/img/stageBack1.png"));
+				Image fondoLab = f.getImage();
+				laberintoSortu(fondoLab);
+			} else if (event.equals("sortuSoft")) {
+				ImageIcon f = new ImageIcon(getClass().getResource("/img/stageBack3.png"));
+				Image fondoLab = f.getImage();
+				laberintoSortu(fondoLab);
+			} else if (event.equals("sortuEmpty")) {
+				ImageIcon f = new ImageIcon(getClass().getResource("/img/stageBack2.png"));
+				Image fondoLab = f.getImage();
+				laberintoSortu(fondoLab);
 			}
 		}
 	}
 
-	private void laberintoSortu() {
+	private void laberintoSortu(Image fondoLab) {
 		Laberinto laberinto = Laberinto.getLaberinto();
 
-		ImageIcon f = new ImageIcon(getClass().getResource("/img/stageBack1.png"));
-		Image fondo = f.getImage();
+		Image fondo = fondoLab;
 
 		// Laberinto panela
 		laberintoPanel = new JPanel() {
@@ -56,27 +67,17 @@ public class LaberintoBista extends JFrame implements Observer {
 		laberintoPanel
 				.setPreferredSize(new Dimension(laberinto.getZutabeak() * cellSize, laberinto.getIlarak() * cellSize));
 
+		gelaxkaBista = new ArrayList<>();
 		// Laberintoko gelaxka bakoitzerako GelaxkaBista sortu
 		for (int i = 0; i < laberinto.getIlarak(); i++) {
 			for (int j = 0; j < laberinto.getZutabeak(); j++) {
 				Gelaxka gelaxka = laberinto.getGelaxka(j, i);
-				GelaxkaBista gelaxkaBista = new GelaxkaBista(gelaxka);
-				laberintoPanel.add(gelaxkaBista);
-
-				if (gelaxka.getBloke() != null) {
-					gelaxka.gehituBloke();
-				} else if (gelaxka.getEtsaia() != null) {
-					gelaxka.gehituEtsaia();
-				}
+				GelaxkaBista gb = new GelaxkaBista(gelaxka);
+				gelaxka.addObserver(gb); // Gelaxkari Observer-a gehitu
+				gelaxkaBista.add(gb);
+				laberintoPanel.add(gb);
 			}
 		}
-
-		/*
-		 * String bombermanMota = Bomberman.getBomberman().getMota(); if
-		 * ("White".equals(bombermanMota)) { laberinto.getGelaxka(0,
-		 * 0).gehituWhiteBomberman(); } else if ("Black".equals(bombermanMota)) {
-		 * laberinto.getGelaxka(0, 0).gehituBlackBomberman(); }
-		 */
 
 		add(laberintoPanel, BorderLayout.CENTER);
 		laberintoPanel.setFocusable(true);

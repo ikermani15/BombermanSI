@@ -19,10 +19,10 @@ public abstract class Bomba {
         this.estrategiaEztanda = estrategia;
     }
 
-    // Get-errak
     public int getX() { return x; }
     public int getY() { return y; }
     public int getRadio() { return radio; }
+    public boolean bombaAktiboDago() { return bombaDenb > 0; }
 
     // Eztanda metodoa, bomba bakoitzak bere radioa izango du
     public void eztanda() {
@@ -46,18 +46,14 @@ public abstract class Bomba {
         }
 
         Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
-
-        // Bloke bat badago
         Bloke bloke = gelaxka.getBloke();
         if (bloke != null) {
             if (!bloke.apurtuDaiteke()) {
                 return false; // BlokeGogorra bada, norabide honetan eztanda gelditu
             }
-
             // BlokeBiguna bada apurtu, baina eztandarekin jarraitu
             gelaxka.setBloke(null);
             Laberinto.getLaberinto().kenduBlokeBigunKop();
-            
             //System.out.println("Bloke apurtua pos (" + y + ", " + x + ")");
         }
         
@@ -141,11 +137,6 @@ public abstract class Bomba {
             }
         };
         eztTimer.schedule(timerTask, eztandaDenb * 1000);
-    }
-    
-    // Bomba aktiko dagoen konprobatu
-    public boolean bombaAktiboDago() {
-        return bombaDenb > 0;
     }
 
 }

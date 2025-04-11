@@ -17,13 +17,11 @@ public class Bomberman {
         this.mota = mota;
     }
     
-    public static Bomberman getBomberman() {
-    	return nBomber;
-    }
-    
-    public String getMota() {
-    	return this.mota;
-    }
+    public static Bomberman getBomberman() { return nBomber; }
+    public String getMota() { return this.mota; }
+    public Bomba sortuBomba(int x, int y) {  return new DefaultBomba(x, y, 1); } // Defektuz normala
+    public boolean regenAktibo() { return regenBomba; } // Bombak erregeneratzen dagoen konprobatu
+    public int getBombaKop() { return bombaKop; }
     
     public static Bomberman sortuBomberman(String mota) {
     	BombermanFactory factory = BombermanFactory.getBombermanFactory();
@@ -31,24 +29,16 @@ public class Bomberman {
         return nBomber;
     }
     
-    public Bomba sortuBomba(int x, int y) {
-        // Defektuz normala
-        return new DefaultBomba(x, y, 1);
+    public void setPosizioa(int x, int y) {
+    	this.x = x;
+    	this.y = y;
     }
     
     // Mugimendu metodoak, talka konprobatuz
-    public void mugituGora() { 
-    	mugituPosible(x, y - 1, "gora"); 
-    }
-    public void mugituBehera() { 
-    	mugituPosible(x, y + 1, "behera"); 
-    }
-    public void mugituEzkerra() { 
-    	mugituPosible(x - 1, y, "ezkerra"); 
-    }
-    public void mugituEskuma() { 
-    	mugituPosible(x + 1, y, "eskuma"); 
-    }
+    public void mugituGora() { mugituPosible(x, y - 1, "gora"); }
+    public void mugituBehera() { mugituPosible(x, y + 1, "behera"); }
+    public void mugituEzkerra() { mugituPosible(x - 1, y, "ezkerra"); }
+    public void mugituEskuma() { mugituPosible(x + 1, y, "eskuma"); }
     
     // Mugitu al den konprobatu
     private void mugituPosible(int newX, int newY, String norabidea) {
@@ -85,18 +75,13 @@ public class Bomberman {
     public void bombaJarri() {
         if (bombaKop > 0) {
             //System.out.println("Bomba ezarri da pos (" + y + ", " + x + ")");
-            
             // Bomberman motaren arabera, bomba desberdina sortu
             Bomba bomba = sortuBomba(x, y);
-            
             bomba.bombaTimer();
-            
             // Bomba gelaxkan ezarri
             Gelaxka unekoa = Laberinto.getLaberinto().getGelaxka(x, y);
             unekoa.gehituBomba(bomba);
-            
             bombaKop--;
-            
          // Bombarik ez baditu eta ez dago erregeneratzen, timer-a hasi 3 segundo ondoren bomba bat gehitzeko
         } else if (bombaKop == 0 && !regenAktibo()) {
         	bombaRegeneratu();            
@@ -119,12 +104,4 @@ public class Bomberman {
         timer.schedule(timerTask, denbRegenBomba * 1000);
     }
     
-    // Bombak erregeneratzen dagoen konprobatu
-    public boolean regenAktibo() {
-        return regenBomba;
-    }
-
-    public int getBombaKop() {
-        return bombaKop;
-    }
 }

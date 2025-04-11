@@ -75,7 +75,6 @@ public class Etsaia {
 
     public int getX() { return x; }
     public int getY() { return y; }
-
     public int getXPixel() { return x * cellSize; }
     public int getYPixel() { return y * cellSize; }
 }
