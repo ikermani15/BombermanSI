@@ -6,6 +6,7 @@ import modeloa.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainBista extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -39,25 +40,36 @@ public class MainBista extends JFrame {
 		fondoLabel.add(tituloLabel);
 
 		// ComboBox laberinto mota aukeratzeko
-		JLabel laberintoLabel = new JLabel("Laberinto mota:");
-		laberintoLabel.setBounds(50, 80, 100, 20);
+		JLabel laberintoLabel = new JLabel("LABERINTO");
+		laberintoLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		laberintoLabel.setOpaque(true);
+		laberintoLabel.setBackground(new Color(230, 230, 230));
+		laberintoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		laberintoLabel.setVerticalAlignment(SwingConstants.CENTER);
+		laberintoLabel.setBounds(60, 90, 95, 20);
 		fondoLabel.add(laberintoLabel);
 
 		laberintoComboBox = new JComboBox<>(new String[] { "Classic", "Soft", "Empty" });
-		laberintoComboBox.setBounds(150, 80, 150, 20);
+		laberintoComboBox.setBounds(175, 90, 150, 20);
 		fondoLabel.add(laberintoComboBox);
 
 		// ComboBox Bomberman mota aukeratzeko
-		JLabel bombermanLabel = new JLabel("Bomberman:");
-		bombermanLabel.setBounds(50, 120, 100, 20);
+		JLabel bombermanLabel = new JLabel("BOMBERMAN");
+		bombermanLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		bombermanLabel.setOpaque(true);
+		bombermanLabel.setBackground(new Color(230, 230, 230));
+		bombermanLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		bombermanLabel.setVerticalAlignment(SwingConstants.CENTER);
+		bombermanLabel.setBounds(60, 130, 95, 20);
 		fondoLabel.add(bombermanLabel);
 
 		bombermanComboBox = new JComboBox<>(new String[] { "White", "Black" });
-		bombermanComboBox.setBounds(150, 120, 150, 20);
+		bombermanComboBox.setBounds(175, 130, 150, 20);
 		fondoLabel.add(bombermanComboBox);
 
 		// Hasieratzeko botoia
 		jokoaHasiBtn = new JButton("Jokoa Hasi");
+		jokoaHasiBtn.addActionListener(getKontroler()); // Botoiari AL gehitu
 		jokoaHasiBtn.setBounds(125, 180, 150, 30);
 		fondoLabel.add(jokoaHasiBtn);
 
@@ -74,19 +86,12 @@ public class MainBista extends JFrame {
 		return kontroler;
 	}
 
-	private class MenuKontrolatzaile {
-		public MenuKontrolatzaile() {
-			// Botoia sakatzean
-			jokoaHasiBtn.addActionListener(e -> hasiJokoa());
-
-			// "Esc" klik eginez gero, leihoa itxi
-			getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "itxi");
-			getRootPane().getActionMap().put("itxi", new AbstractAction() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-				}
-			});
+	private class MenuKontrolatzaile implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource().equals(jokoaHasiBtn)) {
+				hasiJokoa();
+			}
 		}
 
 		// Jokoa hasieratzeko metodoa
@@ -94,10 +99,10 @@ public class MainBista extends JFrame {
 			String laberintoMota = (String) laberintoComboBox.getSelectedItem();
 			String bombermanMota = (String) bombermanComboBox.getSelectedItem();
 
-			Laberinto.sortuLaberintoa(laberintoMota, bombermanMota); // Laberintoa sortu
+			Laberinto.sortuLaberintoa(laberintoMota, bombermanMota); // Factory
 			LaberintoBista lb = new LaberintoBista(); // Bista sortu
 			lb.setVisible(true);
-			Laberinto.getLaberinto().laberintoaHasieratu(); // Laberintoa hasieratu (notify egin eta updatean erakutsi)
+			Laberinto.getLaberinto().laberintoaHasieratu(); // Gelaxkak notify egin
 
 			dispose();
 		}

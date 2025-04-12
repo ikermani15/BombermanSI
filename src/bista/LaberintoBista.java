@@ -14,7 +14,6 @@ public class LaberintoBista extends JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
 	private final int cellSize = 40;
 	private JPanel laberintoPanel;
-	private ArrayList<GelaxkaBista> gelaxkaBista;
 
 	private Kontrolatzaile kontroler = null;
 
@@ -66,14 +65,12 @@ public class LaberintoBista extends JFrame implements Observer {
 		laberintoPanel.setPreferredSize(new Dimension(Laberinto.getLaberinto().getZutabeak() * cellSize,
 				Laberinto.getLaberinto().getIlarak() * cellSize));
 
-		gelaxkaBista = new ArrayList<>();
 		// Laberintoko gelaxka bakoitzerako GelaxkaBista sortu
 		for (int i = 0; i < Laberinto.getLaberinto().getIlarak(); i++) {
 			for (int j = 0; j < Laberinto.getLaberinto().getZutabeak(); j++) {
 				Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(j, i);
 				GelaxkaBista gb = new GelaxkaBista(gelaxka);
 				gelaxka.addObserver(gb); // Gelaxkari Observer-a gehitu
-				gelaxkaBista.add(gb);
 				laberintoPanel.add(gb);
 			}
 		}
