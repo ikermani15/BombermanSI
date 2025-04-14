@@ -148,17 +148,5 @@ public class Gelaxka extends Observable {
             notifyObservers("kendu");
         }
     }
-    
-    // Etsai guztiak eliminatzean
-    public void irabazi() {
-    	System.out.println("WIN!");
-    	System.exit(1);
-    }
-    
-    // Eztanda radio barruan edo etsaiak arraputuz gero
-    public void galdu() {
-    	System.out.println("GAME OVER!");
-    	System.exit(1);
-    }
 
 }

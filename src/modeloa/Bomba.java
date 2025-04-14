@@ -36,7 +36,6 @@ public abstract class Bomba {
         }
     }
 
-    // Temporizador para que la bomba explote tras X segundos
     public void bombaTimer() {
         expTimer = new Timer();
         TimerTask timerTask = new TimerTask() {
@@ -48,7 +47,6 @@ public abstract class Bomba {
         expTimer.schedule(timerTask, bombaDenb * 1000);
     }
 
-    // Temporizador para que el fuego desaparezca tras X segundos
     public void eztandaTimer() {
         eztTimer = new Timer();
         TimerTask timerTask = new TimerTask() {

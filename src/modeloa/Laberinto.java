@@ -101,4 +101,16 @@ public class Laberinto extends Observable {
     public int getZutabeak() { return zutabe; }
     public int getIlarak() { return ilara; }
 
+ // Etsai guztiak eliminatzean
+    public void irabazi() {
+    	System.out.println("WIN!");
+    	System.exit(1);
+    }
+    
+    // Eztanda radio barruan edo etsaiak arraputuz gero
+    public void galdu() {
+    	System.out.println("GAME OVER!");
+    	System.exit(1);
+    }
+    
 }

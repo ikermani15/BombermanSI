@@ -56,7 +56,7 @@ public class Etsaia {
                 berria.gehituEtsaia();
                 
                 if(berria.bombermanDago()) { // Jokalaria arrapatzen badu
-                	berria.galdu();
+                	Laberinto.getLaberinto().galdu();
                 } else if (berria.suaDago()) { // Eztandak etsaia arrapatzen badu
                 	hil();
                 	berria.kenduEtsaia();
@@ -66,7 +66,7 @@ public class Etsaia {
                 	
                 	// BlokeBigun guztiak apurtu edo etsai guztiak eliminatuz gero irabazi
                     if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
-                        berria.irabazi();
+                        Laberinto.getLaberinto().irabazi();
                     }
                 }
             }

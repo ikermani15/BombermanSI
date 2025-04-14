@@ -64,7 +64,7 @@ public class Bomberman {
                     
                     // Posizio berrian sua baldin badago
                     if(berria.suaDago() || berria.etsaiaDago()) {
-                    	berria.galdu();
+                    	Laberinto.getLaberinto().galdu();
                     }
                 }
             }

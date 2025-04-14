@@ -42,7 +42,7 @@ public class EztandaKlasikoa implements EztandaStrategy {
                 Laberinto.getLaberinto().kenduEtsaiKop();
                 System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
                 if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
-                    gelaxka.irabazi();
+                    Laberinto.getLaberinto().irabazi();
                 }
             }
         }
@@ -50,11 +50,11 @@ public class EztandaKlasikoa implements EztandaStrategy {
         gelaxka.suaJarri();
 
         if (gelaxka.bombermanDago()) {
-            gelaxka.galdu();
+            Laberinto.getLaberinto().galdu();
         }
 
         if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
-            gelaxka.irabazi();
+            Laberinto.getLaberinto().irabazi();
         }
 
         return true;
