@@ -69,7 +69,13 @@ public class Laberinto extends Observable {
         }
     }
     
-    public Gelaxka getGelaxka(int x, int y) { return gelaxka[y][x]; }
+    public Gelaxka getGelaxka(int x, int y) {
+        if (x < 0 || x >= zutabe || y < 0 || y >= ilara) {
+            return null;
+        }
+        return gelaxka[y][x];
+    }
+
     public void setBloke(int x, int y, Bloke bloke) { gelaxka[y][x].setBloke(bloke); }
     
     // BlokeBigun kopurua lortzeko
