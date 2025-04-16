@@ -23,7 +23,7 @@ public class LaberintoBista extends JFrame implements Observer {
 		setResizable(false);
 
 		// LaberintoBista modeloko Laberintoren Oberver-a
-		Laberinto.getLaberinto().addObserver(this);
+		Jokoa.getJokoa().getLaberinto().addObserver(this);
 	}
 
 	@Override
@@ -60,15 +60,15 @@ public class LaberintoBista extends JFrame implements Observer {
 		};
 
 		// Gelaxkak ondo ezartzeko GridLayout
-		laberintoPanel.setLayout(
-				new GridLayout(Laberinto.getLaberinto().getIlarak(), Laberinto.getLaberinto().getZutabeak()));
-		laberintoPanel.setPreferredSize(new Dimension(Laberinto.getLaberinto().getZutabeak() * cellSize,
-				Laberinto.getLaberinto().getIlarak() * cellSize));
+		laberintoPanel.setLayout(new GridLayout(Jokoa.getJokoa().getLaberinto().getIlarak(),
+				Jokoa.getJokoa().getLaberinto().getZutabeak()));
+		laberintoPanel.setPreferredSize(new Dimension(Jokoa.getJokoa().getLaberinto().getZutabeak() * cellSize,
+				Jokoa.getJokoa().getLaberinto().getIlarak() * cellSize));
 
 		// Laberintoko gelaxka bakoitzerako GelaxkaBista sortu
-		for (int i = 0; i < Laberinto.getLaberinto().getIlarak(); i++) {
-			for (int j = 0; j < Laberinto.getLaberinto().getZutabeak(); j++) {
-				Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(j, i);
+		for (int i = 0; i < Jokoa.getJokoa().getLaberinto().getIlarak(); i++) {
+			for (int j = 0; j < Jokoa.getJokoa().getLaberinto().getZutabeak(); j++) {
+				Gelaxka gelaxka = Jokoa.getJokoa().getLaberinto().getGelaxka(j, i);
 				GelaxkaBista gb = new GelaxkaBista(gelaxka);
 				gelaxka.addObserver(gb); // Gelaxkari Observer-a gehitu
 				laberintoPanel.add(gb);
@@ -98,7 +98,7 @@ public class LaberintoBista extends JFrame implements Observer {
 	private class Kontrolatzaile implements KeyListener {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			Bomberman bomberman = Bomberman.getBomberman();
+			Bomberman bomberman = Jokoa.getJokoa().getBomberman();
 
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:

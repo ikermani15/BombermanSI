@@ -3,8 +3,7 @@ package modeloa;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Bomberman {
-	private static Bomberman nBomber;
+public abstract class Bomberman {
     private int x, y; // Matrizeko posizioa
     private int bombaKop; // Bomba kop
     private int denbRegenBomba = 3; // Bombak erregeneratzeko denbora
@@ -17,17 +16,10 @@ public class Bomberman {
         this.mota = mota;
     }
     
-    public static Bomberman getBomberman() { return nBomber; }
-    public String getMota() { return this.mota; }
+    public String getBombermanMota() { return this.mota; }
     public Bomba sortuBomba(int x, int y) {  return new DefaultBomba(x, y, 1); } // Defektuz normala
     public boolean regenAktibo() { return regenBomba; } // Bombak erregeneratzen dagoen konprobatu
     public int getBombaKop() { return bombaKop; }
-    
-    public static Bomberman sortuBomberman(String mota) {
-    	BombermanFactory factory = BombermanFactory.getBombermanFactory();
-        nBomber = factory.createBomberman(mota);
-        return nBomber;
-    }
     
     public void setPosizioa(int x, int y) {
     	this.x = x;
@@ -42,11 +34,11 @@ public class Bomberman {
     
     // Mugitu al den konprobatu
     private void mugituPosible(int newX, int newY, String norabidea) {
-        if (Laberinto.getLaberinto() != null) {
+        if (Jokoa.getJokoa().getLaberinto() != null) {
             // Limiteen barruan dagoen konprobatu (matrize barruan)
-            if (newX >= 0 && newX < Laberinto.getLaberinto().getZutabeak() && newY >= 0 && newY < Laberinto.getLaberinto().getIlarak()) {
-                Gelaxka unekoa = Laberinto.getLaberinto().getGelaxka(x, y);
-                Gelaxka berria = Laberinto.getLaberinto().getGelaxka(newX, newY);
+            if (newX >= 0 && newX < Jokoa.getJokoa().getLaberinto().getZutabeak() && newY >= 0 && newY < Jokoa.getJokoa().getLaberinto().getIlarak()) {
+                Gelaxka unekoa = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
+                Gelaxka berria = Jokoa.getJokoa().getLaberinto().getGelaxka(newX, newY);
 
                 // Gelaxka hutsa bada (bidea) eta bombarik ez dago
                 if (berria.hutsikDago() && !berria.bombaDago()) { 
@@ -56,7 +48,7 @@ public class Bomberman {
                     this.y = newY;
                     
                     // Motaren arabera gelaxka berrian bomberman gehitu
-                    if(nBomber.getMota().equals("White")) {
+                    if(getBombermanMota().equals("White")) {
                     	berria.gehituWhiteBomberman(norabidea);
                     } else {
                     	berria.gehituBlackBomberman(norabidea);
@@ -64,7 +56,7 @@ public class Bomberman {
                     
                     // Posizio berrian sua baldin badago
                     if(berria.suaDago() || berria.etsaiaDago()) {
-                    	Laberinto.getLaberinto().galdu();
+                    	Jokoa.getJokoa().amaituJokoa(false);
                     }
                 }
             }
@@ -79,7 +71,7 @@ public class Bomberman {
             Bomba bomba = sortuBomba(x, y);
             bomba.bombaTimer();
             // Bomba gelaxkan ezarri
-            Gelaxka unekoa = Laberinto.getLaberinto().getGelaxka(x, y);
+            Gelaxka unekoa = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
             unekoa.gehituBomba(bomba);
             bombaKop--;
          // Bombarik ez baditu eta ez dago erregeneratzen, timer-a hasi 3 segundo ondoren bomba bat gehitzeko

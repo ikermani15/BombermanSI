@@ -5,12 +5,23 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 public class EmptyLaberinto extends Laberinto {
+	public static EmptyLaberinto nEL;
+	
 	public EmptyLaberinto() {
         laberintoaSortu();
     }
 	
+	public static EmptyLaberinto getEmpty() {
+		if(nEL == null) {
+			nEL = new EmptyLaberinto();
+		}
+		
+		return nEL;
+	}
+	
 	private void laberintoaSortu() {
 	    Random rand = new Random();
+	    
 	    for (int i = 0; i < getIlarak(); i++) {
 	        for (int j = 0; j < getZutabeak(); j++) {
 	            int prob = rand.nextInt(100);

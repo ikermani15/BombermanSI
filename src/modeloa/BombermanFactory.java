@@ -2,28 +2,26 @@ package modeloa;
 
 public class BombermanFactory {
 	
-	private static BombermanFactory boF;
+	private static BombermanFactory nBF;
     
     private BombermanFactory(){
     }
     
     public static BombermanFactory getBombermanFactory(){
-        if (boF == null){
-        	boF = new BombermanFactory();
+        if (nBF == null){
+        	nBF = new BombermanFactory();
         }
         
-        return boF;
+        return nBF;
     }
     
-    public Bomberman createBomberman (String mota){
-    	Bomberman nBomber= null;
+    public Bomberman createBomberman(String mota){
         if (mota.equals("White")){
-        	nBomber = new WhiteBomber();
+            return WhiteBomber.getWhiteBomber();
         } else if (mota.equals("Black")){
-        	nBomber = new BlackBomber();
+            return BlackBomber.getBlackBomber();
         }
-        
-        return nBomber;
+        throw new IllegalArgumentException("Bomberman mota ezezaguna: " + mota);
     }
     
 }

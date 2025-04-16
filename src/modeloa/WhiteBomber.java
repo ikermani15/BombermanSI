@@ -1,8 +1,17 @@
 package modeloa;
 
 public class WhiteBomber extends Bomberman {
+	private static WhiteBomber nWB;
+	
     public WhiteBomber() {
     	super(10, "White"); // 10 bomba
+    }
+    
+    public static WhiteBomber getWhiteBomber() {
+        if (nWB == null) {
+        	nWB = new WhiteBomber();
+        }
+        return nWB;
     }
     
     @Override

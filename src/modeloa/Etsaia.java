@@ -33,6 +33,16 @@ public class Etsaia {
     }
 
     public void mugituAleatorio() {
+    	// Begiratu suan dagoen mugitu baino lehen
+        Gelaxka unekoa = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
+        if (unekoa != null && unekoa.suaDago()) {
+            hil();
+            unekoa.kenduEtsaia();
+            Jokoa.getJokoa().getLaberinto().kenduEtsaiKop();
+            System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
+            return;
+        }
+    	
         int mug = random.nextInt(4);
         switch (mug) {
             case 0: mugituPosible(x, y - 1); break; // gora
@@ -43,11 +53,9 @@ public class Etsaia {
     }
 
     private void mugituPosible(int newX, int newY) {
-        Laberinto laberinto = Laberinto.getLaberinto();
-
-        if (newX >= 0 && newX < laberinto.getZutabeak() && newY >= 0 && newY < laberinto.getIlarak()) {
-            Gelaxka unekoa = laberinto.getGelaxka(x, y);
-            Gelaxka berria = laberinto.getGelaxka(newX, newY);
+        if (newX >= 0 && newX < Jokoa.getJokoa().getLaberinto().getZutabeak() && newY >= 0 && newY < Jokoa.getJokoa().getLaberinto().getIlarak()) {
+            Gelaxka unekoa = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
+            Gelaxka berria = Jokoa.getJokoa().getLaberinto().getGelaxka(newX, newY);
 
             if (berria.hutsikDago() && !berria.bombaDago() && !berria.etsaiaDago()) { // Ostoporik dagoen konprobatu
                 unekoa.kenduEtsaia();
@@ -56,17 +64,17 @@ public class Etsaia {
                 berria.gehituEtsaia();
                 
                 if(berria.bombermanDago()) { // Jokalaria arrapatzen badu
-                	Laberinto.getLaberinto().galdu();
+                	Jokoa.getJokoa().amaituJokoa(false);
                 } else if (berria.suaDago()) { // Eztandak etsaia arrapatzen badu
                 	hil();
                 	berria.kenduEtsaia();
-                	Laberinto.getLaberinto().kenduEtsaiKop();
+                	Jokoa.getJokoa().getLaberinto().kenduEtsaiKop();
                 	System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
-                	System.out.println("Etsai kopuru totala: " + Laberinto.getLaberinto().getEtsaiKop());
+                	System.out.println("Etsai kopuru totala: " + Jokoa.getJokoa().getLaberinto().getEtsaiKop());
                 	
                 	// BlokeBigun guztiak apurtu edo etsai guztiak eliminatuz gero irabazi
-                    if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
-                        Laberinto.getLaberinto().irabazi();
+                    if (Jokoa.getJokoa().getLaberinto().getEtsaiKop() == 0) {
+                    	Jokoa.getJokoa().amaituJokoa(true);
                     }
                 }
             }

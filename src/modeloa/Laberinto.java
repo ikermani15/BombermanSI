@@ -2,8 +2,7 @@ package modeloa;
 
 import java.util.Observable;
 
-public class Laberinto extends Observable {
-	private static Laberinto nLab;
+public abstract class Laberinto extends Observable {
     protected final int ilara = 11; 
     protected final int zutabe = 17; 
     protected Gelaxka[][] gelaxka; // Gelaxken matrizea
@@ -14,42 +13,31 @@ public class Laberinto extends Observable {
     public Laberinto() {
     	this.gelaxka = new Gelaxka[getIlarak()][getZutabeak()];
     }
-   
-    public static Laberinto getLaberinto() {
-    	return nLab;
-    }
     
-    public String laberintoMota (String motaLaberinto) {
-    	return this.labMota = motaLaberinto;
+    public void setLaberintoMota(String motaLaberinto) {
+        this.labMota = motaLaberinto;
     }
     
     public String getLaberintoMota() {
     	return labMota;
     }
     
-    // Autatutako laberinto mota sortu
-    public static Laberinto sortuLaberintoa(String motaLaberinto, String motaBomberman) {
-        LaberintoFactory factoryL = LaberintoFactory.getLaberintoFactory();
-        nLab = factoryL.createLaberinto(motaLaberinto);
-        nLab.laberintoMota(motaLaberinto);
-        
-        // Bomberman sortu eta gelaxkan ezarri
-        Bomberman.sortuBomberman(motaBomberman);
-        Bomberman.getBomberman().setPosizioa(0, 0);
-        nLab.gelaxka[0][0].gehituBomberman(Bomberman.getBomberman().getMota());
-
-        return nLab;
+    public void hasieratuBomberman(String bombermanMota) {
+        Bomberman bomber = BombermanFactory.getBombermanFactory().createBomberman(bombermanMota);
+        Jokoa.getJokoa().setBomberman(bomber);
+        bomber.setPosizioa(0, 0);
+        gelaxka[0][0].gehituBomberman(bombermanMota);
     }
     
     // Bista notifikatu laberintoa sortu dela
     public void laberintoaHasieratu() {
     	System.out.println("Laberintoa sortu da!");
         setChanged();
-        if(nLab.getLaberintoMota().equals("Classic")) {
+        if(getLaberintoMota().equals("Classic")) {
         	notifyObservers("sortuClassic");
-        } else if(nLab.getLaberintoMota().equals("Soft")) {
+        } else if(getLaberintoMota().equals("Soft")) {
         	notifyObservers("sortuSoft");
-        } else if(nLab.getLaberintoMota().equals("Empty")) {
+        } else if(getLaberintoMota().equals("Empty")) {
         	notifyObservers("sortuEmpty");
         }
         gelaxkakEguneratu();
@@ -60,7 +48,7 @@ public class Laberinto extends Observable {
             for (int j = 0; j < getZutabeak(); j++) {
                 Gelaxka g = gelaxka[i][j];
                 if (g.getBloke() != null) { g.gehituBloke(); }
-                if (g.getBomberman() != null) { g.gehituBomberman(Bomberman.getBomberman().getMota()); }
+                if (g.getBomberman() != null) { g.gehituBomberman(Jokoa.getJokoa().getBomberman().getBombermanMota()); }
                 if (g.getEtsaia() != null) { 
                 	g.gehituEtsaia(); 
                 	g.getEtsaia().abiaraziEtsaia();
@@ -100,17 +88,5 @@ public class Laberinto extends Observable {
     
     public int getZutabeak() { return zutabe; }
     public int getIlarak() { return ilara; }
-
- // Etsai guztiak eliminatzean
-    public void irabazi() {
-    	System.out.println("WIN!");
-    	System.exit(1);
-    }
-    
-    // Eztanda radio barruan edo etsaiak arraputuz gero
-    public void galdu() {
-    	System.out.println("GAME OVER!");
-    	System.exit(1);
-    }
     
 }

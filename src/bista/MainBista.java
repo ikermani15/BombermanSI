@@ -99,10 +99,10 @@ public class MainBista extends JFrame {
 			String laberintoMota = (String) laberintoComboBox.getSelectedItem();
 			String bombermanMota = (String) bombermanComboBox.getSelectedItem();
 
-			Laberinto.sortuLaberintoa(laberintoMota, bombermanMota); // Factory
+			Jokoa.getJokoa().hasiJokoa(laberintoMota, bombermanMota);
 			LaberintoBista lb = new LaberintoBista(); // Bista sortu
 			lb.setVisible(true);
-			Laberinto.getLaberinto().laberintoaHasieratu(); // Gelaxkak notify egin
+			Jokoa.getJokoa().getLaberinto().laberintoaHasieratu(); // Gelaxkak notify egin
 
 			dispose();
 		}

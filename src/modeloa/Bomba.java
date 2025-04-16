@@ -30,7 +30,7 @@ public abstract class Bomba {
     }
 
     public void kenduBombaEtaEztanda(int x, int y) {
-        Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
+        Gelaxka gelaxka = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
         if (gelaxka != null) {
             gelaxka.kenduBomba();
         }

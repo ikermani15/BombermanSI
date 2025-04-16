@@ -2,30 +2,26 @@ package modeloa;
 
 public class LaberintoFactory {
 	
-	private static LaberintoFactory laF;
+	private static LaberintoFactory nLF;
     
     private LaberintoFactory(){
     }
     
     public static LaberintoFactory getLaberintoFactory(){
-        if (laF == null){
-        	laF = new LaberintoFactory();
+        if (nLF == null){
+        	nLF = new LaberintoFactory();
         }
         
-        return laF;
+        return nLF;
     }
     
-    public Laberinto createLaberinto (String mota){
-    	Laberinto nLab= null;
-    	if (mota.equals("Classic")){
-    		nLab = new ClassicLaberinto();
-        } else if (mota.equals("Soft")){
-        	nLab = new SoftLaberinto();
-        } else if (mota.equals("Empty")){
-        	nLab = new EmptyLaberinto();
+    public Laberinto createLaberinto(String mota) {
+        switch (mota) {
+            case "Classic": return ClassicLaberinto.getClassic();
+            case "Soft": return SoftLaberinto.getSoft();
+            case "Empty": return EmptyLaberinto.getEmpty();
+            default: throw new IllegalArgumentException("Laberinto mota ezezaguna: " + mota);
         }
-    	
-    	return nLab;
     }
     
 }

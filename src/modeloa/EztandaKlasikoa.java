@@ -19,19 +19,19 @@ public class EztandaKlasikoa implements EztandaStrategy {
 
     @Override
     public boolean eztandaPos(Bomba bomba, int x, int y) {
-        if (x < 0 || x >= Laberinto.getLaberinto().getZutabeak() ||
-            y < 0 || y >= Laberinto.getLaberinto().getIlarak()) {
+        if (x < 0 || x >= Jokoa.getJokoa().getLaberinto().getZutabeak() ||
+            y < 0 || y >= Jokoa.getJokoa().getLaberinto().getIlarak()) {
             return false;
         }
 
-        Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
+        Gelaxka gelaxka = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
         Bloke bloke = gelaxka.getBloke();
 
         if (bloke != null && !bloke.apurtuDaiteke()) return false;
 
         if (bloke != null && bloke.apurtuDaiteke()) {
             gelaxka.setBloke(null);
-            Laberinto.getLaberinto().kenduBlokeBigunKop();
+            Jokoa.getJokoa().getLaberinto().kenduBlokeBigunKop();
         }
 
         if (gelaxka.etsaiaDago()) {
@@ -39,10 +39,10 @@ public class EztandaKlasikoa implements EztandaStrategy {
             if (etsaia != null) {
                 etsaia.hil();
                 gelaxka.kenduEtsaia();
-                Laberinto.getLaberinto().kenduEtsaiKop();
+                Jokoa.getJokoa().getLaberinto().kenduEtsaiKop();
                 System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
-                if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
-                    Laberinto.getLaberinto().irabazi();
+                if (Jokoa.getJokoa().getLaberinto().getEtsaiKop() == 0) {
+                	Jokoa.getJokoa().amaituJokoa(true);
                 }
             }
         }
@@ -50,11 +50,11 @@ public class EztandaKlasikoa implements EztandaStrategy {
         gelaxka.suaJarri();
 
         if (gelaxka.bombermanDago()) {
-            Laberinto.getLaberinto().galdu();
+            Jokoa.getJokoa().amaituJokoa(false);
         }
 
-        if (Laberinto.getLaberinto().getEtsaiKop() == 0) {
-            Laberinto.getLaberinto().irabazi();
+        if (Jokoa.getJokoa().getLaberinto().getEtsaiKop() == 0) {
+        	Jokoa.getJokoa().amaituJokoa(true);
         }
 
         return true;
@@ -73,10 +73,10 @@ public class EztandaKlasikoa implements EztandaStrategy {
     }
 
     private void kenduSuaPos(int x, int y) {
-        if (x < 0 || x >= Laberinto.getLaberinto().getZutabeak() ||
-            y < 0 || y >= Laberinto.getLaberinto().getIlarak()) return;
+        if (x < 0 || x >= Jokoa.getJokoa().getLaberinto().getZutabeak() ||
+            y < 0 || y >= Jokoa.getJokoa().getLaberinto().getIlarak()) return;
 
-        Gelaxka gelaxka = Laberinto.getLaberinto().getGelaxka(x, y);
+        Gelaxka gelaxka = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
         if (gelaxka != null && gelaxka.getBloke() == null &&
             !gelaxka.etsaiaDago() && !gelaxka.bombermanDago() && !gelaxka.bombaDago()) {
             gelaxka.suaKendu();

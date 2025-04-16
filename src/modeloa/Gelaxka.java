@@ -58,7 +58,7 @@ public class Gelaxka extends Observable {
     
     // Gelaxkan WhiteBomberm ezarri eta bista notifikatu
     public void gehituWhiteBomberman(String norabidea) {
-        this.bomberman = Bomberman.getBomberman();
+        this.bomberman = Jokoa.getJokoa().getBomberman();
         this.bombermanDago = true;
         setChanged();
         notifyObservers(norabidea + "WhiteBomberman");
@@ -66,7 +66,7 @@ public class Gelaxka extends Observable {
     
     // Gelaxkan BlackBomber ezarri eta bista notifikatu
     public void gehituBlackBomberman(String norabidea) {
-        this.bomberman = Bomberman.getBomberman();
+        this.bomberman = Jokoa.getJokoa().getBomberman();
         this.bombermanDago = true;
         setChanged();
         notifyObservers(norabidea + "BlackBomberman");
