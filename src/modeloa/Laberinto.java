@@ -50,7 +50,7 @@ public abstract class Laberinto extends Observable {
                 if (g.getBloke() != null) { g.gehituBloke(); }
                 if (g.getBomberman() != null) { g.gehituBomberman(Jokoa.getJokoa().getBomberman().getBombermanMota()); }
                 if (g.getEtsaia() != null) { 
-                	g.gehituEtsaia(); 
+                	g.gehituEtsaia(g.getEtsaia().getEtsaiMota());
                 	g.getEtsaia().abiaraziEtsaia();
                 }
             }

@@ -30,10 +30,24 @@ public class Gelaxka extends Observable {
     public void sortuEtsaia(Etsaia etsai) { this.etsai = etsai; }
     public boolean etsaiaDago() { return this.etsaiaDago; }
     
-    public void gehituEtsaia() {
+    public void gehituEtsaia(String mota) {
+    	if(mota.equals("Normala")) {
+    		gehituEtsaiNormala();
+    	} else {
+    		gehituEtsaiBerezia();
+    	}
+    }
+    
+    public void gehituEtsaiBerezia() {
+    	this.etsaiaDago = true;
+    	setChanged();
+        notifyObservers("gehituEtsaiBerezia");
+    }
+    
+    public void gehituEtsaiNormala() {
     	this.etsaiaDago = true;
         setChanged();
-        notifyObservers("gehituEtsaia");
+        notifyObservers("gehituEtsaiNormala");
     }
     
     public void kenduEtsaia() {

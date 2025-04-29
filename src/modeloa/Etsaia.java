@@ -1,19 +1,21 @@
 package modeloa;
 
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Etsaia {
-    private int x, y;
+public abstract class Etsaia {
+    protected int x, y;
     private final int cellSize = 40;
-    private Random random = new Random();
     private Timer mugTimer;
+    private String mota;
 
-    public Etsaia(int x, int y) {
+    public Etsaia(int x, int y, String mota) {
         this.x = x;
         this.y = y;
+        this.mota = mota;
     }
+    
+    public String getEtsaiMota() { return this.mota; }
     
     public void abiaraziEtsaia() {
     	mugTimer = new Timer();
@@ -32,54 +34,45 @@ public class Etsaia {
         }
     }
 
-    public void mugituAleatorio() {
-    	// Begiratu suan dagoen mugitu baino lehen
-        Gelaxka unekoa = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
-        if (unekoa != null && unekoa.suaDago()) {
-            hil();
-            unekoa.kenduEtsaia();
-            Jokoa.getJokoa().getLaberinto().kenduEtsaiKop();
-            System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
-            return;
-        }
-    	
-        int mug = random.nextInt(4);
-        switch (mug) {
-            case 0: mugituPosible(x, y - 1); break; // gora
-            case 1: mugituPosible(x, y + 1); break; // behera
-            case 2: mugituPosible(x - 1, y); break; // ezker
-            case 3: mugituPosible(x + 1, y); break; // eskuin
-        }
-    }
+    protected boolean mugituPosible(int newX, int newY) {
+        if (newX >= 0 && newX < Jokoa.getJokoa().getLaberinto().getZutabeak() &&
+            newY >= 0 && newY < Jokoa.getJokoa().getLaberinto().getIlarak()) {
 
-    private void mugituPosible(int newX, int newY) {
-        if (newX >= 0 && newX < Jokoa.getJokoa().getLaberinto().getZutabeak() && newY >= 0 && newY < Jokoa.getJokoa().getLaberinto().getIlarak()) {
             Gelaxka unekoa = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
             Gelaxka berria = Jokoa.getJokoa().getLaberinto().getGelaxka(newX, newY);
 
-            if (berria.hutsikDago() && !berria.bombaDago() && !berria.etsaiaDago()) { // Ostoporik dagoen konprobatu
+            if (berria.hutsikDago() && !berria.bombaDago() && !berria.etsaiaDago()) {
                 unekoa.kenduEtsaia();
                 this.x = newX;
                 this.y = newY;
-                berria.gehituEtsaia();
                 
-                if(berria.bombermanDago()) { // Jokalaria arrapatzen badu
-                	Jokoa.getJokoa().amaituJokoa(false);
-                } else if (berria.suaDago()) { // Eztandak etsaia arrapatzen badu
-                	hil();
-                	berria.kenduEtsaia();
-                	Jokoa.getJokoa().getLaberinto().kenduEtsaiKop();
-                	System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
+             // Motaren arabera gelaxka berrian etsaia gehitu
+                if(getEtsaiMota().equals("Normala")) {
+                	berria.gehituEtsaiNormala();
+                } else {
+                	berria.gehituEtsaiBerezia();;
+                }
+
+                if (berria.bombermanDago()) {
+                    Jokoa.getJokoa().amaituJokoa(false);
+                } else if (berria.suaDago()) {
+                    hil();
+                    berria.kenduEtsaia();
+                    Jokoa.getJokoa().getLaberinto().kenduEtsaiKop();
+                    System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
                 	System.out.println("Etsai kopuru totala: " + Jokoa.getJokoa().getLaberinto().getEtsaiKop());
                 	
-                	// BlokeBigun guztiak apurtu edo etsai guztiak eliminatuz gero irabazi
                     if (Jokoa.getJokoa().getLaberinto().getEtsaiKop() == 0) {
-                    	Jokoa.getJokoa().amaituJokoa(true);
+                        Jokoa.getJokoa().amaituJokoa(true);
                     }
                 }
+                return true;
             }
         }
+        return false;
     }
+    
+    public abstract void mugituAleatorio();
 
     public int getX() { return x; }
     public int getY() { return y; }

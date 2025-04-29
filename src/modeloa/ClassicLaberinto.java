@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 
 public class ClassicLaberinto extends Laberinto {
 	public static ClassicLaberinto nCL;
+	private int normalEtsaiKop = 0;
 	
 	public ClassicLaberinto() {
         laberintoaSortu();
@@ -22,6 +23,7 @@ public class ClassicLaberinto extends Laberinto {
 	private void laberintoaSortu() {
 	    Random rand = new Random();
 	    BlokeFactory bFac = BlokeFactory.getBlokeFactory();
+	    EtsaiaFactory eFac = EtsaiaFactory.getEtsaiaFactory();
 	    
 	    for (int i = 0; i < getIlarak(); i++) {
             for (int j = 0; j < getZutabeak(); j++) {
@@ -40,7 +42,15 @@ public class ClassicLaberinto extends Laberinto {
                     } else { // Etsaiak gehitu
                         int prob2 = rand.nextInt(100);
                         if (prob2 > 90 && getEtsaiKop() < 6) {
-                            etsaia = new Etsaia(j, i);
+                        	String mota;
+                            if (normalEtsaiKop == 2) {
+                                mota = "Berezia";
+                                normalEtsaiKop = 0;
+                            } else {
+                                mota = "Normala";
+                                normalEtsaiKop++;
+                            }
+                            etsaia = eFac.createEtsaia(j, i, mota);
                             gehituEtsaiKop();
                         }
                     }

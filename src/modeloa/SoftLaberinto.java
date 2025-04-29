@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 
 public class SoftLaberinto extends Laberinto {
 	public static SoftLaberinto nFL;
+	private int normalEtsaiKop = 0;
 	
 	public SoftLaberinto() {
         laberintoaSortu();
@@ -22,6 +23,7 @@ public class SoftLaberinto extends Laberinto {
 	private void laberintoaSortu() {
         Random rand = new Random();
         BlokeFactory bFac = BlokeFactory.getBlokeFactory();
+        EtsaiaFactory eFac = EtsaiaFactory.getEtsaiaFactory();
         
         for (int i = 0; i < getIlarak(); i++) {
             for (int j = 0; j < getZutabeak(); j++) {
@@ -38,7 +40,15 @@ public class SoftLaberinto extends Laberinto {
                     } else {
                         int prob2 = rand.nextInt(100);
                         if (prob2 > 90 && getEtsaiKop() < 8) {
-                            etsaia = new Etsaia(j, i);
+                        	String mota;
+                            if (normalEtsaiKop == 2) {
+                                mota = "Berezia";
+                                normalEtsaiKop = 0;
+                            } else {
+                                mota = "Normala";
+                                normalEtsaiKop++;
+                            }
+                            etsaia = eFac.createEtsaia(j, i, mota);
                             gehituEtsaiKop();
                         }
                     }

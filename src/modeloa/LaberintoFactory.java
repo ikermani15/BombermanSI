@@ -1,7 +1,6 @@
 package modeloa;
 
 public class LaberintoFactory {
-	
 	private static LaberintoFactory nLF;
     
     private LaberintoFactory(){

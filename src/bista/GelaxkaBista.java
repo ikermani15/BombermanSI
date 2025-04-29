@@ -55,8 +55,10 @@ public class GelaxkaBista extends JLabel implements Observer {
 			} else if (event.equals("suaJarri")) {
 				suaJarri();
 
-			} else if (event.equals("gehituEtsaia")) {
-				gehituEtsaia();
+			} else if (event.equals("gehituEtsaiNormala")) {
+				gehituEtsaiNormala();
+			} else if (event.equals("gehituEtsaiBerezia")) {
+				gehituEtsaiBerezia();
 
 			} else if (event.equals("kendu")) {
 				kenduIrudia();
@@ -64,10 +66,16 @@ public class GelaxkaBista extends JLabel implements Observer {
 		}
 	}
 
-	private void gehituEtsaia() {
-		ImageIcon[] hardImages = { new ImageIcon(getClass().getResource("/img/baloon1.png")),
+	private void gehituEtsaiNormala() {
+		ImageIcon[] etsaiImages = { new ImageIcon(getClass().getResource("/img/baloon1.png")),
 				new ImageIcon(getClass().getResource("/img/baloon2.png")) };
-		setIcon(hardImages[new Random().nextInt(hardImages.length)]);
+		setIcon(etsaiImages[new Random().nextInt(etsaiImages.length)]);
+	}
+
+	private void gehituEtsaiBerezia() {
+		ImageIcon[] etsaiImages = { new ImageIcon(getClass().getResource("/img/doria1.png")),
+				new ImageIcon(getClass().getResource("/img/doria2.png")) };
+		setIcon(etsaiImages[new Random().nextInt(etsaiImages.length)]);
 	}
 
 	private void blokeBigunaSortu() {

@@ -7,7 +7,7 @@ public class EztandaHandia implements EztandaStrategy {
         int x = bomba.getX();
         int y = bomba.getY();
 
-        System.out.println("Eztanda HANDIA pos (" + y + ", " + x + ")");
+        //System.out.println("Eztanda HANDIA pos (" + y + ", " + x + ")");
 
         bomba.kenduBombaEtaEztanda(x, y);
         eztandaPos(bomba, x, y);
@@ -50,7 +50,6 @@ public class EztandaHandia implements EztandaStrategy {
                 etsaia.hil();
                 gelaxka.kenduEtsaia();
                 Jokoa.getJokoa().getLaberinto().kenduEtsaiKop();
-                System.out.println("Etsaia hil da pos (" + y + ", " + x + ")");
                 if (Jokoa.getJokoa().getLaberinto().getEtsaiKop() == 0) {
                 	Jokoa.getJokoa().amaituJokoa(true);
                 }
