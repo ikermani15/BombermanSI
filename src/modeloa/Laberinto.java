@@ -1,6 +1,8 @@
 package modeloa;
 
+import java.util.Arrays;
 import java.util.Observable;
+import java.util.stream.Stream;
 
 public abstract class Laberinto extends Observable {
     protected final int ilara = 11; 
@@ -12,6 +14,11 @@ public abstract class Laberinto extends Observable {
 
     public Laberinto() {
     	this.gelaxka = new Gelaxka[getIlarak()][getZutabeak()];
+    }
+    
+    // Java 8
+    public Stream<Gelaxka> gelaxkaStream() {
+        return Arrays.stream(gelaxka).flatMap(Arrays::stream);
     }
     
     public void setLaberintoMota(String motaLaberinto) {
@@ -43,18 +50,22 @@ public abstract class Laberinto extends Observable {
         gelaxkakEguneratu();
     }
     
+    // Java 8: Gelaxken eguneraketa stream bidez
     public void gelaxkakEguneratu() {
-        for (int i = 0; i < getIlarak(); i++) {
-            for (int j = 0; j < getZutabeak(); j++) {
-                Gelaxka g = gelaxka[i][j];
-                if (g.getBloke() != null) { g.gehituBloke(); }
-                if (g.getBomberman() != null) { g.gehituBomberman(Jokoa.getJokoa().getBomberman().getBombermanMota()); }
-                if (g.getEtsaia() != null) { 
-                	g.gehituEtsaia(g.getEtsaia().getEtsaiMota());
-                	g.getEtsaia().abiaraziEtsaia();
-                }
-            }
-        }
+        gelaxkaStream()
+            .filter(g -> g.getBloke() != null)
+            .forEach(g -> g.gehituBloke());
+
+        gelaxkaStream()
+            .filter(g -> g.getBomberman() != null)
+            .forEach(g -> g.gehituBomberman(Jokoa.getJokoa().getBomberman().getBombermanMota()));
+
+        gelaxkaStream()
+            .filter(g -> g.getEtsaia() != null)
+            .forEach(g -> {
+                g.gehituEtsaia(g.getEtsaia().getEtsaiMota());
+                g.getEtsaia().abiaraziEtsaia();
+            });
     }
     
     public Gelaxka getGelaxka(int x, int y) {
@@ -79,6 +90,12 @@ public abstract class Laberinto extends Observable {
     // Etsai kopurua lortzeko
     public int getEtsaiKop() { return etsaiKop; }
     public void gehituEtsaiKop() { etsaiKop++; }
+    
+    public long contarEtsaiak() {
+        return gelaxkaStream()
+            .filter(g -> g.getEtsaia() != null) // Filtra las celdas que contienen enemigos
+            .count(); // Cuenta cuántos enemigos hay
+    }
 
     public void kenduEtsaiKop() {
         if (etsaiKop > 0) {

@@ -15,7 +15,7 @@ public abstract class Etsaia {
         this.mota = mota;
     }
     
-    public String getEtsaiMota() { return this.mota; }
+    public String getEtsaiMota() { return mota; }
     
     public void abiaraziEtsaia() {
     	mugTimer = new Timer();

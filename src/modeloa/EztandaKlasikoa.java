@@ -1,21 +1,27 @@
 package modeloa;
 
+import java.util.List;
+
 public class EztandaKlasikoa implements EztandaStrategy {
 
-    @Override
-    public void eztanda(Bomba bomba) {
-        int x = bomba.getX();
-        int y = bomba.getY();
+	@Override
+	public void eztanda(Bomba bomba) {
+	    int x = bomba.getX();
+	    int y = bomba.getY();
 
-        //System.out.println("Eztanda KLASIKO pos (" + y + ", " + x + ")");
+	    bomba.kenduBombaEtaEztanda(x, y);
 
-        bomba.kenduBombaEtaEztanda(x, y);
-        eztandaPos(bomba, x, y);
-        eztandaPos(bomba, x - 1, y);
-        eztandaPos(bomba, x + 1, y);
-        eztandaPos(bomba, x, y - 1);
-        eztandaPos(bomba, x, y + 1);
-    }
+	    // Java8 aplikatu norabidean eztanda egiteko
+	    List<int[]> posizioak = List.of(
+	        new int[]{x, y},
+	        new int[]{x - 1, y},
+	        new int[]{x + 1, y},
+	        new int[]{x, y - 1},
+	        new int[]{x, y + 1}
+	    );
+
+	    posizioak.forEach(p -> eztandaPos(bomba, p[0], p[1]));
+	}
 
     @Override
     public boolean eztandaPos(Bomba bomba, int x, int y) {
@@ -64,11 +70,16 @@ public class EztandaKlasikoa implements EztandaStrategy {
         int x = bomba.getX();
         int y = bomba.getY();
 
-        kenduSuaPos(x, y);
-        kenduSuaPos(x - 1, y);
-        kenduSuaPos(x + 1, y);
-        kenduSuaPos(x, y - 1);
-        kenduSuaPos(x, y + 1);
+        // Java8 erabili suaren posizioetarako (eztandaren berdina aplikatu)
+        List<int[]> posizioak = List.of(
+            new int[]{x, y},
+            new int[]{x - 1, y},
+            new int[]{x + 1, y},
+            new int[]{x, y - 1},
+            new int[]{x, y + 1}
+        );
+
+        posizioak.forEach(p -> kenduSuaPos(p[0], p[1]));
     }
 
     private void kenduSuaPos(int x, int y) {
