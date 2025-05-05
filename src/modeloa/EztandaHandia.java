@@ -1,5 +1,7 @@
 package modeloa;
 
+import java.util.function.*;
+
 public class EztandaHandia implements EztandaStrategy {
 
     @Override
@@ -7,15 +9,13 @@ public class EztandaHandia implements EztandaStrategy {
         int x = bomba.getX();
         int y = bomba.getY();
 
-        //System.out.println("Eztanda HANDIA pos (" + y + ", " + x + ")");
-
         bomba.kenduBombaEtaEztanda(x, y);
         eztandaPos(bomba, x, y);
 
-        eztandaNorabidean(bomba, -1, 0);
-        eztandaNorabidean(bomba, 1, 0);
-        eztandaNorabidean(bomba, 0, -1);
-        eztandaNorabidean(bomba, 0, 1);
+        int[][] norabideak = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        for (int[] d : norabideak) {
+            eztandaNorabidean(bomba, d[0], d[1]);
+        }
     }
 
     private void eztandaNorabidean(Bomba bomba, int dx, int dy) {
@@ -31,17 +31,20 @@ public class EztandaHandia implements EztandaStrategy {
 
     @Override
     public boolean eztandaPos(Bomba bomba, int x, int y) {
-        if (x < 0 || x >= Jokoa.getJokoa().getLaberinto().getZutabeak() ||
-            y < 0 || y >= Jokoa.getJokoa().getLaberinto().getIlarak()) return false;
+        Laberinto lab = Jokoa.getJokoa().getLaberinto();
 
-        Gelaxka gelaxka = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
+        
+
+        if (x < 0 || x >= lab.getZutabeak() || y < 0 || y >= lab.getIlarak()) return false;
+
+        Gelaxka gelaxka = lab.getGelaxka(x, y);
         Bloke bloke = gelaxka.getBloke();
 
         if (bloke != null && !bloke.apurtuDaiteke()) return false;
 
         if (bloke != null && bloke.apurtuDaiteke()) {
             gelaxka.setBloke(null);
-            Jokoa.getJokoa().getLaberinto().kenduBlokeBigunKop();
+            lab.kenduBlokeBigunKop();
         }
 
         if (gelaxka.etsaiaDago()) {
@@ -49,9 +52,10 @@ public class EztandaHandia implements EztandaStrategy {
             if (etsaia != null) {
                 etsaia.hil();
                 gelaxka.kenduEtsaia();
-                Jokoa.getJokoa().getLaberinto().kenduEtsaiKop();
-                if (Jokoa.getJokoa().getLaberinto().getEtsaiKop() == 0) {
-                	Jokoa.getJokoa().amaituJokoa(true);
+                lab.kenduEtsaiKop();
+
+                if (lab.getEtsaiKop() == 0) {
+                    Jokoa.getJokoa().amaituJokoa(true);
                 }
             }
         }
@@ -59,11 +63,11 @@ public class EztandaHandia implements EztandaStrategy {
         gelaxka.suaJarri();
 
         if (gelaxka.bombermanDago()) {
-        	Jokoa.getJokoa().amaituJokoa(false);
+            Jokoa.getJokoa().amaituJokoa(false);
         }
 
-        if (Jokoa.getJokoa().getLaberinto().getEtsaiKop() == 0) {
-        	Jokoa.getJokoa().amaituJokoa(true);
+        if (lab.getEtsaiKop() == 0) {
+            Jokoa.getJokoa().amaituJokoa(true);
         }
 
         return true;
@@ -76,21 +80,22 @@ public class EztandaHandia implements EztandaStrategy {
 
         kenduSuaPos(x, y);
 
-        kenduNorabidean(bomba, -1, 0);
-        kenduNorabidean(bomba, 1, 0);
-        kenduNorabidean(bomba, 0, -1);
-        kenduNorabidean(bomba, 0, 1);
+        int[][] norabideak = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        for (int[] d : norabideak) {
+            kenduNorabidean(bomba, d[0], d[1]);
+        }
     }
 
     private void kenduNorabidean(Bomba bomba, int dx, int dy) {
         int x = bomba.getX();
         int y = bomba.getY();
+        Laberinto lab = Jokoa.getJokoa().getLaberinto();
 
         for (int i = 1; i <= bomba.getRadio(); i++) {
             int newX = x + i * dx;
             int newY = y + i * dy;
 
-            Gelaxka gelaxka = Jokoa.getJokoa().getLaberinto().getGelaxka(newX, newY);
+            Gelaxka gelaxka = lab.getGelaxka(newX, newY);
             if (gelaxka != null && gelaxka.getBloke() != null && !gelaxka.getBloke().apurtuDaiteke()) {
                 return;
             }
@@ -101,8 +106,12 @@ public class EztandaHandia implements EztandaStrategy {
 
     private void kenduSuaPos(int x, int y) {
         Gelaxka gelaxka = Jokoa.getJokoa().getLaberinto().getGelaxka(x, y);
-        if (gelaxka != null && gelaxka.getBloke() == null &&
-            !gelaxka.etsaiaDago() && !gelaxka.bombermanDago() && !gelaxka.bombaDago()) {
+
+        Predicate<Gelaxka> suaKendaDaiteke = g ->
+            g != null && g.getBloke() == null &&
+            !g.etsaiaDago() && !g.bombermanDago() && !g.bombaDago();
+
+        if (suaKendaDaiteke.test(gelaxka)) {
             gelaxka.suaKendu();
         }
     }

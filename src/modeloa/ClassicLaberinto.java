@@ -1,60 +1,75 @@
 package modeloa;
 
 import java.util.Random;
-
-import javax.swing.ImageIcon;
+import java.util.function.*;
 
 public class ClassicLaberinto extends Laberinto {
-	public static ClassicLaberinto nCL;
-	private int normalEtsaiKop = 0;
-	
-	public ClassicLaberinto() {
+    public static ClassicLaberinto nCL;
+    private int normalEtsaiKop = 0;
+
+    public ClassicLaberinto() {
         laberintoaSortu();
     }
-	
-	public static ClassicLaberinto getClassic() {
-		if(nCL == null) {
-			nCL = new ClassicLaberinto();
-		}
-		
-		return nCL;
-	}
-	
-	private void laberintoaSortu() {
-	    Random rand = new Random();
-	    BlokeFactory bFac = BlokeFactory.getBlokeFactory();
-	    EtsaiaFactory eFac = EtsaiaFactory.getEtsaiaFactory();
-	    
-	    for (int i = 0; i < getIlarak(); i++) {
+
+    public static ClassicLaberinto getClassic() {
+        if (nCL == null) {
+            nCL = new ClassicLaberinto();
+        }
+        return nCL;
+    }
+
+    private void laberintoaSortu() {
+        Random rand = new Random();
+        BlokeFactory bFac = BlokeFactory.getBlokeFactory();
+        EtsaiaFactory eFac = EtsaiaFactory.getEtsaiaFactory();
+
+        Predicate<int[]> hasieraPos = pos ->
+                (pos[0] == 0 && pos[1] == 0) ||
+                (pos[0] == 1 && pos[1] == 0) ||
+                (pos[0] == 0 && pos[1] == 1);
+
+        BiPredicate<Integer, Integer> gogorraPos = (i, j) -> i % 2 != 0 && j % 2 != 0;
+
+        BiFunction<Integer, Integer, Bloke> sortuGogorra = (i, j) -> bFac.createBloke(i, j, false);
+        BiFunction<Integer, Integer, Bloke> sortuBiguna = (j, i) -> bFac.createBloke(j, i, true);
+
+        Supplier<String> etsaiaMotaSupplier = () -> {
+            if (normalEtsaiKop == 2) {
+                normalEtsaiKop = 0;
+                return "Berezia";
+            } else {
+                normalEtsaiKop++;
+                return "Normala";
+            }
+        };
+
+        for (int i = 0; i < getIlarak(); i++) {
             for (int j = 0; j < getZutabeak(); j++) {
                 Bloke bloke = null;
                 Etsaia etsaia = null;
 
-                if ((i == 0 && j == 0) || (i == 1 && j == 0) || (i == 0 && j == 1)) {
-                    bloke = null; // Hasierako gelaxkak hutsak
-                } else if (i % 2 != 0 && j % 2 != 0) {
-                    bloke = bFac.createBloke(i, j, false); // BlokeGogorrak posizio bakoitietan
+                int[] pos = {i, j};
+
+                if (hasieraPos.test(pos)) {
+                    // Gelaxka hutsak
+                    bloke = null;
+                } else if (gogorraPos.test(i, j)) {
+                    bloke = sortuGogorra.apply(i, j);
                 } else {
                     int prob = rand.nextInt(100);
                     if (prob > 40) {
-                        bloke = bFac.createBloke(j, i, true);
+                        bloke = sortuBiguna.apply(j, i);
                         gehituBlokeBigunKop();
-                    } else { // Etsaiak gehitu
+                    } else {
                         int prob2 = rand.nextInt(100);
                         if (prob2 > 90 && getEtsaiKop() < 6) {
-                        	String mota;
-                            if (normalEtsaiKop == 2) {
-                                mota = "Berezia";
-                                normalEtsaiKop = 0;
-                            } else {
-                                mota = "Normala";
-                                normalEtsaiKop++;
-                            }
+                            String mota = etsaiaMotaSupplier.get();
                             etsaia = eFac.createEtsaia(j, i, mota);
                             gehituEtsaiKop();
                         }
                     }
                 }
+
                 Gelaxka g = new Gelaxka(j, i, bloke);
                 if (etsaia != null) {
                     g.sortuEtsaia(etsaia);
@@ -62,7 +77,8 @@ public class ClassicLaberinto extends Laberinto {
                 gelaxka[i][j] = g;
             }
         }
-	    System.out.println("BlokeBigun totala: " + getBlokeBigunKop());
-	    System.out.println("Etsai kopuru totala: " + getEtsaiKop());
-	}
+
+        System.out.println("BlokeBigun totala: " + getBlokeBigunKop());
+        System.out.println("Etsai kopuru totala: " + getEtsaiKop());
+    }
 }
