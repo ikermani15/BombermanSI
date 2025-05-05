@@ -39,7 +39,7 @@ public abstract class Bomberman {
             pos[0] >= 0 && pos[0] < lab.getZutabeak() &&
             pos[1] >= 0 && pos[1] < lab.getIlarak();
 
-        BiPredicate<Gelaxka, Gelaxka> gelaxkaLibre = (berria, _) ->
+        Predicate<Gelaxka> gelaxkaLibre = berria ->
             berria.hutsikDago() && !berria.bombaDago();
 
         Consumer<String> gehituBomber = dir -> {
@@ -56,7 +56,7 @@ public abstract class Bomberman {
             Gelaxka unekoa = lab.getGelaxka(x, y);
             Gelaxka berria = lab.getGelaxka(newX, newY);
 
-            if (gelaxkaLibre.test(berria, unekoa)) {
+            if (gelaxkaLibre.test(berria)) {
                 unekoa.kenduBomberman();
                 this.x = newX;
                 this.y = newY;
